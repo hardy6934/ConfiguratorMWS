@@ -1,0 +1,14 @@
+﻿<Application x:Class="ConfiguratorMWS.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ConfiguratorMWS">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="src/styles/ComboBoxStyles.xaml"/>
+                <ResourceDictionary Source="src/styles/ButtonUpdateFirmwareStyles.xaml"/>
+                <ResourceDictionary Source="src/styles/NavigationButtonStyles.xaml"/>  
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

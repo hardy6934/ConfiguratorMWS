@@ -1,0 +1,100 @@
+﻿<Window x:Class="ConfiguratorMWS.UI.MWS.MWSTabs.MWSWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs"  
+        mc:Ignorable="d"
+        Title="MWSWindow" Height="450" Width="800"  >
+     
+     
+
+    <Grid Margin="20px"> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" >
+
+            <Grid.RowDefinitions >
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="*"   />
+            </Grid.RowDefinitions>
+
+            <!-- Верхняя панель с кнопками -->
+            <DockPanel LastChildFill="True" VerticalAlignment="Top"  Grid.Row="0"  Height="40px" >
+                <StackPanel Orientation="Horizontal">
+                    <!-- Кнопки для переключения содержимого -->
+                    <Image Source="../../../src/images/Mechatronics.png" />
+
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="Информация" Command="{Binding SwitchTabCommand}"  
+                            CommandParameter="Information" Margin="10px 5px"/>
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="Настройки" Command="{Binding SwitchTabCommand}" 
+                            CommandParameter="Settings" Margin="10px 5px"/>
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="Тарировка" Command="{Binding SwitchTabCommand}" 
+                            CommandParameter="Calibration" Margin="10px 5px"/>
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="Расчетная тарировка" Command="{Binding SwitchTabCommand}" 
+                            CommandParameter="CalculatedCalibration" Margin="10px 5px"/>
+                    <Button Style="{DynamicResource ButtonUpdateFirmware}" Content="Обновление ПО" Command="{Binding SwitchTabCommand}" 
+                            CommandParameter="UploadSoftware" Margin="10px 5px" Padding="10px 0px" HorizontalAlignment="Left" />
+ 
+                     <ComboBox Style="{DynamicResource ComboBoxRaunded}" SelectedIndex="0" VerticalContentAlignment="Center"
+                              Margin="0px 5px" Padding="10px 0px">
+                         <ComboBoxItem>
+                             <TextBlock>RUS</TextBlock>
+                         </ComboBoxItem>
+                         <ComboBoxItem>
+                             <TextBlock>EN</TextBlock>
+                         </ComboBoxItem>
+                     </ComboBox> 
+                    
+
+                </StackPanel>
+            </DockPanel>
+
+
+            <!-- Верхняя панель с кнопками -->
+            <DockPanel LastChildFill="True" Grid.Row="1" VerticalAlignment="Top" >
+                <StackPanel Orientation="Vertical">
+
+                    <TextBlock Text="MWS RS/CAN" FontSize="40px"  />
+
+                    <DockPanel LastChildFill="True">
+                        <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
+                    </DockPanel>
+
+                    <ComboBox Name="CommPortCombobox" Style="{DynamicResource ComboBoxRaunded}" SelectedIndex="0" VerticalContentAlignment="Center"
+           Padding="10px 6px" Margin="0 10px" HorizontalAlignment="Left" SelectedItem="{Binding SelectedPort}" 
+                              ItemsSource="{Binding PortList}" DropDownOpened="CommPortCombobox_DropDownOpened">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                    </ComboBox>
+
+                    <Button Name="Connect" Content="Connect" Command="{Binding connectToPort}"
+                            HorizontalAlignment="Left"></Button>
+
+                </StackPanel>
+            </DockPanel>
+
+
+        </Grid>
+
+
+        <!-- Нижняя часть для отображения контента -->
+        <ContentControl Grid.Row="1"  Content="{Binding CurrentView}"/>
+
+
+
+
+
+
+    </Grid>
+
+</Window>
+ 
