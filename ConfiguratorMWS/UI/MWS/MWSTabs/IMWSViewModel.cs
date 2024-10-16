@@ -10,10 +10,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
 
         object CurrentView { get; set; }
         void SwitchTab(object tab);
-
-
-        public List<string> PortList { get; set; }
-        public string SelectedPort { get; set; }
+         
 
     }
 }

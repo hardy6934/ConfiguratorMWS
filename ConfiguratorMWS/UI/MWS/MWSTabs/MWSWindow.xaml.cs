@@ -20,15 +20,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
             this.mWSService = mWSService;
         }
 
-        private void CommPortCombobox_DropDownOpened(object sender, EventArgs e)
-        {
-            // Принудительно обновляем список портов при открытии выпадающего списка
-            var viewModel = DataContext as MWSViewModel;
-            if (viewModel != null)
-            {
-                viewModel.RefreshComPorts();
-            }
-        }
+        
     }
      
 }

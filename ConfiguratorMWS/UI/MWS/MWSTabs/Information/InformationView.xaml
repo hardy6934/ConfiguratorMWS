@@ -5,66 +5,172 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs.Information"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+             d:DesignHeight="350" d:DesignWidth="800" Background="White">
+    <UserControl.Resources>
+       
+    </UserControl.Resources>
     <Grid>
 
-        <StackPanel DataContext="{Binding MWSEntity}" Margin="20px">
-            <TextBlock Text="Информация" FontSize="25px" Margin="0px 0px 0px 10px"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Тип датчика:" />
-                <TextBlock Text="{Binding SensorType}" />
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Серийный номер:" />
-                <TextBlock Text="{Binding SerialNumber}" />
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Версия апаратной части:" />
-                <TextBlock Text="{Binding HardVersion}" />
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Версия ПО:" />
-                <TextBlock Text="{Binding SoftVersion}" />
-            </StackPanel>   
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Расстояние:" />
-                <TextBlock Text="{Binding Distance}" />
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Уровень:" />
-                <TextBlock Text="{Binding Level}" />
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Объем:" />
-                <TextBlock Text="{Binding Volume}" />
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Температура:" />
-                <TextBlock Text="{Binding Temp}" />
-            </StackPanel> 
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Значение N:" />
-                <TextBlock Text="{Binding NOmni}" />
-            </StackPanel> 
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Флаги:" />
-                <TextBlock Text="{Binding Flags}" />
-            </StackPanel> 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35*"/> 
+            <ColumnDefinition Width="65*"/> 
+        </Grid.ColumnDefinitions>
 
-        </StackPanel>
+         
+
+        <Grid Background="#F2F2F2" Grid.Column="0" >
+
+            <StackPanel Margin="20px 0px" >
+                <Label Content="Выберите нужнй для вас порт:" Foreground="#0386CE" Margin="0px" />
+                <ComboBox Name="CommPortCombobox" Style="{DynamicResource ComboBoxRaunded}"  SelectedIndex="0" VerticalContentAlignment="Center"
+       Padding="10px 5px" Margin="0px 0px 0px 10px" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedPort}" 
+       ItemsSource="{Binding PortList}" DropDownOpened="CommPortCombobox_DropDownOpened"> 
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate> 
+                </ComboBox>
+
+                <Button Name="Connect" Content="{Binding IsConnectedButtonText}" Command="{Binding connectToPort}" HorizontalAlignment="Stretch" 
+                        Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" HorizontalContentAlignment="Left"></Button>
+
+                <!--<StackPanel Orientation="Vertical">
+                    <Label Content="Тип датчика:" />
+                    <TextBox Text="{Binding mWSEntity.SensorType}" HorizontalAlignment="Stretch" IsReadOnly="True"  Width="Auto"/>
+                </StackPanel>-->
+
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Серийный номер:" />
+                    <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SerialNumber}" HorizontalAlignment="Stretch" 
+                             IsReadOnly="True"  Width="Auto" Padding="10px 5px"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Версия апаратной части:" />
+                    <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.HardVersion}" HorizontalAlignment="Stretch" 
+                             IsReadOnly="True"  Width="Auto" Padding="10px 5px"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Версия ПО:" />
+                    <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SoftVersion}" HorizontalAlignment="Stretch" 
+                             IsReadOnly="True"  Width="Auto" Padding="10px 5px"/>
+                </StackPanel>
 
 
-       
+            </StackPanel>
+        
+        </Grid>
 
+        <Grid Background= "Coral" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Border BorderBrush="Black" BorderThickness="2" CornerRadius="10" Height="200" Width="375" >
+                    <!-- Сюда будет добавлен уровень топлива -->
+                </Border>
+            </Grid>
+            
+
+            <!--<Grid Grid.Row="1"   Margin="20px 10px"> 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/> 
+                </Grid.ColumnDefinitions>
+                
+                <Border BorderBrush="Gray"  Grid.Column="0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Температура:" />
+                        <TextBlock Text="{Binding mWSEntity.Temp}" />
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="Gray" BorderThickness="1 0 0 0" Grid.Column="1">
+                    <StackPanel Orientation="Vertical"> 
+                            <TextBlock Text="Расстояние:" />
+                            <TextBlock Text="{Binding mWSEntity.Distance}" /> 
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="Gray" BorderThickness="1 0 0 0" Grid.Column="2">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Уровень:" />
+                        <TextBlock Text="{Binding mWSEntity.Level}" />
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="Gray" BorderThickness="1 0 0 0"  Grid.Column="3">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Объем:" />
+                        <TextBlock Text="{Binding mWSEntity.Volume}" />
+                    </StackPanel>
+                </Border>-->
+            
+            <Grid Grid.Row="1" Margin="20px 10px"> 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"/>  
+                    <ColumnDefinition Width="1*"/>  
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="20*"/>    
+                </Grid.ColumnDefinitions>
+
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="0">
+                    <TextBlock Text="Температура:" />
+                    <TextBlock Text="{Binding mWSEntity.Temp}" />
+                </StackPanel>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="1" > 
+                </Border>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2" > 
+                        <TextBlock Text="Расстояние:" />
+                        <TextBlock Text="{Binding mWSEntity.Distance}" /> 
+                </StackPanel>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="3">
+                </Border>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
+                    <TextBlock Text="Уровень:" />
+                    <TextBlock Text="{Binding mWSEntity.Level}" />
+                </StackPanel>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="5">
+                </Border>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="6">
+                    <TextBlock Text="Объем:" />
+                    <TextBlock Text="{Binding mWSEntity.Volume}" />
+                </StackPanel> 
+
+
+                <!--<Border BorderBrush="Black" BorderThickness="1 0" Height="Auto" Width="Auto">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Значение N:" />
+                        <TextBlock Text="{Binding mWSEntity.NOmni}" />
+                    </StackPanel>
+                </Border>-->
+
+                <!--<Border BorderBrush="Black" BorderThickness="1 0" Height="Auto" Width="Auto">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Флаги:" />
+                        <TextBlock Text="{Binding mWSEntity.Flags}" />
+                    </StackPanel>
+                </Border>-->
+
+            </Grid>
+
+        </Grid> 
 
     </Grid>
 </UserControl>
