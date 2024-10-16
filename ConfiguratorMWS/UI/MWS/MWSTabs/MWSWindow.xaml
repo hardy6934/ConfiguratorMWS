@@ -76,7 +76,7 @@
 
                     </ComboBox>
 
-                    <Button Name="Connect" Content="Connect" Command="{Binding connectToPort}"
+                    <Button Name="Connect" Content="{Binding IsConnectedButtonText}" Command="{Binding connectToPort}"
                             HorizontalAlignment="Left"></Button>
 
                 </StackPanel>

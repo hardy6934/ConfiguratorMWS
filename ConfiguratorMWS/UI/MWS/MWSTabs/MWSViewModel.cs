@@ -8,7 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ConfiguratorMWS.Buisness.Abstract;
 using ConfiguratorMWS.Data.Abstract;
 using System.IO.Ports;
-using ConfiguratorMWS.Entity; 
+using ConfiguratorMWS.Entity;
+using System.Windows;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs
 {
@@ -21,6 +22,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
 
         public List<string> PortList { get; set; }
         public string? selectedPort;
+        public string isConnectedButtonText = "Connect";
 
         // Команда для переключения вкладок
         public RelayCommand SwitchTabCommand { get; }
@@ -44,19 +46,19 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
         byte[] bufferTxData = new byte[64];
 
 
-        // Внедрение IServiceProvider через конструктор
+
+       
         public MWSViewModel(IServiceProvider serviceProvider, IMWSService mWSService, IMWSRepository mWSRepository, MWSEntity mWSEntity)
         {
             _serviceProvider = serviceProvider;
             this.mWSRepository = mWSRepository;
-
             this.mWSEntity = mWSEntity;
+
             //////////////////////////////////////////////////////////////////
             PortList = mWSRepository.GetAvailableComPortNames();
             selectedPort = PortList.FirstOrDefault(); // Задаем начально выбранный элемент
             //////////////////////////////////////////////////////////////////
              
-
             mWSRepository.TimerWork(Timer_Tick);
 
             // Инициализация команды
@@ -65,8 +67,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
             // Устанавливаем начальное содержимое
             CurrentView = new InformationView(_serviceProvider.GetRequiredService<IInformationViewModel>());
 
-            connectToPort = new RelayCommand(ConnectToPort, (obj) => !string.IsNullOrEmpty(selectedPort) );
-
+            connectToPort = new RelayCommand(ExecuteConnectOrDisconnect, (obj) => !string.IsNullOrEmpty(selectedPort));
         }
          
 
@@ -88,6 +89,16 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
                 selectedPort = value;
                 RaisePropertyChanged("SelectedPort");
                  
+            }
+        }
+
+        public string IsConnectedButtonText
+        {
+            get => isConnectedButtonText;
+            set
+            { 
+                isConnectedButtonText = value;
+                RaisePropertyChanged("IsConnectedButtonText"); 
             }
         }
         
@@ -125,23 +136,49 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
         }
 
 
-         
 
 
 
-        ////////////////////////МЕТОДЫ РАБОТЫ С КОМ ПОРТАМИ И ДАННМИ
 
+        ////////////////////////МЕТОДЫ РАБОТЫ С КОМ ПОРТАМИ И ДАННМИ 
+        private void ExecuteConnectOrDisconnect(object parameter)
+        {
+            if (mWSEntity.IsConnected)
+            {
+                CloseConnectionWithPort(parameter);
+            }
+            else
+            {
+                ConnectToPort(parameter);
+            }
+        }
         public void ConnectToPort(object tab)
         {
-            var isConnected = mWSRepository.ConnectWithComPort(selectedPort, 19200, ReadBytesFromComPortCallback);
-            if (isConnected)
-            {
-                mWSRepository.SetIsConnectedTrue();
-            }
-            else 
+            if (mWSRepository.IsPortAvailable(selectedPort)) { 
+                var isConnected = mWSRepository.ConnectWithComPort(selectedPort, 19200, ReadBytesFromComPortCallback);
+                if (isConnected)
+                {
+                    mWSRepository.SetIsConnectedTrue();
+                    if (mWSEntity.isConnected)
+                    {
+                        IsConnectedButtonText = "Disconnect";
+                    }
+
+                } 
+            }else MessageBox.Show("Не удается выполнить подключение к данному порту");
+
+        } 
+        public void CloseConnectionWithPort(object tab)
+        {
+            var isDisconnected = mWSRepository.CloseConnectionWithComPort();
+            if (isDisconnected)
             {
                 mWSRepository.SetIsConnectedFalse();
-            }
+                if (!mWSEntity.isConnected) {
+                    IsConnectedButtonText = "Connect";
+                }
+
+            } 
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -151,13 +188,23 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
 
             switch (mWSEntity.CommandStatus) {
                 case 0:
-                    bufferTxData = new byte[4];
-                    bufferTxData[0] = 0x44;
-                    bufferTxData[1] = 0x1;
-                    bufferTxData[2] = 0x80;
-                    bufferTxData[3] = CalcCRC(bufferTxData, 3);
+                    try
+                    {
+                        bufferTxData = new byte[4];
+                        bufferTxData[0] = 0x44;
+                        bufferTxData[1] = 0x1;
+                        bufferTxData[2] = 0x80;
+                        bufferTxData[3] = CalcCRC(bufferTxData, 3);
 
-                    mWSRepository.WriteData(bufferTxData, 4);
+                        mWSRepository.WriteData(bufferTxData, 4);
+                    }
+                    catch(TimeoutException) {
+                        CloseConnectionWithPort(null);
+                        MessageBox.Show("Вероятнее всего вы подключились к неверному порту"); 
+                    } 
+                    catch(Exception) {
+                        MessageBox.Show("Произошла ошибка записи в порт");
+                    } 
                     break;
 
                 case (int)MWSEntity.MwsStatuses.Command80Accepted:
@@ -243,7 +290,6 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
             try
             {
                  
-
                 int numRxByte = (sender as SerialPort).Read(bufferRxData, 0, 64);
 
                 Array.Copy(bufferRxData, 0, bufferRxDataInt, indexRxDataInt, numRxByte); 

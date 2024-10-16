@@ -1,6 +1,8 @@
 ﻿using ConfiguratorMWS.Data.Abstract;
 using ConfiguratorMWS.Entity;
-using System.IO.Ports; 
+using System.IO;
+using System.IO.Ports;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace ConfiguratorMWS.Data.Repository
@@ -24,6 +26,27 @@ namespace ConfiguratorMWS.Data.Repository
             return qwe; 
         }
 
+        public bool IsPortAvailable(string portName)
+        {
+            try
+            {
+                using (var port = new SerialPort(portName))
+                {
+                    port.Open();
+                    port.Close();
+                }
+                return true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+        }
+
         public bool ConnectWithComPort(string portName, int boundRate, SerialDataReceivedEventHandler callback)
         {  
              
@@ -33,6 +56,8 @@ namespace ConfiguratorMWS.Data.Repository
                 try
                 {
                     currentPort = new SerialPort();
+                    currentPort.ReadTimeout = 1000;
+                    currentPort.WriteTimeout = 1000;
                     currentPort.PortName = portName;
                     currentPort.BaudRate = boundRate;
                     currentPort.ReadBufferSize = 64;
@@ -55,6 +80,31 @@ namespace ConfiguratorMWS.Data.Repository
             {
                 return false;
             } 
+
+        }
+        public bool CloseConnectionWithComPort()
+        {
+            try
+            {
+                if (currentPort == null || currentPort.IsOpen)
+                { 
+                    currentPort.Close();
+                    currentPort.Dispose();
+                    if (!currentPort.IsOpen)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                else 
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
 
         }
 
@@ -85,10 +135,21 @@ namespace ConfiguratorMWS.Data.Repository
         }
 
         public void WriteData(byte[] data, int count) {
-            if (currentPort != null && currentPort.IsOpen)
-            {
-                currentPort.Write(data, 0, count);
+            try {
+                if (currentPort != null && currentPort.IsOpen)
+                {
+                    currentPort.Write(data, 0, count);
+                }
             }
+            catch (TimeoutException ex)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
             
         }
 

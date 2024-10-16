@@ -7,6 +7,8 @@ namespace ConfiguratorMWS.Data.Abstract
     {
         public List<string> GetAvailableComPortNames();
         public bool ConnectWithComPort(string portName, int boundRate, SerialDataReceivedEventHandler callback);
+        bool IsPortAvailable(string portName);
+        bool CloseConnectionWithComPort();
         public byte[] DecodeIntResponse(byte[] bytes); 
         public void DecodeBootloader(byte[] bytes); 
 
