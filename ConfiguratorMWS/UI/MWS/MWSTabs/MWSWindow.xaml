@@ -21,6 +21,7 @@
                 <RowDefinition Height="*"  />
                 <RowDefinition Height="*"   />
             </Grid.RowDefinitions>
+            
 
             <!-- Верхняя панель с кнопками -->
             <DockPanel LastChildFill="True" VerticalAlignment="Top"  Grid.Row="0"  Height="40px" >
