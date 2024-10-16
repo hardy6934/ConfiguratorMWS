@@ -13,6 +13,35 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
 {
     public class InformationViewModel : ViewModelBase, IInformationViewModel
     {
+
+        //private double _fuelLevel = 300;
+        //public double FuelLevel
+        //{
+        //    get { return _fuelLevel; }
+        //    set
+        //    {
+        //        if (_fuelLevel != value)
+        //        {
+        //            _fuelLevel = value;
+        //            // Вызов обновления для обоих свойств
+        //            RaisePropertyChanged("FuelLevel");          // Уведомление об изменении FuelLevel
+        //            RaisePropertyChanged("FuelLevelPercent");   // Уведомление об изменении FuelLevelPercent
+        //        }
+        //    }
+        //}
+        //public string FuelLevelPercent
+        //{
+        //    get
+        //    {
+        //        return $"{(FuelLevel / 300.0) * 100}%";
+        //    }
+        //    set
+        //    {
+        //    }
+        //}
+
+
+
         private readonly IMWSRepository mWSRepository;
         public MWSEntity mWSEntity { get; set; }
 
@@ -51,6 +80,8 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
             //////////////////////////////////////////////////////////////////
         }
 
+
+       
 
 
         // Метод для обновления списка портов

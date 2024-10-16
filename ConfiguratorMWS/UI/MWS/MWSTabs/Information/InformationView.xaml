@@ -18,101 +18,85 @@
 
          
 
-        <Grid Background="#F2F2F2" Grid.Column="0" >
+        <Grid Grid.Column="0" >
 
-            <StackPanel Margin="20px 0px" >
-                <Label Content="Выберите нужнй для вас порт:" Foreground="#0386CE" Margin="0px" />
-                <ComboBox Name="CommPortCombobox" Style="{DynamicResource ComboBoxRaunded}"  SelectedIndex="0" VerticalContentAlignment="Center"
-       Padding="10px 5px" Margin="0px 0px 0px 10px" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedPort}" 
-       ItemsSource="{Binding PortList}" DropDownOpened="CommPortCombobox_DropDownOpened"> 
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate> 
-                </ComboBox>
+            <Border Background="#F2F2F2" CornerRadius="15" Padding="10">
+                <StackPanel Margin="20px 0px">
+                    <Label Content="Выберите нужнй для вас порт:" Foreground="#0386CE" Margin="0px" />
+                    <ComboBox Name="CommPortCombobox" Style="{DynamicResource ComboBoxRaunded}"  SelectedIndex="0" VerticalContentAlignment="Center"
+           Padding="10px 5px" Margin="0px 0px 0px 10px" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedPort}" 
+           ItemsSource="{Binding PortList}" DropDownOpened="CommPortCombobox_DropDownOpened">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
-                <Button Name="Connect" Content="{Binding IsConnectedButtonText}" Command="{Binding connectToPort}" HorizontalAlignment="Stretch" 
-                        Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" HorizontalContentAlignment="Left"></Button>
+                    <Button Name="Connect" Content="{Binding IsConnectedButtonText}" Command="{Binding connectToPort}" HorizontalAlignment="Stretch" 
+                            Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" HorizontalContentAlignment="Left"></Button>
 
-                <!--<StackPanel Orientation="Vertical">
-                    <Label Content="Тип датчика:" />
-                    <TextBox Text="{Binding mWSEntity.SensorType}" HorizontalAlignment="Stretch" IsReadOnly="True"  Width="Auto"/>
-                </StackPanel>-->
+                    <!--<StackPanel Orientation="Vertical">
+                        <Label Content="Тип датчика:" />
+                        <TextBox Text="{Binding mWSEntity.SensorType}" HorizontalAlignment="Stretch" IsReadOnly="True"  Width="Auto"/>
+                    </StackPanel>-->
 
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Серийный номер:" />
-                    <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SerialNumber}" HorizontalAlignment="Stretch" 
-                             IsReadOnly="True"  Width="Auto" Padding="10px 5px"/>
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Серийный номер:" />
+                        <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SerialNumber}" HorizontalAlignment="Stretch" 
+                                 IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Версия апаратной части:" />
+                        <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.HardVersion}" HorizontalAlignment="Stretch" 
+                                 IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Версия ПО:" />
+                        <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SoftVersion}" HorizontalAlignment="Stretch" 
+                             IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
+                    </StackPanel>
+
+
                 </StackPanel>
+            </Border>
 
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Версия апаратной части:" />
-                    <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.HardVersion}" HorizontalAlignment="Stretch" 
-                             IsReadOnly="True"  Width="Auto" Padding="10px 5px"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Версия ПО:" />
-                    <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SoftVersion}" HorizontalAlignment="Stretch" 
-                             IsReadOnly="True"  Width="Auto" Padding="10px 5px"/>
-                </StackPanel>
-
-
-            </StackPanel>
-        
         </Grid>
 
         <Grid Background= "Coral" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="25*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
-                <Border BorderBrush="Black" BorderThickness="2" CornerRadius="10" Height="200" Width="375" >
-                    <!-- Сюда будет добавлен уровень топлива -->
+            <Grid Grid.Row="0" VerticalAlignment="Center">
+                 
+                <Border BorderBrush="Black" BorderThickness="2" CornerRadius="10" 
+                Width="350" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid>
+                        <!-- Фон пустого бака -->
+                        <Rectangle Fill="Gray" />
+
+                        <!-- Уровень топлива, высота привязана к переменной FuelLevel -->
+                        <Rectangle Name="fuelLevelRect" Fill="LightBlue" VerticalAlignment="Bottom" 
+                                   Height="{Binding FuelLevel}" />
+                    </Grid>
                 </Border>
+
+                <!-- Текстовый блок для отображения уровня топлива в процентах -->
+                <TextBlock Text="{Binding FuelLevelPercent}" FontSize="20" 
+                   HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" />
+
+                <!-- Кнопка для тестирования изменения уровня топлива -->
+                <Button Content="Decrease Fuel" Width="100" Height="30" 
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"
+                Click="DecreaseFuel_Click" />
             </Grid>
+             
             
-
-            <!--<Grid Grid.Row="1"   Margin="20px 10px"> 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="25*"/> 
-                </Grid.ColumnDefinitions>
-                
-                <Border BorderBrush="Gray"  Grid.Column="0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Температура:" />
-                        <TextBlock Text="{Binding mWSEntity.Temp}" />
-                    </StackPanel>
-                </Border>
-
-                <Border BorderBrush="Gray" BorderThickness="1 0 0 0" Grid.Column="1">
-                    <StackPanel Orientation="Vertical"> 
-                            <TextBlock Text="Расстояние:" />
-                            <TextBlock Text="{Binding mWSEntity.Distance}" /> 
-                    </StackPanel>
-                </Border>
-
-                <Border BorderBrush="Gray" BorderThickness="1 0 0 0" Grid.Column="2">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Уровень:" />
-                        <TextBlock Text="{Binding mWSEntity.Level}" />
-                    </StackPanel>
-                </Border>
-
-                <Border BorderBrush="Gray" BorderThickness="1 0 0 0"  Grid.Column="3">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Объем:" />
-                        <TextBlock Text="{Binding mWSEntity.Volume}" />
-                    </StackPanel>
-                </Border>-->
-            
-            <Grid Grid.Row="1" Margin="20px 10px"> 
+            <Grid Grid.Row="1" Margin="20px 10px" MaxHeight="55px" MinHeight="30px" VerticalAlignment="Bottom"> 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20*"/>  
                     <ColumnDefinition Width="1*"/>  

@@ -12,5 +12,13 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
         public string SelectedPort { get; set; }
 
         public void RefreshComPorts();
+
+
+        /// <summary>
+        /// ////////
+        /// </summary>
+         
+        //public double FuelLevel { get; set; }
+        //public string FuelLevelPercent { get; set; }
     }
 }
