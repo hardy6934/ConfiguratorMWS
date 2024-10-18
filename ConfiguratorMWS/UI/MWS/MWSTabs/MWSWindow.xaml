@@ -14,87 +14,61 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
+        <!-- Верхняя панель с кнопками -->
+        <Grid Grid.Row="0" Margin="15px 0px 20px 0px"> 
+  
+            <!-- Кнопки для переключения содержимого -->
+            <Grid.ColumnDefinitions> 
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="3*"/>   
+            </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0" >
-
-            <Grid.RowDefinitions >
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
- 
-            <!-- Верхняя панель с кнопками -->
-            <Grid Grid.Row="0" Margin="15px 0px 20px 0px">
-                    <!-- Кнопки для переключения содержимого -->
-                    <Grid.ColumnDefinitions> 
-                        <ColumnDefinition Width="7*"/>
-                        <ColumnDefinition Width="3*"/>   
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                            <Image Source="../../../src/images/Mechatronics.png" Height="50px"/>
-                        </StackPanel>
-
-                        <StackPanel VerticalAlignment="Center">
-                            <Button Style="{DynamicResource NavigationTabButton}" Content="Информация" Command="{Binding SwitchTabCommand}"  
-                            CommandParameter="Information" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
-                        </StackPanel>
-
-                        <StackPanel VerticalAlignment="Center">
-                            <Button Style="{DynamicResource NavigationTabButton}" Content="Настройки" Command="{Binding SwitchTabCommand}" 
-                            CommandParameter="Settings" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
-                        </StackPanel>
-
-                        <StackPanel VerticalAlignment="Center">
-                            <Button Style="{DynamicResource NavigationTabButton}" Content="Тарировка" Command="{Binding SwitchTabCommand}" 
-                            CommandParameter="Calibration" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
-                        </StackPanel>
-                        <StackPanel VerticalAlignment="Center">
-                            <Button Style="{DynamicResource NavigationTabButton}" Content="Расчетная тарировка" Command="{Binding SwitchTabCommand}" 
-                            CommandParameter="CalculatedCalibration" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
-                        </StackPanel>   
-                    </StackPanel>
-
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <StackPanel VerticalAlignment="Center" >
-                        <Button Style="{DynamicResource ButtonUpdateFirmware}" Content="Обновление ПО" Command="{Binding SwitchTabCommand}" 
-                        CommandParameter="UploadSoftware" Margin="10px 0px" Padding="10px 5px" />
-                    </StackPanel>
-
-                    <StackPanel VerticalAlignment="Center">
-                        <ComboBox Style="{DynamicResource ComboBoxRaunded}" SelectedIndex="0"  
-                        Padding="10px 6px" Margin="10px 0px">
-                            <ComboBoxItem>
-                                <TextBlock>RUS</TextBlock>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <TextBlock>EN</TextBlock>
-                            </ComboBoxItem>
-                        </ComboBox>
-                    </StackPanel>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Image Source="../../../src/images/Mechatronics.png" Height="50px"/>
                 </StackPanel>
-                    
 
-                    
-
-            </Grid> 
-
-
-            <!-- Верхняя панель с кнопками -->
-            <DockPanel LastChildFill="True" Grid.Row="1" VerticalAlignment="Top" Grid.Column="1" Margin="20px 0px"> 
-                <StackPanel Orientation="Vertical">
-
-                    <TextBlock Foreground="#353535" Text="MWS RS/CAN" FontSize="40px" FontWeight="Bold" FontFamily="Arial" />
-
-                    <DockPanel LastChildFill="True" Margin="0px 0px 0px 10px">
-                        <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
-                    </DockPanel>
- 
+                <StackPanel VerticalAlignment="Center">
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="Информация" Command="{Binding SwitchTabCommand}"  
+                    CommandParameter="Information" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
                 </StackPanel>
-            </DockPanel>
 
+                <StackPanel VerticalAlignment="Center">
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="Настройки" Command="{Binding SwitchTabCommand}" 
+                    CommandParameter="Settings" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
+                </StackPanel>
 
-        </Grid>
+                <StackPanel VerticalAlignment="Center">
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="Тарировка" Command="{Binding SwitchTabCommand}" 
+                    CommandParameter="Calibration" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center">
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="Расчетная тарировка" Command="{Binding SwitchTabCommand}" 
+                    CommandParameter="CalculatedCalibration" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
+                </StackPanel>   
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel VerticalAlignment="Center" >
+                    <Button Style="{DynamicResource ButtonUpdateFirmware}" Content="Обновление ПО" Command="{Binding SwitchTabCommand}" 
+                    CommandParameter="UploadSoftware" Margin="10px 0px" Padding="10px 5px" />
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center">
+                    <ComboBox Style="{DynamicResource ComboBoxRaunded}" SelectedIndex="0"  
+                    Padding="10px 6px" Margin="10px 0px">
+                        <ComboBoxItem>
+                            <TextBlock>RUS</TextBlock>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock>EN</TextBlock>
+                        </ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel> 
+            
+        </Grid>   
 
 
         <!-- Нижняя часть для отображения контента -->

@@ -5,156 +5,222 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs.Information"
              mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="800" Background="White">
-    <UserControl.Resources>
-       
-    </UserControl.Resources>
+             d:DesignHeight="400" d:DesignWidth="800" Background="White">
+    
     <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="85*"/> 
+        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="35*"/> 
-            <ColumnDefinition Width="65*"/> 
-        </Grid.ColumnDefinitions>
-
-         
-
-        <Grid Grid.Column="0" >
-
-            <Border Background="#F2F2F2" CornerRadius="15" Padding="10">
-                <StackPanel Margin="20px 0px">
-                    <Label Content="Выберите нужнй для вас порт:" Foreground="#0386CE" Margin="0px" />
-                    <ComboBox Name="CommPortCombobox" Style="{DynamicResource ComboBoxRaunded}"  SelectedIndex="0" VerticalContentAlignment="Center"
-           Padding="10px 5px" Margin="0px 0px 0px 10px" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedPort}" 
-           ItemsSource="{Binding PortList}" DropDownOpened="CommPortCombobox_DropDownOpened">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-
-                    <Button Name="Connect" Content="{Binding IsConnectedButtonText}" Command="{Binding connectToPort}" HorizontalAlignment="Stretch" 
-                            Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" HorizontalContentAlignment="Left"></Button>
-
-                    <!--<StackPanel Orientation="Vertical">
-                        <Label Content="Тип датчика:" />
-                        <TextBox Text="{Binding mWSEntity.SensorType}" HorizontalAlignment="Stretch" IsReadOnly="True"  Width="Auto"/>
-                    </StackPanel>-->
-
-                    <StackPanel Orientation="Vertical">
-                        <Label Content="Серийный номер:" />
-                        <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SerialNumber}" HorizontalAlignment="Stretch" 
-                                 IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical">
-                        <Label Content="Версия апаратной части:" />
-                        <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.HardVersion}" HorizontalAlignment="Stretch" 
-                                 IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical">
-                        <Label Content="Версия ПО:" />
-                        <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SoftVersion}" HorizontalAlignment="Stretch" 
-                             IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
-                    </StackPanel>
-
-
-                </StackPanel>
-            </Border>
-
-        </Grid>
-
-        <Grid Background= "Coral" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="75*"/>
-                <RowDefinition Height="25*"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" VerticalAlignment="Center">
-                 
-                <Border BorderBrush="Black" BorderThickness="2" CornerRadius="10" 
-                Width="350" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Grid>
-                        <!-- Фон пустого бака -->
-                        <Rectangle Fill="Gray" />
-
-                        <!-- Уровень топлива, высота привязана к переменной FuelLevel -->
-                        <Rectangle Name="fuelLevelRect" Fill="LightBlue" VerticalAlignment="Bottom" 
-                                   Height="{Binding FuelLevel}" />
-                    </Grid>
-                </Border>
-
-                <!-- Текстовый блок для отображения уровня топлива в процентах -->
-                <TextBlock Text="{Binding FuelLevelPercent}" FontSize="20" 
-                   HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" />
-
-                <!-- Кнопка для тестирования изменения уровня топлива -->
-                <Button Content="Decrease Fuel" Width="100" Height="30" 
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"
-                Click="DecreaseFuel_Click" />
-            </Grid>
-             
-            
-            <Grid Grid.Row="1" Margin="20px 10px" MaxHeight="55px" MinHeight="30px" VerticalAlignment="Bottom"> 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20*"/>  
-                    <ColumnDefinition Width="1*"/>  
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="20*"/>    
-                </Grid.ColumnDefinitions>
-
-
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="0">
-                    <TextBlock Text="Температура:" />
-                    <TextBlock Text="{Binding mWSEntity.Temp}" />
-                </StackPanel>
-
-                <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="1" > 
-                </Border>
-
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2" > 
-                        <TextBlock Text="Расстояние:" />
-                        <TextBlock Text="{Binding mWSEntity.Distance}" /> 
-                </StackPanel>
-
-                <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="3">
-                </Border>
-
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
-                    <TextBlock Text="Уровень:" />
-                    <TextBlock Text="{Binding mWSEntity.Level}" />
-                </StackPanel>
-
-                <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="5">
-                </Border>
-
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="6">
-                    <TextBlock Text="Объем:" />
-                    <TextBlock Text="{Binding mWSEntity.Volume}" />
+        <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"> 
+                <StackPanel>
+                    <TextBlock Foreground="#353535" Text="MWS RS/CAN" FontSize="40px" FontWeight="Bold" FontFamily="Arial" />
                 </StackPanel> 
 
+            <StackPanel  VerticalAlignment="Bottom">
+                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
+            </StackPanel> 
+        </Grid>
 
-                <!--<Border BorderBrush="Black" BorderThickness="1 0" Height="Auto" Width="Auto">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Значение N:" />
-                        <TextBlock Text="{Binding mWSEntity.NOmni}" />
-                    </StackPanel>
-                </Border>-->
 
-                <!--<Border BorderBrush="Black" BorderThickness="1 0" Height="Auto" Width="Auto">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Флаги:" />
-                        <TextBlock Text="{Binding mWSEntity.Flags}" />
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/> 
+                <ColumnDefinition Width="65*"/>
+            </Grid.ColumnDefinitions>
+  
+            <Grid Grid.Column="0" >
+
+                <Border Background="#F2F2F2" CornerRadius="15" Padding="10">
+                    <StackPanel Margin="20px 0px">
+                        <Label Content="Выберите нужнй для вас порт:" Foreground="#0386CE" Margin="0px" />
+                        <ComboBox Name="CommPortCombobox" Style="{DynamicResource ComboBoxRaunded}"  SelectedIndex="0" VerticalContentAlignment="Center"
+   Padding="10px 5px" Margin="0px 0px 0px 10px" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedPort}" 
+   ItemsSource="{Binding PortList}" DropDownOpened="CommPortCombobox_DropDownOpened">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <Button Name="Connect" Content="{Binding IsConnectedButtonText}" Command="{Binding connectToPort}" HorizontalAlignment="Stretch" 
+                    Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" HorizontalContentAlignment="Left"></Button>
+
+                        <!--<StackPanel Orientation="Vertical">
+                <Label Content="Тип датчика:" />
+                <TextBox Text="{Binding mWSEntity.SensorType}" HorizontalAlignment="Stretch" IsReadOnly="True"  Width="Auto"/>
+            </StackPanel>-->
+
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Серийный номер:" />
+                            <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SerialNumber}" HorizontalAlignment="Stretch" 
+                         IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Версия апаратной части:" />
+                            <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.HardVersion}" HorizontalAlignment="Stretch" 
+                         IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Версия ПО:" />
+                            <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.SoftVersion}" HorizontalAlignment="Stretch" 
+                     IsReadOnly="True"  Width="Auto" Padding="10px 5px" Foreground="#757575"/>
+                        </StackPanel>
+
+
                     </StackPanel>
-                </Border>-->
+                </Border>
 
             </Grid>
 
-        </Grid> 
+            <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Grid.Column="1">-->
+
+            <Grid  Grid.Column="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="70*"/>
+                        <ColumnDefinition Width="15*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="0px 30px" HorizontalAlignment="Right" Height="200px">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0" >
+                            <TextBlock Text="0 mm" Foreground="#0386CE" FontSize="10px" VerticalAlignment="Top" 
+                           FontWeight="Bold" HorizontalAlignment="Right"/>
+                            <TextBlock Text="100 mm" Foreground="#353535" FontSize="10px" VerticalAlignment="Bottom"
+                           FontWeight="Bold" HorizontalAlignment="Right"/>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Border BorderBrush="#353535" BorderThickness="1" Width="2" VerticalAlignment="Stretch" CornerRadius="1">
+                            </Border>
+                            <Border BorderBrush="#0386CE" BorderThickness="1" Width="12" Height="2" CornerRadius="1">
+                            </Border>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <!-- Бак (чёрный Border) -->
+                        <Border BorderBrush="Black" BorderThickness="5" CornerRadius="10" Background="#353535" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5px 30px" Height="200px" Panel.ZIndex="1">
+
+                            <!-- Внутренний Grid для размещения нескольких элементов внутри Border -->
+                            <Grid>
+                                <!-- Картинка датчика (должна быть над баком) -->
+                                <Image Source="/UI/MWS/MWSTabs/Information/SensorsPic.png" Height="200px" Margin="0px -20px 0px 0px"
+                   VerticalAlignment="Top" HorizontalAlignment="Center" Panel.ZIndex="2"/>
+
+                                <!-- Внутренний слой жидкости со скруглёнными углами -->
+                                <Border Height="{Binding mWSEntity.HeightOfFulkelInTheTank}" VerticalAlignment="Bottom" 
+                    Background="#0386CE" Panel.ZIndex="3" CornerRadius="190">
+                                    <Path HorizontalAlignment="Stretch" Fill="#0386CE" Stretch="Fill" VerticalAlignment="Stretch"
+                     Data="M 0,50 C 40,30 80,60 120,45 L 120,300 L 0,300 Z" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <Grid Grid.Column="2" Margin="0px 30px" HorizontalAlignment="Left" Height="200px">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Border BorderBrush="#353535" BorderThickness="1" Width="2" VerticalAlignment="Stretch" CornerRadius="1">
+                            </Border>
+                            <Border BorderBrush="#0386CE" BorderThickness="1" Width="12" Height="2" CornerRadius="1">
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Column="1" HorizontalAlignment="Left">
+                            <TextBlock Text="100 l" Foreground="#0386CE" FontSize="10px" VerticalAlignment="Top" 
+                           FontWeight="Bold" HorizontalAlignment="Left"/>
+                            <TextBlock Text="0 l" Foreground="#353535" FontSize="10px" VerticalAlignment="Bottom" 
+                           FontWeight="Bold" HorizontalAlignment="Left"/>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+
+
+                <Grid Grid.Row="1" Margin="20px 10px" MaxHeight="55px" MinHeight="30px" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="0">
+                        <TextBlock Text="Температура:" />
+                        <TextBlock Text="{Binding mWSEntity.Temp}" FontSize="20px"/>
+                    </StackPanel>
+
+                    <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="1" >
+                    </Border>
+
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2" >
+                        <TextBlock Text="Расстояние:" />
+                        <TextBlock Text="{Binding mWSEntity.Distance}" FontSize="20px"/>
+                    </StackPanel>
+
+                    <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="3">
+                    </Border>
+
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
+                        <TextBlock Text="Уровень:" />
+                        <TextBlock Text="{Binding mWSEntity.Level}" FontSize="20px"/>
+                    </StackPanel>
+
+                    <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="5">
+                    </Border>
+
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="6">
+                        <TextBlock Text="Объем топлива:" />
+                        <TextBlock Text="{Binding mWSEntity.Volume}" FontSize="20px"/>
+                    </StackPanel>
+
+
+                    <!--<Border BorderBrush="Black" BorderThickness="1 0" Height="Auto" Width="Auto">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Значение N:" />
+                <TextBlock Text="{Binding mWSEntity.NOmni}" />
+            </StackPanel>
+        </Border>-->
+
+                    <!--<Border BorderBrush="Black" BorderThickness="1 0" Height="Auto" Width="Auto">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Флаги:" />
+                <TextBlock Text="{Binding mWSEntity.Flags}" />
+            </StackPanel>
+        </Border>-->
+
+                </Grid>
+
+            </Grid>
+
+
+        </Grid>
+        
 
     </Grid>
 </UserControl>

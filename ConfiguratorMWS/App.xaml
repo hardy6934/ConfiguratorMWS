@@ -8,7 +8,11 @@
                 <ResourceDictionary Source="src/styles/ComboBoxStyles.xaml"/>
                 <ResourceDictionary Source="src/styles/ButtonUpdateFirmwareStyles.xaml"/>
                 <ResourceDictionary Source="src/styles/NavigationButtonStyles.xaml"/>
-                <ResourceDictionary Source="src/styles/RoundedTextBoxStyles.xaml"/>  
+                <ResourceDictionary Source="src/styles/RoundedTextBoxStyles.xaml"/>
+                <ResourceDictionary Source="src/styles/EditableRoundedComboBoxStyle.xaml"/>
+                <ResourceDictionary Source="src/styles/ButtonSaveInSensor.xaml"/>
+                <ResourceDictionary Source="src/styles/ToggleButtonStyle.xaml"/>  
+                <ResourceDictionary Source="src/styles/TogglesButtonBall.xaml"/>  
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

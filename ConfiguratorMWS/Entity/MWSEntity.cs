@@ -18,8 +18,11 @@ namespace ConfiguratorMWS.Entity
         public ushort nOmni;
         public uint flags;
 
-        public int CommandStatus { get; set; }
-        public int CommandLastReadedBytes { get; set; }
+
+        public int CurrentAddress { get; set; } = 0;
+        public int ConfirmAddress { get; set; } = 0;
+        public int CommandStatus { get; set; } = 0;
+        public int CommandLastReadedBytes { get; set; } = 0;
         public int CountFF { get; set; }
         public int Pass { get; set; } = 0xAC09;
         public int Config { get; set; } = 0x05;
@@ -94,7 +97,7 @@ namespace ConfiguratorMWS.Entity
         public float Distance 
         {
             get {
-                return distance;
+                return (float)Math.Round(distance, 2);
             }
             set
             {
@@ -109,7 +112,7 @@ namespace ConfiguratorMWS.Entity
         public float Level
         {
             get {
-                return level;
+                return (float)Math.Round(level, 2);
             }
             set
             {
@@ -124,7 +127,7 @@ namespace ConfiguratorMWS.Entity
         public float Volume
         {
             get {
-                return volume;
+                return (float)Math.Round(volume, 2);
             }
             set
             {
@@ -132,6 +135,7 @@ namespace ConfiguratorMWS.Entity
                 {
                     volume = value;
                     RaisePropertyChanged("Volume");
+                    RaisePropertyChanged("HeightOfFulkelInTheTank");
                 }
             }
         } 
@@ -205,6 +209,13 @@ namespace ConfiguratorMWS.Entity
             Command90Accepted,
             Command91Accepted,
             Command92Accepted
+        }
+         
+        public double HeightOfFulkelInTheTank
+        {
+            get {
+                return volume * 2 ; 
+            }
         }
 
     }

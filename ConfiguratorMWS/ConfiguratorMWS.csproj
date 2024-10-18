@@ -17,15 +17,20 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="src\images\Mechatronics.png" />
+    <None Remove="UI\MWS\MWSTabs\Information\SensorsPic.png" />
+    <None Remove="UI\MWS\MWSTabs\Settings\RectangleFuel.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="src\images\Mechatronics.png" />
+    <Resource Include="UI\MWS\MWSTabs\Information\SensorsPic.png" />
+    <Resource Include="UI\MWS\MWSTabs\Settings\RectangleFuel.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="UI\MWS\MWSTabs\Information\InformationView.xaml.cs">

@@ -212,8 +212,8 @@ namespace ConfiguratorMWS.Data.Repository
                     
             }
             else if (bufferRxDataInt[2] == 0x90)
-            {
-                mWSEntity.CommandStatus = (int)MWSEntity.MwsStatuses.Command90Accepted;
+            { 
+
                 mWSEntity.CommandLastReadedBytes = bufferRxDataInt[3] | (bufferRxDataInt[4] << 8);
                 mWSEntity.CountFF = 0;
 
@@ -223,7 +223,7 @@ namespace ConfiguratorMWS.Data.Repository
 
                     if (bufferRxDataInt[6 + i] == 0xFF)
                         mWSEntity.CountFF++;
-                }
+                }  
             }
             else if (bufferRxDataInt[2] == 0x91)
             {

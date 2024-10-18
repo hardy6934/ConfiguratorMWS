@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿
 using System.Windows.Controls; 
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
@@ -22,15 +21,9 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
             informationViewModel.RefreshComPorts(); 
         }
 
+
          
-    //private void DecreaseFuel_Click(object sender, RoutedEventArgs e)
-    //{
-    //    if (informationViewModel.FuelLevel > 0)
-    //    {
-    //            informationViewModel.FuelLevel -= 30;  // Уменьшаем уровень топлива на 30 (пример)
-    //    }
-    //}
-      
+
 
     }
 }

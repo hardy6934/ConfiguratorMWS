@@ -1,5 +1,7 @@
 ﻿
+using System.Drawing;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
 {
@@ -14,5 +16,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
             InitializeComponent();
             DataContext = viewModel;
         }
+
+        
     }
 }

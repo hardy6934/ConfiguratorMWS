@@ -1,47 +1,16 @@
-﻿
-
-using ConfiguratorMWS.Base;
+﻿using ConfiguratorMWS.Base;
 using ConfiguratorMWS.Buisness.Abstract;
 using ConfiguratorMWS.Commands;
-using ConfiguratorMWS.Data.Abstract;
-using ConfiguratorMWS.Data.Repository;
+using ConfiguratorMWS.Data.Abstract; 
 using ConfiguratorMWS.Entity;
+using System.Diagnostics.Metrics;
 using System.IO.Ports;
 using System.Windows;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
 {
     public class InformationViewModel : ViewModelBase, IInformationViewModel
-    {
-
-        //private double _fuelLevel = 300;
-        //public double FuelLevel
-        //{
-        //    get { return _fuelLevel; }
-        //    set
-        //    {
-        //        if (_fuelLevel != value)
-        //        {
-        //            _fuelLevel = value;
-        //            // Вызов обновления для обоих свойств
-        //            RaisePropertyChanged("FuelLevel");          // Уведомление об изменении FuelLevel
-        //            RaisePropertyChanged("FuelLevelPercent");   // Уведомление об изменении FuelLevelPercent
-        //        }
-        //    }
-        //}
-        //public string FuelLevelPercent
-        //{
-        //    get
-        //    {
-        //        return $"{(FuelLevel / 300.0) * 100}%";
-        //    }
-        //    set
-        //    {
-        //    }
-        //}
-
-
-
+    { 
         private readonly IMWSRepository mWSRepository;
         public MWSEntity mWSEntity { get; set; }
 
@@ -174,7 +143,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                         bufferTxData[2] = 0x80;
                         bufferTxData[3] = CalcCRC(bufferTxData, 3);
 
-                        mWSRepository.WriteData(bufferTxData, 4);
+                        mWSRepository.WriteData(bufferTxData, 4); 
                     }
                     catch (TimeoutException)
                     {
@@ -204,17 +173,30 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     mWSRepository.WriteData(bufferTxData, 11);
                     break;
 
-                //case (int)MWSEntity.MwsStatuses.Command85Accepted: 
-                //    bufferTxData[0] = 0x44;
-                //    bufferTxData[1] = 4;
-                //    bufferTxData[2] = 0x90;
-                //    bufferTxData[3] = (byte)mWSEntity.CommandLastReadedBytes;
-                //    bufferTxData[4] = (byte)(mWSEntity.CommandLastReadedBytes >> 8);
-                //    bufferTxData[5] = num;
-                //    bufferTxData[6] = CalcCRC(bufferTxData, bufferTxData[1] + 2);
+                case (int)MWSEntity.MwsStatuses.Command85Accepted:
 
-                //    mWSRepository.WriteData(bufferTxData, 7); 
-                //    break;
+                    //if (mWSEntity.CurrentAddress == mWSEntity.ConfirmAddress)
+                    //    mWSEntity.CurrentAddress += 32;
+
+                    //if (mWSEntity.CurrentAddress == 0x020)
+                    //    mWSEntity.CurrentAddress = 0x800;
+                    //else if (mWSEntity.CurrentAddress == 0x840)
+                    //    mWSEntity.CurrentAddress = 0x1000;
+                    //else if ((mWSEntity.CurrentAddress == 0x1800) ||
+                    //    (mWSEntity.CountFF == 32 && mWSEntity.CurrentAddress > 0x1000))
+                    //{
+                        bufferTxData = new byte[7];
+                        bufferTxData[0] = 0x44;
+                        bufferTxData[1] = 4;
+                        bufferTxData[2] = 0x90;
+                        bufferTxData[3] = (byte)mWSEntity.CommandLastReadedBytes;
+                        bufferTxData[4] = (byte)(mWSEntity.CommandLastReadedBytes >> 8);
+                        bufferTxData[5] = num;
+                        bufferTxData[6] = CalcCRC(bufferTxData, bufferTxData[1] + 2);
+
+                        mWSRepository.WriteData(bufferTxData, 7);
+                    //}
+                    break;
 
                 //case (int)MWSEntity.MwsStatuses.Command90Accepted:
                 //    bufferTxData[0] = 0x44;
@@ -249,7 +231,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                 //    mWSRepository.WriteData(bufferTxData, 7); 
                 //    break;
 
-                case (int)MWSEntity.MwsStatuses.Command85Accepted:
+                case (int)MWSEntity.MwsStatuses.Command90Accepted:
                     bufferTxData = new byte[11];
                     bufferTxData[0] = 0x44;
                     bufferTxData[1] = 0x1;

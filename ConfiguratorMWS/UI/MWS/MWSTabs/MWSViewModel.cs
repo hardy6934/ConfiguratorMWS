@@ -6,10 +6,8 @@ using ConfiguratorMWS.UI.MWS.MWSTabs.Calibration;
 using ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration;
 using Microsoft.Extensions.DependencyInjection;
 using ConfiguratorMWS.Buisness.Abstract;
-using ConfiguratorMWS.Data.Abstract;
-using System.IO.Ports;
-using ConfiguratorMWS.Entity;
-using System.Windows;
+using ConfiguratorMWS.Data.Abstract; 
+using ConfiguratorMWS.Entity; 
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs
 {

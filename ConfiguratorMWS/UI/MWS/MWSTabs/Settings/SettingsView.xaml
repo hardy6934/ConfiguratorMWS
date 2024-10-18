@@ -5,17 +5,141 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs.Settings"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+             d:DesignHeight="450" d:DesignWidth="800" Background="White"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+
+
+
     <Grid>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="85*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Настройки 1" FontSize="25" /> 
-        <TextBlock Grid.Row="1" Text="Настройки 2" FontSize="25" /> 
-        <TextBlock Grid.Row="2" Text="Настройки 3" FontSize="25" /> 
-        <TextBlock Grid.Row="3" Text="Настройки 4" FontSize="25" /> 
+
+        <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <TextBlock Foreground="#353535" Text="MWS RS/CAN" FontSize="40px" FontWeight="Bold" FontFamily="Arial" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="Прочитать из файла" VerticalAlignment="Center" Margin="20px 0px 0px 0px"  
+                            Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" Background="Gray" BorderBrush="#676767"/>
+                    <Button Content="Сохранить в файл" VerticalAlignment="Center" Margin="10px 0px 10px 0px" 
+                            Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" />
+
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <Button Content="Записать в датчик" Margin="10px 0px 10px 0px" Style="{DynamicResource ButtonSaveInSensor}"
+                        Padding="10px 5px" Background="#00C638" BorderBrush="#02ad32"/>
+            </StackPanel>
+
+            <StackPanel  VerticalAlignment="Bottom">
+                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
+            </StackPanel>
+
+        </Grid>
+
+
+        <Grid Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
+                    <TextBlock Margin="0px 0px 10px 0px" Text="Подтяжка" VerticalAlignment="Center" Padding="5"/>
+ 
+                    <TextBlock Margin="10px 0px" Text="Терминатор" VerticalAlignment="Center" Padding="5"/>
+                    <ToggleButton Style="{DynamicResource ToggleButtonStyle}" Height="20px" Width="50px">
+                        <Grid>
+                            <DockPanel LastChildFill="True" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource TogglesButtonBall}" Height="14px" Width="14px"/>
+                                <Border Height="15px" Width="15px"/>
+                                <Button Style="{DynamicResource TogglesButtonBall}" Height="14px" Width="14px"/>
+                            </DockPanel>
+                        </Grid>
+                    </ToggleButton> 
+
+                    <TextBlock Margin="10px 0px" Text="Терминатор" VerticalAlignment="Center" Padding="5"/>
+                    <ToggleButton Style="{DynamicResource ToggleButtonStyle}" Height="20px" Width="50px">
+                        <Grid>
+                            <DockPanel LastChildFill="True" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource TogglesButtonBall}" Height="14px" Width="14px"/>
+                                <Border Height="15px" Width="15px"/>
+                                <Button Style="{DynamicResource TogglesButtonBall}" Height="14px" Width="14px"/>
+                            </DockPanel>
+                        </Grid>
+                    </ToggleButton>
+                    
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Border  Background="#F2F2F2" CornerRadius="15" Margin="0px 15px">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="200*"/>
+                            <ColumnDefinition  Width="37*"/>
+                            <ColumnDefinition Width="163*"/>
+                            <ColumnDefinition  Width="200*"/>
+                            <ColumnDefinition  Width="200*"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <StackPanel Orientation="Vertical" Grid.Column="0" Margin="10,10,10,10">
+                            <Label Content="Адрес датчика:" />
+                            <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}"  HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575" 
+                                       IsEditable="True">
+                                <ComboBoxItem IsSelected="True">1</ComboBoxItem>
+                                <ComboBoxItem>2</ComboBoxItem>
+                                <ComboBoxItem>3</ComboBoxItem>
+                                <ComboBoxItem>4</ComboBoxItem>
+                                <ComboBoxItem>5</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Column="1"  Margin="10,10,10,10" Grid.ColumnSpan="2">
+                            <Label Content="Усреднение:" />
+                            <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
+                                      IsEditable="True">
+                                <ComboBoxItem IsSelected="True">9</ComboBoxItem>
+                                <ComboBoxItem>20</ComboBoxItem>
+                                <ComboBoxItem>40</ComboBoxItem>
+                                <ComboBoxItem>60</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Column="3"  Margin="10,10,10,10">
+                            <Label Content="Значение N:" />
+                            <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
+                                      IsEditable="True">
+                                <ComboBoxItem IsSelected="True">1023</ComboBoxItem>
+                                <ComboBoxItem>4095</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Column="4"  Margin="10,10,10,10">
+                            <Label Content="Скорость передачи:" />
+                            <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
+                                      IsEditable="True">
+                                <ComboBoxItem IsSelected="True">9600</ComboBoxItem>
+                                <ComboBoxItem>19200</ComboBoxItem>
+                                <ComboBoxItem>38400</ComboBoxItem>
+                                <ComboBoxItem>57600</ComboBoxItem>
+                                <ComboBoxItem>76800</ComboBoxItem>
+                                <ComboBoxItem>115200</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
     </Grid>
+
 </UserControl>
