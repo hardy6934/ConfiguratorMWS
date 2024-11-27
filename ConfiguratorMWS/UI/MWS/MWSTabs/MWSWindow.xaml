@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs"  
         mc:Ignorable="d"
-        Title="MWSWindow" Height="500" Width="800" Background="White">
-     
-     
+        Title="MWSWindow" Height="550" Width="800" Background="White">
+
 
     <Grid > 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <!-- Верхняя панель с кнопками -->
@@ -30,41 +30,38 @@
                 </StackPanel>
 
                 <StackPanel VerticalAlignment="Center">
-                    <Button Style="{DynamicResource NavigationTabButton}" Content="Информация" Command="{Binding SwitchTabCommand}"  
-                    CommandParameter="Information" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[Information]}" Foreground="#676767" 
+                            Command="{Binding SwitchTabCommand}" CommandParameter="Information" Padding="5" Margin="5 0" FontFamily="{StaticResource ManropeFont}" />
                 </StackPanel>
 
                 <StackPanel VerticalAlignment="Center">
-                    <Button Style="{DynamicResource NavigationTabButton}" Content="Настройки" Command="{Binding SwitchTabCommand}" 
-                    CommandParameter="Settings" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[Settings]}" Foreground="#676767"
+                            Command="{Binding SwitchTabCommand}" CommandParameter="Settings" Padding="5px" Margin="5px 0px" FontFamily="{StaticResource ManropeFont}"/>
                 </StackPanel>
 
                 <StackPanel VerticalAlignment="Center">
-                    <Button Style="{DynamicResource NavigationTabButton}" Content="Тарировка" Command="{Binding SwitchTabCommand}" 
-                    CommandParameter="Calibration" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[Calibration]}" Foreground="#676767"
+                            Command="{Binding SwitchTabCommand}" CommandParameter="Calibration" Padding="5px" Margin="5px 0px" FontFamily="{StaticResource ManropeFont}"/>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center">
-                    <Button Style="{DynamicResource NavigationTabButton}" Content="Расчетная тарировка" Command="{Binding SwitchTabCommand}" 
-                    CommandParameter="CalculatedCalibration" Padding="5px" Margin="10px 0px" Foreground="#757575"/>
+                    <Button Style="{DynamicResource NavigationTabButton}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[CalculatedCalibration]}" Foreground="#676767"
+                            Command="{Binding SwitchTabCommand}" CommandParameter="CalculatedCalibration" Padding="5px" Margin="5px 0px" FontFamily="{StaticResource ManropeFont}"/>
                 </StackPanel>   
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <StackPanel VerticalAlignment="Center" >
-                    <Button Style="{DynamicResource ButtonUpdateFirmware}" Content="Обновление ПО" Command="{Binding SwitchTabCommand}" 
-                    CommandParameter="UploadSoftware" Margin="10px 0px" Padding="10px 5px" />
+                    <Button x:Name="UpdateFirmwareButton" Style="{DynamicResource ButtonUpdateFirmware}" Margin="0px 0px 5px 0px" 
+                            BorderThickness="0" Command="{Binding OpenUpdateFirmwareWindowCommand}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[UpdateSoftware]}" 
+                            FontFamily="{StaticResource ManropeFont}"/>
+
                 </StackPanel>
 
                 <StackPanel VerticalAlignment="Center">
-                    <ComboBox Style="{DynamicResource ComboBoxRaunded}" SelectedIndex="0"  
-                    Padding="10px 6px" Margin="10px 0px">
-                        <ComboBoxItem>
-                            <TextBlock>RUS</TextBlock>
-                        </ComboBoxItem>
-                        <ComboBoxItem>
-                            <TextBlock>EN</TextBlock>
-                        </ComboBoxItem>
-                    </ComboBox>
+                    <ComboBox x:Name="LanguageComboBox" Style="{DynamicResource ComboBoxRaunded}" SelectedIndex="0" BorderThickness="0" SelectionChanged="LanguageComboBox_Selected"
+                    Padding="10px 5px" Margin="5px 0px 0px 0px"  Cursor="Hand" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"
+                        ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"  />
+
                 </StackPanel>
             </StackPanel> 
             
@@ -73,8 +70,21 @@
 
         <!-- Нижняя часть для отображения контента -->
         <ContentControl Grid.Row="1"  Content="{Binding CurrentView}" Height="Auto"  Margin="20px 0px"/>
- 
 
+        <Grid Grid.Row="2" Margin="20px 0px">
+            <StackPanel  VerticalAlignment="Bottom">
+                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  Margin="0px 5px"/>
+  
+                <Grid>
+                    <ProgressBar Style="{DynamicResource ProgressBarRoundedStyle}" Name="progressBarMwsWindow" Minimum="0" Maximum="6144" Value="{Binding mWSEntity.ProgressValue}" 
+             Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0px 5px" />
+
+                    <TextBlock Text="{Binding mWSEntity.GeneralWindowProgressBarStatus}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#353535" FontFamily="{StaticResource ManropeFont}"/>
+                </Grid>
+
+            </StackPanel>
+        </Grid>
+ 
     </Grid>
 
 </Window>

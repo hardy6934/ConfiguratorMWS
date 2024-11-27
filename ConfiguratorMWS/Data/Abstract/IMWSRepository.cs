@@ -1,25 +1,20 @@
-﻿
-using System.IO.Ports;
+﻿using ConfiguratorMWS.Data.Repository;
+using ConfiguratorMWS.Entity; 
 
 namespace ConfiguratorMWS.Data.Abstract
 {
     public interface IMWSRepository
     {
-        public List<string> GetAvailableComPortNames();
-        public bool ConnectWithComPort(string portName, int boundRate, SerialDataReceivedEventHandler callback);
-        bool IsPortAvailable(string portName);
-        bool CloseConnectionWithComPort();
-        public byte[] DecodeIntResponse(byte[] bytes); 
-        public void DecodeBootloader(byte[] bytes); 
 
-        public void SetIsConnectedTrue();
-        public void SetIsConnectedFalse();
+        public MWSEntity GetEntity();
 
-        public void TimerWork(EventHandler timerCallback);
-        public void ChangeTimerWorkInterval(int interval);
-        public void WriteData(byte[] data, int count);
-
-
+        //public void DecodeIntResponse(byte[] bytes); 
+        //public void DecodeBootloader(byte[] bytes);
+        public void ChangeProgressBarValue(int value);
+        public void IncremeentingProgressBarValue(int value);
+        public void ChangeUpdatingProgressBarValue(int value);
+        public void UpdateWindowProgresBarStatus(string val);
+        public void GeneralWindowProgressBarStatus(string val);
 
     }
 }

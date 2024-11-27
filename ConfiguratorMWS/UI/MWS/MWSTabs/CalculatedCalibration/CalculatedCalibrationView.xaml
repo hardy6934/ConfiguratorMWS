@@ -6,20 +6,223 @@
              xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
-    <Grid>
-        <Grid>
+    
+    <UserControl.Resources>
+        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextTrimming" Value="None"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+        </Style>
+    </UserControl.Resources>
 
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+ 
+        <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Рассчетная калибровка 1" FontSize="25" />
-            <TextBlock Grid.Row="1" Text="Рассчетная калибровка 2" FontSize="25" />
-            <TextBlock Grid.Row="2" Text="Рассчетная калибровка 3" FontSize="25" />
-            <TextBlock Grid.Row="3" Text="Рассчетная калибровка 4" FontSize="25" />
+
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Foreground="#353535" Text="{Binding mWSEntity.MwsCommonData.SensorTypeForDisplaing}" FontSize="29px" FontFamily="{StaticResource AntonFont}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="ButtonModalHowToFill" VerticalAlignment="Center" Margin="20px 0px 10px 0px" Click="ButtonModalHowToFill_Click"
+              Style="{DynamicResource ButtonUpdateFirmware}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[HowToEnterData]}" VerticalAlignment="Center"/>
+                                <Image Source="/UI/MWS/MWSTabs/CalculatedCalibration/CalculatedCalibrationImages/lamp.png" Width="15px" Height="15px"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[WriteToTheSensor]}" Margin="10px 0px 10px 0px" Style="{DynamicResource ButtonSaveInSensor}" 
+                            Background="#00C638" BorderBrush="#02ad32" Command="{Binding saveSettingsCommand}"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0px 10px 0px 0px">
+                <StackPanel  VerticalAlignment="Bottom">
+                    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
+                </StackPanel>
+            </Grid>
+
+        </Grid> 
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/> 
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="35*"/>
+                    <RowDefinition Height="35*"/>
+                    <RowDefinition Height="30*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="20px 0px" >
+                    <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[EntryData]}" Foreground="#0386CE" FontWeight="DemiBold" FontSize="14" Margin="0px 0px 0px 5px"/>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0px 0px 0px 10px">
+                    <Border Background="#F2F2F2" CornerRadius="15">
+                        <Grid Margin="10 0" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" Margin="10px">
+                                <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Dmm]}"
+                                           Padding="0px 5px" Foreground="#353535" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"/>
+                                <TextBox Style="{DynamicResource RoundedTextBox}" Padding="5px" FontFamily="{StaticResource ManropeFont}"  Foreground="#676767" FontWeight="SemiBold" 
+                                         Text="{Binding Diameter, UpdateSourceTrigger=PropertyChanged, Delay=800, ValidatesOnDataErrors=True}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center" Margin="10px">
+                                <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Hmm]}" 
+                                            Padding="0px 5px"  Foreground="#353535" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"/>
+                                <TextBox Style="{DynamicResource RoundedTextBox}" Padding="5px" FontFamily="{StaticResource ManropeFont}" Foreground="#676767" FontWeight="SemiBold" 
+                                         Text="{Binding CylindricalPart, UpdateSourceTrigger=PropertyChanged, Delay=800}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="2" VerticalAlignment="Center" Margin="10px">
+                                <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Emm]}" 
+                                           Padding="0px 5px"  Foreground="#353535" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"/>
+                                <TextBox Style="{DynamicResource RoundedTextBox}" Padding="5px" FontFamily="{StaticResource ManropeFont}" Foreground="#676767" FontWeight="SemiBold" 
+                                         Text="{Binding ElipticalSideWall, UpdateSourceTrigger=PropertyChanged, Delay=800}"/>
+                            </StackPanel> 
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0px 0px 0px 10px">
+                    <Border Background="#F2F2F2" CornerRadius="15">
+                        <Grid VerticalAlignment="Center" Margin="10 0">  
+                            <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" Margin="10px">
+                                <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[DistanceFromTheSensorToTheBottomOfTheTank]}" 
+                                           Padding="0px 5px"  Foreground="#353535"/>
+                                <TextBox Style="{DynamicResource RoundedTextBox}" Padding="5px" FontFamily="{StaticResource ManropeFont}" Foreground="#676767" FontWeight="SemiBold" 
+                                         Text="{Binding SensorsHeight, UpdateSourceTrigger=PropertyChanged, Delay=800}"/>
+                            </StackPanel> 
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Row="3"  VerticalAlignment="Bottom" Margin="0 5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                            
+                    <Grid Grid.Row="0" Margin="0 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0px 0px 5px 0px">
+                            <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[UploadXlsFile]}" Style="{DynamicResource ButtonReadFromFile}" Padding="10px 5px" 
+                            Background="#676767" BorderThickness="0"  FontFamily="{StaticResource ManropeFont}" Command="{Binding UploadXlsFileCommand}" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[UploadFileAvailableTypes]}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="5px 0px 0px 0px">
+                            <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SaveToFile]}" Style="{DynamicResource ButtonReadFromFile}" Padding="10px 5px" 
+                            Background="#676767" BorderThickness="0"  FontFamily="{StaticResource ManropeFont}" Command="{Binding SaveCalculatedTareToFileCommand}"/>
+                        </StackPanel> 
+                    </Grid>
+
+
+                    <Grid Grid.Row="1"> 
+                        <StackPanel>
+                            <Button Style="{DynamicResource ButtonLightBlueStyle}" Padding="10px 5px" Background="#edf6fb" Command="{Binding CalculateTableCommand}" >
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Calculate]}" VerticalAlignment="Center" Foreground="#0386CE" Margin="5 0"/>
+                                    <Image Source="/UI/MWS/MWSTabs/CalculatedCalibration/CalculatedCalibrationImages/EditSquare.png" Width="15" Height="15"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    
+                </Grid>
+                
+            </Grid>
+            
+           
+
+            <ScrollViewer Grid.Column="1"  VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.ColumnDefinitions> 
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="40*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                            <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Number]}"
+                    FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Foreground="#353535"/>
+                            <ItemsControl ItemsSource="{Binding CalculatedTable.Rows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Number}" FontSize="20px" Foreground="#0386CE" FontWeight="SemiBold" FontFamily="{StaticResource ManropeFont}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                            <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Value]}"
+                    FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Foreground="#353535"/>
+                            <ItemsControl ItemsSource="{Binding CalculatedTable.Rows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Distance}" FontSize="20px" Foreground="#676767" FontWeight="SemiBold" FontFamily="{StaticResource ManropeFont}"/> 
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Column="2">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                            <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[VolumeL]}"
+                    FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Foreground="#353535"/>
+                            <ItemsControl ItemsSource="{Binding CalculatedTable.Rows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Volume}" FontSize="20px" Foreground="#676767" FontWeight="SemiBold" FontFamily="{StaticResource ManropeFont}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+
 
         </Grid>
+
     </Grid>
+
+
+
 </UserControl>

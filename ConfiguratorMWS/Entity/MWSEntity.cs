@@ -1,222 +1,234 @@
-﻿
-
-using ConfiguratorMWS.Base;
+﻿using ConfiguratorMWS.Base;
+using ConfiguratorMWS.Entity.MWSSubModels;
+using ConfiguratorMWS.Resources;
 
 namespace ConfiguratorMWS.Entity
 {
-    public class MWSEntity: ObservableBase, SensorModel
-    {
+    public class MWSEntity : ObservableBase, SensorModel
+    { 
+        public MWSEntity() {
+            MwsConfigurationVariables = new MwsConfigurationVariablesClass();
+            MwsCommonData = new MwsCommonDataClass(); 
+            MwsProdSettingsClass = new MwsProdSettingsClass();
+            MwsUserSettings = new MwsUserSettingsClass();
+            MwsTable = new MwsTableClass();
+            MwsRealTimeData = new MwsRealTimeDataClass(); 
+        }
+         
+
         public bool isConnected;
-        public uint sensorType;
-        public uint serialNumber;
-        public string hardVersion;
-        public string softVersion;
-        public float distance;
-        public float level;
-        public float volume;
-        public short temp;
-        public ushort nOmni;
-        public uint flags;
-
-
-        public int CurrentAddress { get; set; } = 0;
-        public int ConfirmAddress { get; set; } = 0;
-        public int CommandStatus { get; set; } = 0;
-        public int CommandLastReadedBytes { get; set; } = 0;
-        public int CountFF { get; set; }
-        public int Pass { get; set; } = 0xAC09;
-        public int Config { get; set; } = 0x05;
-
-
-        public uint SensorType
-        {
-            get
-            {
-                return sensorType;
+        private int commandStatus = 0;
+        public int CommandStatus { //Switch case statuses
+            get {
+                return commandStatus;
             }
             set
             {
-                if (sensorType != value)
-                {
-                    sensorType = value;
-                    RaisePropertyChanged("SensorType");
-                }
-            }
-        }
-
-        public uint SerialNumber
-        {
-            get
-            {
-                return serialNumber;
-            }
-            set
-            {
-                if (serialNumber != value)
-                {
-                    serialNumber = value;
-                    RaisePropertyChanged("SerialNumber");
-                }
-            }
-        }
-
-        public string HardVersion
-        {
-            get
-            {
-                return hardVersion;
-            }
-            set
-            {
-                if (hardVersion != value)
-                {
-                    hardVersion = value;
-                    RaisePropertyChanged("HardVersion");
-                }
-               
-            }
-        }
-
-        public string SoftVersion
-        {
-            get
-            {
-                return softVersion;
-            }
-            set
-            {
-                if (softVersion != value)
-                {
-                    softVersion = value;
-                    RaisePropertyChanged("SoftVersion");
-                }
+                commandStatus = value;
                 
-            }
-        }
+                RaisePropertyChanged(nameof(CommandStatus)); 
+                RaisePropertyChanged(nameof(GeneralWindowProgressBarStatus));
 
-        public float Distance 
-        {
-            get {
-                return (float)Math.Round(distance, 2);
-            }
-            set
-            {
-                if (distance != value)
-                {
-                    distance = value;
-                    RaisePropertyChanged("Distance");
-                }
-            }
-        }
-
-        public float Level
-        {
-            get {
-                return (float)Math.Round(level, 2);
-            }
-            set
-            {
-                if (level != value)
-                {
-                    level = value;
-                    RaisePropertyChanged("Level");
-                }
-            }
-        } 
-
-        public float Volume
-        {
-            get {
-                return (float)Math.Round(volume, 2);
-            }
-            set
-            {
-                if (volume != value)
-                {
-                    volume = value;
-                    RaisePropertyChanged("Volume");
-                    RaisePropertyChanged("HeightOfFulkelInTheTank");
-                }
-            }
-        } 
-
-        public short Temp
-        {
-            get {
-                return temp;
-            }
-            set
-            {
-                if (temp != value)
-                {
-                    temp = value;
-                    RaisePropertyChanged("Temp");
-                }
-            }
-        } 
-
-        public ushort NOmni
-        {
-            get {
-                return nOmni;
-            }
-            set
-            {
-                if (nOmni != value)
-                {
-                    nOmni = value;
-                    RaisePropertyChanged("NOmni");
-                }
-            }
-        }
-
-        public uint Flags
-        {
-            get {
-                return flags;
-            }
-            set
-            {
-                if (flags != value)
-                {
-                    flags = value;
-                    RaisePropertyChanged("Flags");
-                }
             }
         }   
 
+        //Progress bar
+        private double progressValue;
+        public double ProgressValue
+        {
+            get => progressValue;
+            set
+            {
+                progressValue = value;
+                RaisePropertyChanged(nameof(ProgressValue));
+            }
+        }
+        private double updatingProgressValue;
+        public double UpdatingProgressValue
+        {
+            get => updatingProgressValue;
+            set
+            {
+                updatingProgressValue = value;
+                RaisePropertyChanged(nameof(UpdatingProgressValue));
+            }
+        }
+
+        //variables for (подключено, обновлено, сброшено на заваодские и т.д.) 
+        private string updateWindowProgresBarStatus; 
+        public string UpdateWindowProgresBarStatus
+        {
+            get {
+                return updateWindowProgresBarStatus;
+            }
+            set { 
+                updateWindowProgresBarStatus = value;
+                RaisePropertyChanged(nameof(UpdateWindowProgresBarStatus));
+            }
+        }
+        private string generalWindowProgressBarStatus;
+        public string GeneralWindowProgressBarStatus
+        {
+            get
+            {
+                return generalWindowProgressBarStatus;
+            }
+            set {
+                if (generalWindowProgressBarStatus != value) {
+                    generalWindowProgressBarStatus = value;
+                    RaisePropertyChanged(nameof(GeneralWindowProgressBarStatus));
+                }
+            }
+        }
+        //Progress bar
 
 
 
+        //Green or red Distance
+
+        private float[] distanceArrayForEstabilishing = new float[20];  
+        private bool isStable = false;  
+        public float[] DistanceArrayForEstabilishing
+        {
+            get { 
+                return distanceArrayForEstabilishing; 
+            }
+
+            set {
+                distanceArrayForEstabilishing = value; 
+            }
+        }
+
+        public bool IsStable
+        {
+            get { return isStable; }
+            set
+            {
+                if (isStable != value) 
+                {
+                    isStable = value;
+                    RaisePropertyChanged(nameof(IsStable)); 
+                }
+            }
+        }
+        //Green or red Distance
+
+         
+
+        //конфигурационне данные 90 команда производственные
+        private MwsProdSettingsClass mwsProdSettingsClass;
+        public MwsProdSettingsClass MwsProdSettingsClass
+        {
+            get
+            {
+                return mwsProdSettingsClass;
+            }
+            set
+            {
+                mwsProdSettingsClass = value;
+                RaisePropertyChanged(nameof(MwsProdSettingsClass));
+            }
+
+        }
+
+        //конфигурационне данные 90 команда пользовательские
+        private MwsUserSettingsClass mwsUserSettings; 
+        public MwsUserSettingsClass MwsUserSettings
+        {
+            get
+            {
+                return mwsUserSettings;
+            }
+            set
+            {
+                mwsUserSettings = value;
+                RaisePropertyChanged(nameof(MwsUserSettings));
+            }
+
+        }
+
+        //таррировка 90 команда
+        private MwsTableClass mwsTable;
+        public MwsTableClass MwsTable
+        {
+            get
+            {
+                return mwsTable;
+            }
+            set
+            {
+                mwsTable = value;
+                RaisePropertyChanged(nameof(MwsTable));
+            }
+
+        }
+
+        //информация о датчике 80 команда
+        private MwsCommonDataClass mwsCommonData;
+        public MwsCommonDataClass MwsCommonData
+        {
+            get
+            {
+                return mwsCommonData;
+            }
+            set
+            {
+                mwsCommonData = value;
+                RaisePropertyChanged(nameof(MwsCommonData));
+            }
+
+        }
+
+        //постоянные данные 71 команда
+        private MwsRealTimeDataClass mwsRealTimeData;
+        public MwsRealTimeDataClass MwsRealTimeData
+        {
+            get
+            {
+                return mwsRealTimeData;
+            }
+            set
+            {
+                mwsRealTimeData = value;
+                RaisePropertyChanged(nameof(MwsRealTimeData)); 
+            }
+
+        }
+         
+        public MwsConfigurationVariablesClass MwsConfigurationVariables { get; set; }
+
+          
         public bool IsConnected
         {
             get
             {
                 return isConnected;
-            } 
+            }
             set
             {
                 isConnected = value;
-            } 
-
-        }
-
-        public enum MwsStatuses
-        {
-            Command71Accepted,
-            Command80Accepted,
-            Command85Accepted,
-            Command90Accepted,
-            Command91Accepted,
-            Command92Accepted
-        }
-         
-        public double HeightOfFulkelInTheTank
-        {
-            get {
-                return volume * 2 ; 
+                RaisePropertyChanged("IsConnected");
             }
         }
+
+
+
+
+        public MWSEntity Clone()
+        {
+            return new MWSEntity
+            {
+                isConnected = this.isConnected,
+                CommandStatus = this.CommandStatus,
+                MwsConfigurationVariables = this.MwsConfigurationVariables.Clone(), 
+                MwsCommonData = this.MwsCommonData.Clone(), 
+                MwsProdSettingsClass = this.MwsProdSettingsClass.Clone(),
+                MwsUserSettings = this.MwsUserSettings.Clone(), 
+                MwsTable = this.MwsTable.Clone(),
+                MwsRealTimeData = this.MwsRealTimeData.Clone() 
+            };
+        }
+
 
     }
 }

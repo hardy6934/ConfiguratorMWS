@@ -16,23 +16,49 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="src\fonts\Anton-Regular.ttf" />
+    <None Remove="src\fonts\Manrope-VariableFont_wght.ttf" />
     <None Remove="src\images\Mechatronics.png" />
-    <None Remove="UI\MWS\MWSTabs\Information\SensorsPic.png" />
-    <None Remove="UI\MWS\MWSTabs\Settings\RectangleFuel.png" />
+    <None Remove="UI\MWS\MWSModals\БАК.png" />
+    <None Remove="UI\MWS\MWSTabs\CalculatedCalibration\EditSquare.png" />
+    <None Remove="UI\MWS\MWSTabs\CalculatedCalibration\lamp.png" />
+    <None Remove="UI\MWS\MWSTabs\Calibration\Close.png" />
+    <None Remove="UI\MWS\MWSTabs\Calibration\Tick.png" />
+    <None Remove="UI\MWS\MWSTabs\Notification.png" />
+    <None Remove="UI\MWS\MWSWindowUpdateFirmmware\Untitled 1.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="NPOI" Version="2.7.2" />
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="src\fonts\Anton-Regular.ttf" />
+    <Resource Include="src\fonts\Manrope-VariableFont_wght.ttf" />
     <Resource Include="src\images\Mechatronics.png" />
-    <Resource Include="UI\MWS\MWSTabs\Information\SensorsPic.png" />
-    <Resource Include="UI\MWS\MWSTabs\Settings\RectangleFuel.png" />
+    <Resource Include="UI\MWS\MWSModals\MWSModalsImages\БАК.png" />
+    <Resource Include="UI\MWS\MWSTabs\CalculatedCalibration\CalculatedCalibrationImages\lamp.png" />
+    <Resource Include="UI\MWS\MWSTabs\CalculatedCalibration\CalculatedCalibrationImages\EditSquare.png" />
+    <Resource Include="UI\MWS\MWSTabs\Calibration\CalibrationImages\Close.png" />
+    <Resource Include="UI\MWS\MWSTabs\Calibration\CalibrationImages\Tick.png" />
+    <Resource Include="UI\MWS\MWSTabs\Information\informationImages\SensorsPic.png" />
+    <Resource Include="UI\MWS\MWSTabs\Notification.png" />
+    <Resource Include="UI\MWS\MWSWindowUpdateFirmmware\MWSWindowUpdateFirmmwareImages\Untitled 1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="UI\MWS\MWSTabs\Information\InformationView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +72,18 @@
       <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>

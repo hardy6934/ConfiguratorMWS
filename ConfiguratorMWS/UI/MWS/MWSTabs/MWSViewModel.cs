@@ -6,8 +6,10 @@ using ConfiguratorMWS.UI.MWS.MWSTabs.Calibration;
 using ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration;
 using Microsoft.Extensions.DependencyInjection;
 using ConfiguratorMWS.Buisness.Abstract;
-using ConfiguratorMWS.Data.Abstract; 
-using ConfiguratorMWS.Entity; 
+using ConfiguratorMWS.Entity;
+using ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware;
+using ConfiguratorMWS.Resources;
+using System.Collections.ObjectModel;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs
 {
@@ -16,27 +18,41 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
 
         private object currentView;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IMWSRepository mWSRepository;
+        private readonly IMWSViewModelService mWSViewModelService;
          
         // Команда для переключения вкладок
         public RelayCommand SwitchTabCommand { get; }
-         
+        public RelayCommand OpenUpdateFirmwareWindowCommand { get; }
+        public RelayCommand ChangeLanguageCommand { get; }
+        public MWSWindow ParentWindow { get; set; }
+
         //entity
-        private MWSEntity mWSEntity;
-          
-        public MWSViewModel(IServiceProvider serviceProvider, IMWSService mWSService, IMWSRepository mWSRepository, MWSEntity mWSEntity)
+        public MWSEntity mWSEntity { get; set; }
+
+        public ObservableCollection<string> Languages { get; }
+        public string SelectedLanguage { get; set; }  
+
+        public MWSViewModel(IServiceProvider serviceProvider, IMWSViewModelService mWSViewModelService)
         {
             _serviceProvider = serviceProvider;
-            this.mWSRepository = mWSRepository;
-            this.mWSEntity = mWSEntity;
+            this.mWSViewModelService = mWSViewModelService;
+            this.mWSEntity = mWSViewModelService.GetEntity();
 
-             
-            // Инициализация команды
-            SwitchTabCommand = new RelayCommand(SwitchTab); 
+            //изменение и сохранение языков
+            Languages = new ObservableCollection<string> { "РУС", "ENG"};
+            SelectedLanguage = Properties.Settings.Default.Lang ?? "РУС";
+            LocalizedStrings.SetLanguage(SelectedLanguage);
+            //изменение и сохранение языков
+
+            // Инициализация команд
+            SwitchTabCommand = new RelayCommand(SwitchTab);
+            OpenUpdateFirmwareWindowCommand = new RelayCommand(OpenUpdateFirmwareWindow, (obj) => mWSEntity.isConnected); 
+            ChangeLanguageCommand = new RelayCommand(ChangeLanguage);
 
             // Устанавливаем начальное содержимое
             CurrentView = new InformationView(_serviceProvider.GetRequiredService<IInformationViewModel>());
-             
+
+            mWSViewModelService.ChangeProgressBarValue(0);
         }
            
                   
@@ -72,12 +88,36 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
         }
 
 
-          
-       
+        // Метод для открытия нового окна прошивки
+        private void OpenUpdateFirmwareWindow(object obj)
+        {
+            var updateFirmwareWindow = _serviceProvider.GetRequiredService<UpdateFirmwareWindow>();
 
-       
+            updateFirmwareWindow.Owner = ParentWindow;   
+            updateFirmwareWindow.Closed += UpdateFirmwareWindow_Closed;
 
+            ParentWindow.Hide();  // Скрываем текущее окно
+            updateFirmwareWindow.Show();
+        }
 
+        // Метод для обработки закрытия окна UpdateFirmwareWindow
+        private void UpdateFirmwareWindow_Closed(object? sender, EventArgs e)
+        {
+            ParentWindow.Show();  // Возвращаем видимость окна MWSWindow после закрытия UpdateFirmwareWindow
+        }
+
+        private void ChangeLanguage(object language)
+        {
+            if (language != null)
+            {
+                string cultureCode = language.ToString();
+
+                LocalizedStrings.SetLanguage(cultureCode); 
+
+                Properties.Settings.Default.Lang = cultureCode;
+                Properties.Settings.Default.Save();
+            }
+        }
 
 
     }

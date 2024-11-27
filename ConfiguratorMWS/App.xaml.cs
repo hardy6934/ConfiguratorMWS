@@ -3,11 +3,13 @@ using ConfiguratorMWS.Buisness.Service;
 using ConfiguratorMWS.Data.Abstract;
 using ConfiguratorMWS.Data.Repository;
 using ConfiguratorMWS.Entity;
+using ConfiguratorMWS.Resources;
 using ConfiguratorMWS.UI.MWS.MWSTabs;
 using ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration;
 using ConfiguratorMWS.UI.MWS.MWSTabs.Calibration;
 using ConfiguratorMWS.UI.MWS.MWSTabs.Information;
 using ConfiguratorMWS.UI.MWS.MWSTabs.Settings;
+using ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
@@ -26,20 +28,20 @@ namespace ConfiguratorMWS
 
             AppHost = Host.CreateDefaultBuilder().ConfigureServices((hostContext, services) =>
             {
-                services.AddSingleton<MWSWindow>(); 
-                services.AddSingleton<SettingsView>(); 
-                services.AddSingleton<InformationView>(); 
-                services.AddSingleton<CalibrationView>(); 
-                services.AddSingleton<CalculatedCalibrationView>(); 
+                services.AddTransient<MWSWindow>();
+                services.AddTransient<UpdateFirmwareWindow>();
 
                 //Repositories
                 services.AddSingleton<IMWSRepository, MWSRepository>();
+                services.AddSingleton<ISerialPortRepository, SerialPortRepository>();
+                services.AddSingleton<ITimerRepository, TimerRepository>();
 
                 //Services
-                services.AddSingleton<IMWSService, MWSService>(); 
-
-                //Models
-                services.AddSingleton<MWSEntity>();
+                services.AddSingleton<IInformationViewModelService, InformationViewModelService>();  
+                services.AddSingleton<ISettingsViewModelService, SettingsViewModelService>();  
+                services.AddSingleton<IMWSViewModelService, MWSViewModelService>();  
+                services.AddSingleton<IUpdateFirmwareViewModelService, UpdateFirmwareViewModelService>();  
+                 
 
                 //ViewModels
                 services.AddSingleton<IMWSViewModel, MWSViewModel>(); 
@@ -47,6 +49,8 @@ namespace ConfiguratorMWS
                 services.AddSingleton<ISettingsViewModel, SettingsViewModel>(); 
                 services.AddSingleton<ICalibrationViewModel, CalibrationViewModel>(); 
                 services.AddSingleton<ICalculatedCalibrationViewModel, CalculatedCalibrationViewModel>(); 
+                services.AddSingleton<IUpdateFirmwareViewModel, UpdateFirmwareViewModel>(); 
+
             }).Build();
 
         }
@@ -58,6 +62,15 @@ namespace ConfiguratorMWS
             startupForm.Show();
 
             base.OnStartup(e);
+
+
+            // Подписка на событие LanguageChanged
+            LocalizedStrings.LanguageChanged += () =>
+            {
+                // Уведомляем интерфейс о смене всех текстовых ресурсов
+                (Resources["LocalizedStrings"] as LocalizedStrings)?.OnPropertyChanged(null);
+            }; 
+
         }
         protected override async void OnExit(ExitEventArgs e) {  
             await AppHost!.StopAsync();

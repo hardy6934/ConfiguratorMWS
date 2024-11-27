@@ -6,18 +6,237 @@
              xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs.Calibration"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <UserControl.Resources>
+        <Style x:Key="LabelStyles" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextTrimming" Value="None"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/> 
+        </Style>
+    </UserControl.Resources>
+   
+     
+
+
     <Grid>
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Калибровка 1" FontSize="25" />
-            <TextBlock Grid.Row="1" Text="Калибровка 2" FontSize="25" />
-            <TextBlock Grid.Row="2" Text="Калибровка 3" FontSize="25" />
-            <TextBlock Grid.Row="3" Text="Калибровка 4" FontSize="25" /> 
+
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Foreground="#353535" Text="{Binding mWSEntity.MwsCommonData.SensorTypeForDisplaing}" FontSize="29px" FontFamily="{StaticResource AntonFont}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[ReadFromFile]}" VerticalAlignment="Center" Margin="20px 0px 0px 0px"  
+Style="{DynamicResource ButtonReadFromFile}"  Background="#676767" BorderThickness="0"  FontFamily="{StaticResource ManropeFont}" Command="{Binding readSettingsFromFileCommand}"/>
+                        <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SaveToFile]}" VerticalAlignment="Center" Margin="10px 0px 10px 0px" 
+Style="{DynamicResource ButtonUpdateFirmware}" FontFamily="{StaticResource ManropeFont}" Command="{Binding saveSettingsToFileCommand}"/> 
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[WriteToTheSensor]}" Margin="10px 0px 10px 0px" Style="{DynamicResource ButtonSaveInSensor}" Background="#00C638" 
+                            BorderBrush="#02ad32" Command="{Binding saveSettings}" FontFamily="{StaticResource ManropeFont}"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0px 10px 0px 0px">
+                <StackPanel  VerticalAlignment="Bottom">
+                    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
             
+            <Border CornerRadius="5"  Background="#edf6fb" Grid.Column="0" Margin="0px 0px 5px 0px" Padding="10px">
+                <Grid> 
+                    <!-- Заголовки-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                    
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid Grid.Column="0" >
+                                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                                    <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Number]}"/>
+                                </StackPanel>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                                    <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Value]}"/>
+                                </StackPanel>
+                        </Grid>
+                        <Grid Grid.Column="2">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                                    <TextBlock Style="{DynamicResource TextBlockStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[VolumeL]}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <!-- ListView для данных -->
+                        <ListView ItemsSource="{Binding mWSEntity.MwsTable.Rows}" BorderThickness="0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" 
+                                  Background="#edf6fb" SelectedItem="{Binding SelectedRow, Mode=TwoWay}"> 
+                            <ListView.ItemTemplate >
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <!-- Номер элемента -->
+                                            <ColumnDefinition Width="*"/>
+                                            <!-- Distance -->
+                                            <ColumnDefinition Width="*"/>
+                                            <!-- Volume -->
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="{Binding Number}" FontSize="20" Foreground="#0386CE" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                       Margin="10" FontFamily="{StaticResource ManropeFont}"/> 
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                            <TextBox Text="{Binding Distance}" FontSize="20" Foreground="#676767" FontWeight="SemiBold" Style="{StaticResource RoundedTextBox}" 
+                                                     Margin="10" FontFamily="{StaticResource ManropeFont}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                            <TextBox Text="{Binding Volume}" FontSize="20" Foreground="#676767" FontWeight="SemiBold" Style="{StaticResource RoundedTextBox}" 
+                                                     Margin="10" FontFamily="{StaticResource ManropeFont}"/>
+                                        </StackPanel> 
+                                    </Grid>
+                                </DataTemplate> 
+                            </ListView.ItemTemplate> 
+                        </ListView>  
+                     
+                    </Grid>
+                
+
+                    <Grid Grid.Row="1" Margin="10px">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="10px 0px">
+                                <Button Style="{DynamicResource ButtonLightBlueStyle}" Padding="10px 5px" Background="#edf6fb" Command="{Binding addRowInTable}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[AddARecord]}" VerticalAlignment="Center" 
+                                                   Foreground="#0386CE" Margin="5px 0px"  Style="{DynamicResource TextBlockStyle}"/>
+                                        <Image Source="/UI/MWS/MWSTabs/Calibration/CalibrationImages/Tick.png" Width="15" Height="15"/>
+                                    </StackPanel>
+                                </Button> 
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10px 0px">
+                                <Button Style="{DynamicResource ButtonLightRedStyle}" Padding="10px 5px" Background="#fff2f2" BorderBrush="#ff4141" 
+                                        Command="{Binding removeRowFromTable}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[RemoveTheRecord]}" VerticalAlignment="Center" 
+                                                   Foreground="#ff4141" Margin="5px 0px"  Style="{DynamicResource TextBlockStyle}"/>
+                                        <Image Source="/UI/MWS/MWSTabs/Calibration/CalibrationImages/Close.png" Width="15" Height="15"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+  
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="1"  Margin="5px 0px 0px 0px">
+                <Border Background="#F2F2F2" CornerRadius="5" Padding="10">
+                    <StackPanel Margin="20px 0px">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Style="{DynamicResource LabelStyles}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[CurrentDetector]}" FontSize="20"/>
+                                <Button Content="i" Height="12px" Width="12px" BorderBrush="#0386ce" Background="Transparent"  
+Foreground="#0386ce" Style="{DynamicResource TogglesButtonBall}"  Padding="0 -2 0 1" ToolTipService.InitialShowDelay="200" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[CurrentDetectorText]}"/>
+                            </StackPanel>
+                            <Label Content="{Binding mWSEntity.MwsRealTimeData.Distance}" FontSize="23">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="false">
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="true">
+                                                <Setter Property="Foreground" Value="Green" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <Label  Style="{DynamicResource LabelStyles}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[PortionInl]}" />
+                            <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding TextBoxPortion}" HorizontalAlignment="Stretch" 
+                                     Width="Auto" Padding="10px 5px" Foreground="#757575" FontFamily="{StaticResource ManropeFont}"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+            
+        </Grid>
+            
+        
+
     </Grid>
+
+ 
+
 </UserControl>
+

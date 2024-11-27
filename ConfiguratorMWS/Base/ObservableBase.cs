@@ -7,7 +7,7 @@ namespace ConfiguratorMWS.Base
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChanged(string property)
+        public void RaisePropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }

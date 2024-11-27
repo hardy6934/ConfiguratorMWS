@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Information" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Calibration" xml:space="preserve">
+    <value>Тарировка</value>
+  </data>
+  <data name="CalculatedCalibration" xml:space="preserve">
+    <value>Расчетная тарировка</value>
+  </data>
+  <data name="UpdateSoftware" xml:space="preserve">
+    <value>Обновление ПО</value>
+  </data>
+  <data name="SelectThePortYouNeed" xml:space="preserve">
+    <value>Выберите нужный для вас порт: </value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Серийный номер: </value>
+  </data>
+  <data name="HardwareVersion" xml:space="preserve">
+    <value>Версия аппаратной части: </value>
+  </data>
+  <data name="SoftwareVersion" xml:space="preserve">
+    <value>Версия прошивки: </value>
+  </data>
+  <data name="SensorTemperature" xml:space="preserve">
+    <value>Температура датчика</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Объем</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Расстояние</value>
+  </data>
+  <data name="SensorAddress" xml:space="preserve">
+    <value>Адрес датчика: </value>
+  </data>
+  <data name="Averaging" xml:space="preserve">
+    <value>Усреднение: </value>
+  </data>
+  <data name="ValueN" xml:space="preserve">
+    <value>Значение N: </value>
+  </data>
+  <data name="TransmissionSpeed" xml:space="preserve">
+    <value>Скорость передачи: </value>
+  </data>
+  <data name="Tuck" xml:space="preserve">
+    <value>Подтяжка</value>
+  </data>
+  <data name="Terminator" xml:space="preserve">
+    <value>Терминатор</value>
+  </data>
+  <data name="ReadFromFile" xml:space="preserve">
+    <value>Прочитать из файла</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>Сохранить в файл</value>
+  </data>
+  <data name="WriteToTheSensor" xml:space="preserve">
+    <value>Записать в датчик</value>
+  </data>
+  <data name="CurrentDetector" xml:space="preserve">
+    <value>Текущий детектор: </value>
+  </data>
+  <data name="PortionInl" xml:space="preserve">
+    <value>Порция в л: </value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Значение мм</value>
+  </data>
+  <data name="VolumeL" xml:space="preserve">
+    <value>Объем л</value>
+  </data>
+  <data name="AddARecord" xml:space="preserve">
+    <value>Добавить запись</value>
+  </data>
+  <data name="RemoveTheRecord" xml:space="preserve">
+    <value>Удалить запись</value>
+  </data>
+  <data name="EntryData" xml:space="preserve">
+    <value>Входные данные</value>
+  </data>
+  <data name="HowToEnterData" xml:space="preserve">
+    <value>Как ввести данные?</value>
+  </data>
+  <data name="DistanceFromTheSensorToTheBottomOfTheTank" xml:space="preserve">
+    <value>Расстояние от датчика до дна бака</value>
+  </data>
+  <data name="Calculate" xml:space="preserve">
+    <value>Рассчитать</value>
+  </data>
+  <data name="UploadXlsFile" xml:space="preserve">
+    <value>Загрузить файл</value>
+  </data>
+  <data name="TuckText" xml:space="preserve">
+    <value>Служит для задания устойчивого логического состояния "1" в периоды отсутствия обмена данными.
+Физическая шина "A" одтягивается к питанию интерфейса, шина "B" подтягивается к общему проводу.</value>
+  </data>
+  <data name="TerminatorText" xml:space="preserve">
+    <value>Включение режима согласования волновых сопротивлений шины данных RS485.
+При установке этой опции в шину передачи данных со стороны прибора включается согласующее сопротивление терминатором 120 Ом. 
+Активируется только для двух конечных устройств всей шины RS485.</value>
+  </data>
+  <data name="SensorAddressText" xml:space="preserve">
+    <value>Адрес датчика в сети. </value>
+  </data>
+  <data name="AveragingText" xml:space="preserve">
+    <value>Временной интервал, за который производится усреднение результатов измерений.</value>
+  </data>
+  <data name="ValueNText" xml:space="preserve">
+    <value>Максимальное значение показаний уровня(объема). 
+По умолчанию значение установлено 1023.</value>
+  </data>
+  <data name="TransmissionSpeedText" xml:space="preserve">
+    <value>Скорость передачи сообщений по интерфейсу RS485. 
+Может изменяться в пределах от 19200 до 115200. 
+По умолчанию значение скорости установлено равным 19200.</value>
+  </data>
+  <data name="CurrentDetectorText" xml:space="preserve">
+    <value>Зеленый цвет детектора обозначает стабильный уровень(объем) - можно добавлять порцию.
+Красный цвет детектора обозначает нестабильный уровень(объем) - порцию добавлять не рекомендуется.</value>
+  </data>
+  <data name="Dmm" xml:space="preserve">
+    <value>D, мм: </value>
+  </data>
+  <data name="Hmm" xml:space="preserve">
+    <value>H, мм: </value>
+  </data>
+  <data name="Emm" xml:space="preserve">
+    <value>E, мм: </value>
+  </data>
+  <data name="MeasurementScheme" xml:space="preserve">
+    <value>CХЕМА ИЗМЕРЕНИЙ В ММ</value>
+  </data>
+  <data name="DiameterOfTheCistron" xml:space="preserve">
+    <value> - Диаметр цистрерны, мм.</value>
+  </data>
+  <data name="LengthOfTheCylindricalPartOfTheTank" xml:space="preserve">
+    <value> - Длина цилиндрической части цистерны, мм.</value>
+  </data>
+  <data name="LengthOfEllipticalSidewall" xml:space="preserve">
+    <value> - Длинна эллиптической боковины, мм.</value>
+  </data>
+  <data name="SoftwareUpdate" xml:space="preserve">
+    <value>Обновление ПО</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>&lt; Назад</value>
+  </data>
+  <data name="UpgradeInstructionsFirmwareList" xml:space="preserve">
+    <value>Инструкция по обновлению / список прошивок</value>
+  </data>
+  <data name="UpdateFirmware" xml:space="preserve">
+    <value>Обновить прошивку</value>
+  </data>
+  <data name="SetFactorySettings" xml:space="preserve">
+    <value>Установить заводские настройки</value>
+  </data>
+  <data name="strFileError" xml:space="preserve">
+    <value>Ошибка файла!</value>
+  </data>
+  <data name="strIsNotIntended" xml:space="preserve">
+    <value>Файл не предназначен для данного типа оборудования!</value>
+  </data>
+  <data name="strHardwareVersionNotMatch" xml:space="preserve">
+    <value>Аппаратная версия не совпадает!</value>
+  </data>
+  <data name="strError" xml:space="preserve">
+    <value>Ошибка!</value>
+  </data>
+  <data name="strUpdateSuccessful" xml:space="preserve">
+    <value>Обновление прошло успешно!</value>
+  </data>
+  <data name="strSuccess" xml:space="preserve">
+    <value>Успех!</value>
+  </data>
+  <data name="UploadFileAvailableTypes" xml:space="preserve">
+    <value>Доступные тип для загрузки файла (csv, xls, xlsx) </value>
+  </data>
+  <data name="SensorType" xml:space="preserve">
+    <value>Тип датчиика: </value>
+  </data>
+  <data name="SenorType" xml:space="preserve">
+    <value>Тип датчиика: </value>
+  </data>
+  <data name="ErrorWhileUpdating" xml:space="preserve">
+    <value>Произошла ошибка в процессе удаленного обновления, проверьте подключение к интернету и повторите попытку, если ошибка повторится, обратитесь в отдел технической поддержки.</value>
+  </data>
+  <data name="NotLastFirmwsareVer" xml:space="preserve">
+    <value>У вас не последняя версия прошивки. Хотите обновить?</value>
+  </data>
+  <data name="SavingFileError" xml:space="preserve">
+    <value>Ошибка при сохранении файла</value>
+  </data>
+  <data name="SuccesfullySavedFile" xml:space="preserve">
+    <value>Файл успешно сохранен!</value>
+  </data>
+  <data name="XLSReadingFileeError" xml:space="preserve">
+    <value>Ошибка при чтении XLS файла</value>
+  </data>
+  <data name="CSVReadingFileError" xml:space="preserve">
+    <value>Ошибка при чтении CSV файла</value>
+  </data>
+  <data name="XLSXReadingFileeError" xml:space="preserve">
+    <value>Ошибка при чтении XLSX файла</value>
+  </data>
+  <data name="NotAllFieldsFilledIn" xml:space="preserve">
+    <value>Не все поля заполнены!</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Подключен</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Обновлен</value>
+  </data>
+</root>

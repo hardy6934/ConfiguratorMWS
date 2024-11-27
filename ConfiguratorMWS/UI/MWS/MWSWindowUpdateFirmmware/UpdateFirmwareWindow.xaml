@@ -1,0 +1,105 @@
+﻿<Window x:Class="ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware.UpdateFirmwareWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware" 
+        mc:Ignorable="d" 
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        MouseDown="Window_MouseDown"
+        Title="UpdateFirmwareWindow" Height="450" Width="800" > 
+        <!--SourceInitialized="Window_SourceInitialized"-->
+
+
+    <Grid> 
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="20px 20px 20px 0px">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <Image Source="../../../src/images/Mechatronics.png" Height="45px"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{DynamicResource ButtonBackStyle}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[Back]}" FontSize="18px" Foreground="#0386CE" Background="Transparent"
+                            BorderThickness="0" Click = "Button_Click" FontFamily="{StaticResource ManropeFont}"/>
+                        </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <StackPanel>
+                        <Button VerticalAlignment="Center" x:Name="UpdateFirmwareButton" Background="Transparent" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"
+                            Margin="0px 0px 5px 0px" BorderThickness="0" FontSize="18" Foreground="#676767"  Style="{DynamicResource ButtonBackStyle}"
+                            Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SoftwareUpdate]}" Cursor="Arrow"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Margin="0px 10px 0px 0px">
+                <StackPanel  VerticalAlignment="Bottom">
+                    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
+
+        <Grid Grid.Row="1" Margin="20px 20px 20px 0px">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock FontSize="18" Foreground="#676767" Padding="10px" HorizontalAlignment="Center" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"
+                               Text="{Binding Source={StaticResource LocalizedStrings}, Path=[UpgradeInstructionsFirmwareList]}"/> 
+                    <TextBlock  Padding="10px 0px 10px 10px">
+                        <Hyperlink NavigateUri="https://eurosenstelematics.com/home-page/categories/programmnoe-obespechenie/" RequestNavigate="Hyperlink_RequestNavigate">
+                            eurosenstelematics.com/home-page/categories/programmnoe-obespechenie/
+                        </Hyperlink>
+                    </TextBlock>
+                    <Image Source="/UI/MWS/MWSWindowUpdateFirmmware/MWSWindowUpdateFirmmwareImages/Untitled 1.png" Height="90px" />
+                </StackPanel> 
+            </Grid>
+            
+            <Grid Grid.Row="1">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                    <Button x:Name="UpdateFirmware" Style="{StaticResource ButtonUpdateFirmware}" Padding="25px 7px" Margin="15px" FontFamily="{StaticResource ManropeFont}" 
+                            FontWeight="SemiBold" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[UpdateFirmware]}" Command="{Binding UpdateFirmwareCommand}"/>
+                    <Button Style="{StaticResource ButtonRedStyle}" Padding="25px 7px"  Background="#ff4141" BorderBrush="#ff5b5b" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"
+                            Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SetFactorySettings]}" Command="{Binding SetDefaultSettingsCommand}"/>
+                </StackPanel>
+            </Grid> 
+        </Grid>
+        
+        
+        <Grid Grid.Row="2"> 
+            <StackPanel  VerticalAlignment="Bottom">
+                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  Margin="0px 5px"/>
+
+
+                <Grid>
+                    <ProgressBar Style="{DynamicResource ProgressBarRoundedStyle}" Name="progressBarUpdateFirmware" Minimum="0" Maximum="6144" Height="20"  HorizontalAlignment="Stretch" 
+             VerticalAlignment="Center" Margin="5px" Value="{Binding mWSEntity.UpdatingProgressValue}"/>
+
+                    <TextBlock Text="{Binding mWSEntity.UpdateWindowProgresBarStatus}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#353535" FontFamily="{StaticResource ManropeFont}"/>
+                </Grid>
+
+            </StackPanel>
+        </Grid>
+
+
+    </Grid>
+</Window>

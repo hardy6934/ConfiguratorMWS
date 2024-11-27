@@ -1,0 +1,76 @@
+﻿<Window x:Class="ConfiguratorMWS.UI.MWS.MWSModals.MWSModalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSModals"
+        WindowStyle="None"
+        mc:Ignorable="d"
+        Title="MWSModalWindow" Height="350" Width="800">
+
+    <Window.Resources>
+         <Style TargetType="TextBlock">
+             <Setter Property="FontSize" Value="17"/>
+         </Style>  
+    </Window.Resources>
+
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="15*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Button x:Name="BackFromModal"  Content="{Binding Source={StaticResource LocalizedStrings}, Path=[Back]}" FontSize="18px" Foreground="#0386CE" Background="Transparent"
+                    BorderThickness="0" Click = "BackFromModal_Click" Style="{DynamicResource ButtonBackStyle}" FontFamily="{StaticResource ManropeFont}"/>
+            </Grid>
+            <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[MeasurementScheme]}" FontSize="29px" FontFamily="{StaticResource ManropeFont}" FontWeight="ExtraBold"/>
+            </Grid>
+            <Grid Grid.Column="3">
+                <Image Source="../../../src/images/Mechatronics.png" Height="45px"/>
+            </Grid>
+
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/> 
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Image Source="/UI/MWS/MWSModals/MWSModalsImages/БАК.png" />
+            </Grid>
+            <Grid Grid.Column="1">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="10px">
+                        <TextBlock Text="D" FontWeight="ExtraBold" FontFamily="{StaticResource ManropeFont}" Foreground="#353535"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[DiameterOfTheCistron]}" FontFamily="{StaticResource ManropeFont}" Foreground="#353535" FontSize="16"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"  Margin="10px">
+                        <TextBlock Text="H" FontWeight="ExtraBold" FontFamily="{StaticResource ManropeFont}" Foreground="#353535"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[LengthOfTheCylindricalPartOfTheTank]}" FontFamily="{StaticResource ManropeFont}" Foreground="#353535" FontSize="16"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"  Margin="10px">
+                        <TextBlock Text="E" FontWeight="ExtraBold" FontFamily="{StaticResource ManropeFont}" Foreground="#353535"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[LengthOfEllipticalSidewall]}" FontFamily="{StaticResource ManropeFont}" Foreground="#353535" FontSize="16"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+        
+    </Grid>
+</Window>

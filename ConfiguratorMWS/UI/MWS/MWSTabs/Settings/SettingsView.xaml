@@ -7,40 +7,83 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+    <UserControl.Resources>
+        <Style x:Key="TextBlockForToggleStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextTrimming" Value="None"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+            <Setter Property="Foreground" Value="#2f2f2f"/> 
+        </Style>
+        <Style x:Key="LabelSettingsStyle" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+            <Setter Property="Foreground" Value="#2f2f2f"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/> 
+    </UserControl.Resources>
+   
 
 
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*"/>
-            <RowDefinition Height="85*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel>
-                    <TextBlock Foreground="#353535" Text="MWS RS/CAN" FontSize="40px" FontWeight="Bold" FontFamily="Arial" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"> 
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Foreground="#353535" Text="{Binding mWSEntity.MwsCommonData.SensorTypeForDisplaing}" FontSize="29px" FontFamily="{StaticResource AntonFont}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[ReadFromFile]}" VerticalAlignment="Center" Margin="20px 0px 0px 0px"  
+                Style="{DynamicResource ButtonReadFromFile}"  Background="#676767" BorderThickness="0"  FontFamily="{StaticResource ManropeFont}" Command="{Binding readSettingsFromFileCommand}"/>
+                        <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SaveToFile]}" VerticalAlignment="Center" Margin="10px 0px 10px 0px" 
+                Style="{DynamicResource ButtonUpdateFirmware}" FontFamily="{StaticResource ManropeFont}" Command="{Binding saveSettingsToFileCommand}"/>
+                    </StackPanel>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Content="Прочитать из файла" VerticalAlignment="Center" Margin="20px 0px 0px 0px"  
-                            Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" Background="Gray" BorderBrush="#676767"/>
-                    <Button Content="Сохранить в файл" VerticalAlignment="Center" Margin="10px 0px 10px 0px" 
-                            Style="{DynamicResource ButtonUpdateFirmware}" Padding="10px 5px" />
-
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[WriteToTheSensor]}" Margin="10px 0px 10px 0px" Style="{DynamicResource ButtonSaveInSensor}"
+Background="#00C638" BorderBrush="#02ad32" Command="{Binding saveSettings}" FontFamily="{StaticResource ManropeFont}"/>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
 
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <Button Content="Записать в датчик" Margin="10px 0px 10px 0px" Style="{DynamicResource ButtonSaveInSensor}"
-                        Padding="10px 5px" Background="#00C638" BorderBrush="#02ad32"/>
-            </StackPanel>
-
-            <StackPanel  VerticalAlignment="Bottom">
-                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
-            </StackPanel>
-
+            <Grid Grid.Row="1" Margin="0px 10px 0px 0px"> 
+                <StackPanel VerticalAlignment="Bottom">
+                    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"  />
+                </StackPanel>
+            </Grid>
+             
         </Grid>
 
 
@@ -52,89 +95,142 @@
 
             <Grid Grid.Row="0">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
-                    <TextBlock Margin="0px 0px 10px 0px" Text="Подтяжка" VerticalAlignment="Center" Padding="5"/>
- 
-                    <TextBlock Margin="10px 0px" Text="Терминатор" VerticalAlignment="Center" Padding="5"/>
-                    <ToggleButton Style="{DynamicResource ToggleButtonStyle}" Height="20px" Width="50px">
-                        <Grid>
-                            <DockPanel LastChildFill="True" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Style="{DynamicResource TogglesButtonBall}" Height="14px" Width="14px"/>
-                                <Border Height="15px" Width="15px"/>
-                                <Button Style="{DynamicResource TogglesButtonBall}" Height="14px" Width="14px"/>
-                            </DockPanel>
-                        </Grid>
-                    </ToggleButton> 
 
-                    <TextBlock Margin="10px 0px" Text="Терминатор" VerticalAlignment="Center" Padding="5"/>
-                    <ToggleButton Style="{DynamicResource ToggleButtonStyle}" Height="20px" Width="50px">
-                        <Grid>
-                            <DockPanel LastChildFill="True" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Style="{DynamicResource TogglesButtonBall}" Height="14px" Width="14px"/>
-                                <Border Height="15px" Width="15px"/>
-                                <Button Style="{DynamicResource TogglesButtonBall}" Height="14px" Width="14px"/>
-                            </DockPanel>
-                        </Grid>
+                    <TextBlock Style="{DynamicResource TextBlockForToggleStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Tuck]}" VerticalAlignment="Center" Padding="5"/>
+                    <Button Content="i" Height="12px" Width="12px" BorderBrush="#0386ce" Background="Transparent" 
+                            Foreground="#0386ce" Style="{DynamicResource TogglesButtonBall}" Margin="10px 0px" Padding="0 -2 0 1" ToolTipService.InitialShowDelay="200" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[TuckText]}"/>
+                    <ToggleButton Style="{DynamicResource ToggleButtonStyle}" Height="15px" Width="35px" Background="#676767" BorderThickness="0" 
+                        Checked="ToggleButton_Checked" x:Name="TogglePodtyazhka" Unchecked="TogglePodtyazhka_Unchecked" Cursor="Hand" IsChecked="{Binding mWSEntity.MwsUserSettings.TogglePodtyazhkaFlag}">
+                        <DockPanel Width="30" HorizontalAlignment="Center">
+                            <Button HorizontalAlignment="Left" x:Name="InideRadioInTogglePodtyazhka" Style="{DynamicResource TogglesButtonBall}" 
+                                    Height="10px" Width="10px" Background="White" BorderThickness="0" Click="InideRadioInTogglePodtyazhka_Click"/>
+                        </DockPanel>
                     </ToggleButton>
-                    
+
+                    <TextBlock Style="{DynamicResource TextBlockForToggleStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Terminator]}" VerticalAlignment="Center" Padding="5"/>
+                    <Button Content="i" Height="12px" Width="12px" BorderBrush="#0386ce" Background="Transparent"  
+         Foreground="#0386ce" Style="{DynamicResource TogglesButtonBall}" Margin="10px 0px" Padding="0 -2 0 1" ToolTipService.InitialShowDelay="200" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[TerminatorText]}"/>
+                    <ToggleButton Style="{DynamicResource ToggleButtonStyle}" Height="15px" Width="35px" Background="#676767" BorderThickness="0" 
+               x:Name="ToggleTerminator" Checked="ToggleTerminator_Checked" Unchecked="ToggleTerminator_Unchecked" Cursor="Hand"  IsChecked="{Binding mWSEntity.MwsUserSettings.ToggleTerminatorFlag}">
+                        <DockPanel Width="30" HorizontalAlignment="Center">
+                            <Button HorizontalAlignment="Left" x:Name="InideRadioInToggleTerminator" Style="{DynamicResource TogglesButtonBall}" 
+                Height="10px" Width="10px" Background="White" BorderThickness="0" Click="InideRadioInToggleTerminator_Click"/>
+                        </DockPanel>
+                    </ToggleButton>
+
                 </StackPanel>
             </Grid>
 
             <Grid Grid.Row="1">
                 <Border  Background="#F2F2F2" CornerRadius="15" Margin="0px 15px">
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition  Width="200*"/>
-                            <ColumnDefinition  Width="37*"/>
-                            <ColumnDefinition Width="163*"/>
-                            <ColumnDefinition  Width="200*"/>
-                            <ColumnDefinition  Width="200*"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="7*" />
+                            <RowDefinition Height="3*" />
+                        </Grid.RowDefinitions>
+
+                     
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition  Width="*"/> 
+                                <ColumnDefinition  Width="*"/>
+                                <ColumnDefinition  Width="*"/>
+                                <ColumnDefinition  Width="*"/>
+                            </Grid.ColumnDefinitions>
 
 
-                        <StackPanel Orientation="Vertical" Grid.Column="0" Margin="10,10,10,10">
-                            <Label Content="Адрес датчика:" />
-                            <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}"  HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575" 
-                                       IsEditable="True">
-                                <ComboBoxItem IsSelected="True">1</ComboBoxItem>
-                                <ComboBoxItem>2</ComboBoxItem>
-                                <ComboBoxItem>3</ComboBoxItem>
-                                <ComboBoxItem>4</ComboBoxItem>
-                                <ComboBoxItem>5</ComboBoxItem>
-                            </ComboBox>
-                        </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Margin="10" VerticalAlignment="Top">
+                                <DockPanel>
+                                    <Label Style="{DynamicResource LabelSettingsStyle}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SensorAddress]}" />
+                                    <Button HorizontalAlignment="Right" Content="i" Height="12px" Width="12px" BorderBrush="#0386ce" Background="Transparent"
+                                        Foreground="#0386ce" Style="{DynamicResource TogglesButtonBall}" Padding="0 -2 0 1" ToolTipService.InitialShowDelay="200" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[SensorAddressText]}"/>
+                                </DockPanel>
+                                
+                                <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}"  HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575" 
+                                       IsEditable="True" BorderThickness="0" Text="{Binding mWSEntity.MwsUserSettings.FlashUserAdrSensor}" FontFamily="{StaticResource ManropeFont}">
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">1</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">2</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">3</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">4</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">5</ComboBoxItem>
+                                </ComboBox>
+                             
+                            </StackPanel>
 
-                        <StackPanel Orientation="Vertical" Grid.Column="1"  Margin="10,10,10,10" Grid.ColumnSpan="2">
-                            <Label Content="Усреднение:" />
-                            <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
-                                      IsEditable="True">
-                                <ComboBoxItem IsSelected="True">9</ComboBoxItem>
-                                <ComboBoxItem>20</ComboBoxItem>
-                                <ComboBoxItem>40</ComboBoxItem>
-                                <ComboBoxItem>60</ComboBoxItem>
-                            </ComboBox>
-                        </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10" VerticalAlignment="Top">
+                                <DockPanel>
+                                    <Label Style="{DynamicResource LabelSettingsStyle}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[Averaging]}" HorizontalAlignment="Left"/>
+                                    <Button HorizontalAlignment="Right" Content="i" Height="12px" Width="12px" BorderBrush="#0386ce" Background="Transparent" 
+                                        Foreground="#0386ce" Style="{DynamicResource TogglesButtonBall}" Padding="0 -2 0 1" ToolTipService.InitialShowDelay="200" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[AveragingText]}"/>
+                                </DockPanel>
+                           
+                                <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
+                                          IsEditable="True" BorderThickness="0" Text="{Binding mWSEntity.MwsUserSettings.FlashUserAverageS}"  FontFamily="{StaticResource ManropeFont}">
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">1</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">5</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">9</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">12</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">35</ComboBoxItem>  
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">60</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">120</ComboBoxItem>
+                                </ComboBox> 
 
-                        <StackPanel Orientation="Vertical" Grid.Column="3"  Margin="10,10,10,10">
-                            <Label Content="Значение N:" />
-                            <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
-                                      IsEditable="True">
-                                <ComboBoxItem IsSelected="True">1023</ComboBoxItem>
-                                <ComboBoxItem>4095</ComboBoxItem>
-                            </ComboBox>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <StackPanel Orientation="Vertical" Grid.Column="4"  Margin="10,10,10,10">
-                            <Label Content="Скорость передачи:" />
-                            <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
-                                      IsEditable="True">
-                                <ComboBoxItem IsSelected="True">9600</ComboBoxItem>
-                                <ComboBoxItem>19200</ComboBoxItem>
-                                <ComboBoxItem>38400</ComboBoxItem>
-                                <ComboBoxItem>57600</ComboBoxItem>
-                                <ComboBoxItem>76800</ComboBoxItem>
-                                <ComboBoxItem>115200</ComboBoxItem>
-                            </ComboBox>
-                        </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="2"  Margin="10" VerticalAlignment="Top">
+                                <DockPanel>
+                                    <Label Style="{DynamicResource LabelSettingsStyle}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[ValueN]}" />
+                                    <Button HorizontalAlignment="Right" Content="i" Height="12px" Width="12px" BorderBrush="#0386ce" Background="Transparent" 
+                                    Foreground="#0386ce" Style="{DynamicResource TogglesButtonBall}" Padding="0 -2 0 1" ToolTipService.InitialShowDelay="200" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[ValueNText]}"/>
+                                </DockPanel>
+                            
+                                <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
+                                          IsEditable="True" BorderThickness="0" Text="{Binding mWSEntity.MwsUserSettings.FlashUserLlsMaxN}"  FontFamily="{StaticResource ManropeFont}">
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">1023</ComboBoxItem>
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">4095</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="3"  Margin="10" VerticalAlignment="Top"> 
+                                <DockPanel>
+                                    <Label Style="{DynamicResource LabelSettingsStyle}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[TransmissionSpeed]}" />
+                                    <Button HorizontalAlignment="Right" Content="i" Height="12px" Width="12px" BorderBrush="#0386ce" Background="Transparent" 
+                                    Foreground="#0386ce" Style="{DynamicResource TogglesButtonBall}" Padding="0 -2 0 1" ToolTipService.InitialShowDelay="200" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[TransmissionSpeedText]}"/>
+                                </DockPanel>
+
+                                <ComboBox Style="{DynamicResource EditableRoundedComboBoxStyle}" HorizontalAlignment="Stretch" Width="Auto" Padding="10px 5px" Foreground="#757575"
+                                          IsEditable="True" BorderThickness="0" Text="{Binding mWSEntity.MwsUserSettings.FlashUserBaudRateRs}"  FontFamily="{StaticResource ManropeFont}"> 
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Content="19200"/>
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Content="38400"/>
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Content="57600"/>
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Content="76800"/>
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Content="115200"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="1" Visibility="{Binding IsProd, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition  Width="*"/>
+                                <ColumnDefinition  Width="*"/> 
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="0"  Margin="10px 0px">
+                                <Label Style="{DynamicResource LabelSettingsStyle}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SerialNumber]}" Foreground="#353535"/>
+                                <TextBox Style="{DynamicResource RoundedTextBox}" Text="{Binding mWSEntity.MwsProdSettingsClass.SerialNumber}" HorizontalAlignment="Stretch" 
+                                Width="Auto" Padding="10px 5px" Foreground="#676767" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" FontSize="12"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="1"  Margin="10 0">
+                                <Label Style="{DynamicResource LabelSettingsStyle}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SensorType]}" Foreground="#353535"/>
+                                <ComboBox Style="{DynamicResource ComboBoxRaunded}" HorizontalAlignment="Stretch" Padding="10px 5px" Foreground="#757575"
+BorderThickness="1" Text="{Binding ProdType}"  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"> 
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">MWS RS 2</ComboBoxItem>
+                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">MWS 2</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
                     </Grid>
                 </Border>
             </Grid>

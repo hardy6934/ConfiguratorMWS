@@ -1,7 +1,8 @@
 ﻿<Application x:Class="ConfiguratorMWS.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ConfiguratorMWS">
+             xmlns:local="clr-namespace:ConfiguratorMWS"
+             xmlns:resources="clr-namespace:ConfiguratorMWS.Resources">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,9 +12,25 @@
                 <ResourceDictionary Source="src/styles/RoundedTextBoxStyles.xaml"/>
                 <ResourceDictionary Source="src/styles/EditableRoundedComboBoxStyle.xaml"/>
                 <ResourceDictionary Source="src/styles/ButtonSaveInSensor.xaml"/>
-                <ResourceDictionary Source="src/styles/ToggleButtonStyle.xaml"/>  
-                <ResourceDictionary Source="src/styles/TogglesButtonBall.xaml"/>  
+                <ResourceDictionary Source="src/styles/ToggleButtonStyle.xaml"/>
+                <ResourceDictionary Source="src/styles/TogglesButtonBall.xaml"/>
+                <ResourceDictionary Source="src/styles/ButtonReadFromFile.xaml"/>
+                <ResourceDictionary Source="src/styles/ButtonLightBlueStyle.xaml"/>
+                <ResourceDictionary Source="src/styles/ButtonLightRedStyle.xaml"/>
+                <ResourceDictionary Source="src/styles/ButtonRedStyle.xaml"/>
+                <ResourceDictionary Source="src/styles/ProgressBarRoundedStyle.xaml"/>
+                <ResourceDictionary Source="src/styles/ButtonBackStyle.xaml"/> 
             </ResourceDictionary.MergedDictionaries>
+
+            <!--localizer-->
+            <resources:LocalizedStrings x:Key="LocalizedStrings"/> 
+            
+            <!--fonts-->
+            <FontFamily x:Key="ManropeFont">pack://application:,,,/ConfiguratorMWS;component/src/fonts/#Manrope</FontFamily> 
+            <FontFamily x:Key="AntonFont">pack://application:,,,/ConfiguratorMWS;component/src/fonts/#Anton</FontFamily> 
+
         </ResourceDictionary>
     </Application.Resources>
+
+
 </Application>

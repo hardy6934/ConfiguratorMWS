@@ -1,16 +1,21 @@
 ﻿
 
 using ConfiguratorMWS.Commands;
+using ConfiguratorMWS.Entity;
+using System.Collections.ObjectModel;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs
 {
     public interface IMWSViewModel
     {
+        MWSEntity mWSEntity { get; set; }
         RelayCommand SwitchTabCommand { get; }
+        RelayCommand ChangeLanguageCommand { get; }
 
         object CurrentView { get; set; }
         void SwitchTab(object tab);
-         
 
+        ObservableCollection<string> Languages { get; }
+        string SelectedLanguage { get; set; }
     }
 }

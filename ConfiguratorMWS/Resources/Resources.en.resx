@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Calibration" xml:space="preserve">
+    <value>Calibration</value>
+  </data>
+  <data name="CalculatedCalibration" xml:space="preserve">
+    <value>Calculated calibration</value>
+  </data>
+  <data name="UpdateSoftware" xml:space="preserve">
+    <value>Update software</value>
+  </data>
+  <data name="SelectThePortYouNeed" xml:space="preserve">
+    <value>Choose COM port: </value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Serial number: </value>
+  </data>
+  <data name="HardwareVersion" xml:space="preserve">
+    <value>Hardware version: </value>
+  </data>
+  <data name="SoftwareVersion" xml:space="preserve">
+    <value>Software version: </value>
+  </data>
+  <data name="SensorTemperature" xml:space="preserve">
+    <value>Sensor temperature</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="SensorAddress" xml:space="preserve">
+    <value>Sensor address: </value>
+  </data>
+  <data name="Averaging" xml:space="preserve">
+    <value>Averaging: </value>
+  </data>
+  <data name="ValueN" xml:space="preserve">
+    <value>Value N:</value>
+  </data>
+  <data name="TransmissionSpeed" xml:space="preserve">
+    <value>Transmission speed: </value>
+  </data>
+  <data name="Tuck" xml:space="preserve">
+    <value>Tuck</value>
+  </data>
+  <data name="Terminator" xml:space="preserve">
+    <value>Termination</value>
+  </data>
+  <data name="ReadFromFile" xml:space="preserve">
+    <value>Read from file</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>Save to file</value>
+  </data>
+  <data name="WriteToTheSensor" xml:space="preserve">
+    <value>Write to the sensor</value>
+  </data>
+  <data name="CurrentDetector" xml:space="preserve">
+    <value>Current detector: </value>
+  </data>
+  <data name="PortionInl" xml:space="preserve">
+    <value>Portion in l: </value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="VolumeL" xml:space="preserve">
+    <value>Volume l</value>
+  </data>
+  <data name="AddARecord" xml:space="preserve">
+    <value>Add a record</value>
+  </data>
+  <data name="RemoveTheRecord" xml:space="preserve">
+    <value>Remove the record</value>
+  </data>
+  <data name="EntryData" xml:space="preserve">
+    <value>Entry data</value>
+  </data>
+  <data name="HowToEnterData" xml:space="preserve">
+    <value>How to enter data</value>
+  </data>
+  <data name="DistanceFromTheSensorToTheBottomOfTheTank" xml:space="preserve">
+    <value>Distance from the sensor to the bottom of the tank</value>
+  </data>
+  <data name="Calculate" xml:space="preserve">
+    <value>Calculate</value>
+  </data>
+  <data name="UploadXlsFile" xml:space="preserve">
+    <value>Upload file</value>
+  </data>
+  <data name="TuckText" xml:space="preserve">
+    <value>It is used to set a stable logical state "1" during periods of no data exchange.
+Physical bus "A" is pulled to the interface power supply, bus "B" is pulled to the common wire.</value>
+  </data>
+  <data name="TerminatorText" xml:space="preserve">
+    <value>Enable the RS485 data bus impedance matching mode.
+When this option is set, a 120 om termination resistor is added to the data bus on the device side. 
+It is only activated for two end devices of the entire RS485 bus.</value>
+  </data>
+  <data name="SensorAddressText" xml:space="preserve">
+    <value>The address of the sensor on the network. 
+If “Ignore” is checked, the sensor on the network will respond to any request from the system module.</value>
+  </data>
+  <data name="AveragingText" xml:space="preserve">
+    <value>The time interval over which the measurement results are averaged.</value>
+  </data>
+  <data name="ValueNText" xml:space="preserve">
+    <value>Maximum value of level (volume) readings. 
+The default value is 1023.</value>
+  </data>
+  <data name="TransmissionSpeedText" xml:space="preserve">
+    <value>Baud rate of the RS485 interface. 
+It can vary from 19200 to 115200. 
+The default setting is 19200.</value>
+  </data>
+  <data name="CurrentDetectorText" xml:space="preserve">
+    <value>Green colour of the detector indicates stable level(volume) - it is possible to add a portion.
+Red colour of the detector indicates unstable level(volume) - it is not recommended to add a portion.</value>
+  </data>
+  <data name="Dmm" xml:space="preserve">
+    <value>D, mm: </value>
+  </data>
+  <data name="Hmm" xml:space="preserve">
+    <value>H, mm: </value>
+  </data>
+  <data name="Emm" xml:space="preserve">
+    <value>E, mm: </value>
+  </data>
+  <data name="MeasurementScheme" xml:space="preserve">
+    <value>MEASUREMENT SCHEME IN MM</value>
+  </data>
+  <data name="DiameterOfTheCistron" xml:space="preserve">
+    <value> - Diameter of the cistron, mm.</value>
+  </data>
+  <data name="LengthOfTheCylindricalPartOfTheTank" xml:space="preserve">
+    <value> - Length of the cylindrical part of the tank, mm.</value>
+  </data>
+  <data name="LengthOfEllipticalSidewall" xml:space="preserve">
+    <value> - Length of elliptical sidewall, mm.</value>
+  </data>
+  <data name="SoftwareUpdate" xml:space="preserve">
+    <value>Software Update</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>&lt; Back</value>
+  </data>
+  <data name="UpgradeInstructionsFirmwareList" xml:space="preserve">
+    <value>Upgrade instructions / firmware list</value>
+  </data>
+  <data name="UpdateFirmware" xml:space="preserve">
+    <value>Update firmware</value>
+  </data>
+  <data name="SetFactorySettings" xml:space="preserve">
+    <value>Set factory settings</value>
+  </data>
+  <data name="strFileError" xml:space="preserve">
+    <value>File error!</value>
+  </data>
+  <data name="strIsNotIntended" xml:space="preserve">
+    <value>The file is not intended for this type of equipment!</value>
+  </data>
+  <data name="strHardwareVersionNotMatch" xml:space="preserve">
+    <value>The hardware version doesn't match!</value>
+  </data>
+  <data name="strError" xml:space="preserve">
+    <value>Error!</value>
+  </data>
+  <data name="strUpdateSuccessful" xml:space="preserve">
+    <value>The update was successful!</value>
+  </data>
+  <data name="strSuccess" xml:space="preserve">
+    <value>Success!</value>
+  </data>
+  <data name="UploadFileAvailableTypes" xml:space="preserve">
+    <value>Available types for file upload (csv, xls, xlsx)</value>
+  </data>
+  <data name="SensorType" xml:space="preserve">
+    <value>Sensor type: </value>
+  </data>
+  <data name="SenorType" xml:space="preserve">
+    <value>Sensor type: </value>
+  </data>
+  <data name="ErrorWhileUpdating" xml:space="preserve">
+    <value>An error occurred during the remote update process, check your internet connection and try again, if the error occurs again, contact technical support.</value>
+  </data>
+  <data name="NotLastFirmwsareVer" xml:space="preserve">
+    <value>You do not have the latest firmware version. Do you want to upgrade?</value>
+  </data>
+  <data name="SavingFileError" xml:space="preserve">
+    <value>Error when saving a file</value>
+  </data>
+  <data name="SuccesfullySavedFile" xml:space="preserve">
+    <value>File has been successfully saved!</value>
+  </data>
+  <data name="XLSReadingFileeError" xml:space="preserve">
+    <value>Error when reading XLS file</value>
+  </data>
+  <data name="CSVReadingFileError" xml:space="preserve">
+    <value>Error when reading CSV file</value>
+  </data>
+  <data name="XLSXReadingFileeError" xml:space="preserve">
+    <value>Error when reading XLSX file</value>
+  </data>
+  <data name="NotAllFieldsFilledIn" xml:space="preserve">
+    <value>Not all fields are filled in!</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+</root>

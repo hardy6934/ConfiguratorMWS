@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ConfiguratorMWS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ApiUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://smamedov451-001-site3.gtempurl.com</Value>
+    </Setting>
+    <Setting Name="FilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">./firmware/</Value>
+    </Setting>
+    <Setting Name="Lang" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="COMPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

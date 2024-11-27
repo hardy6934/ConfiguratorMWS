@@ -1,4 +1,6 @@
 ﻿
+using ConfiguratorMWS.Entity.MWSStructs;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
@@ -10,9 +12,10 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
     {
         private readonly ICalibrationViewModel calibrationViewModel;
         public CalibrationView(ICalibrationViewModel calibrationViewModel)
-        {
+        { 
             InitializeComponent();
-            DataContext = calibrationViewModel;
+            DataContext = calibrationViewModel; 
+            this.calibrationViewModel = calibrationViewModel;
         }
     }
 }
