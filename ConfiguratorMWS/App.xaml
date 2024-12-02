@@ -19,7 +19,8 @@
                 <ResourceDictionary Source="src/styles/ButtonLightRedStyle.xaml"/>
                 <ResourceDictionary Source="src/styles/ButtonRedStyle.xaml"/>
                 <ResourceDictionary Source="src/styles/ProgressBarRoundedStyle.xaml"/>
-                <ResourceDictionary Source="src/styles/ButtonBackStyle.xaml"/> 
+                <ResourceDictionary Source="src/styles/ButtonBackStyle.xaml"/>
+                <ResourceDictionary Source="src/styles/RoundedCheckBoxStyle.xaml"/> 
             </ResourceDictionary.MergedDictionaries>
 
             <!--localizer-->

@@ -5,10 +5,12 @@ using ConfiguratorMWS.Data.Abstract;
 using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.Entity.MWSStructs;
 using ConfiguratorMWS.Entity.MWSSubModels;
+using ConfiguratorMWS.Resources;
 using Microsoft.Win32;
 using NPOI.Util;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
 {
@@ -16,7 +18,8 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
     {
         private readonly IMWSRepository mWSRepository;
         private readonly ISettingsViewModelService settingsViewModelService; 
-        private readonly IInformationViewModelService informationViewModelService;
+        private readonly IInformationViewModelService informationViewModelService; 
+        public LocalizedStrings localizedStrings { get; set; } 
         public MWSEntity mWSEntity { get; set; }
         public RelayCommand saveSettings { get; }
         public RelayCommand addRowInTable { get; }
@@ -49,7 +52,8 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
         {
             this.mWSRepository = mWSRepository;
             this.settingsViewModelService = settingsViewModelService;
-            this.informationViewModelService = informationViewModelService;
+            this.informationViewModelService = informationViewModelService; 
+            localizedStrings = (LocalizedStrings)Application.Current.Resources["LocalizedStrings"];
             mWSEntity = mWSRepository.GetEntity();
 
             saveSettings = new RelayCommand(SaveSettings, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
@@ -57,6 +61,16 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
             removeRowFromTable = new RelayCommand(RemoveRowFromTable, (obj) => SelectedRow != null);
             saveSettingsToFileCommand = new RelayCommand(SaveBytesToTextFile, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
             readSettingsFromFileCommand = new RelayCommand(ReadBytesFromTextFile, null);
+
+
+            // Подписываемся на изменения свойства CommandStatus
+            mWSEntity.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == nameof(mWSEntity.CommandStatus))
+                {
+                    saveSettings.RaiseCanExecuteChanged();
+                }
+            }; 
         }
 
 
@@ -64,6 +78,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
         public void SaveSettings(object obj)
         {
             settingsViewModelService.ChangeProgressBarValue(500);// progress bar
+            Array.Copy(mWSEntity.MwsConfigurationVariables.bufferFlashDataForRead, 0x800, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x800, 0x40);
 
             var mwsSettingsForSendingStruct = new mwsSettingsForSending();
             mwsSettingsForSendingStruct.userSettings = settingsViewModelService.ConvertUserSettingsClassToStruct(mWSEntity.MwsUserSettings);
@@ -95,9 +110,19 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
         public void AddRowInTable(object obj)
         {
             try
-            {
-                var lastRow = mWSEntity.MwsTable.Rows.LastOrDefault(); 
-                mWSEntity.MwsTable.Rows.Add(new MwsRowClass { Number = (lastRow?.Number ?? 0)  + 1, Distance = mWSEntity.MwsRealTimeData.Distance, Volume = (lastRow?.Volume ?? 0) + TextBoxPortion });
+            { 
+                var lastRow = mWSEntity.MwsTable.Rows.LastOrDefault();
+                if (lastRow.Distance < mWSEntity.MwsRealTimeData.Distance)
+                {
+                    var result = MessageBox.Show(localizedStrings["AddingRowInCalibrationTableWarningText"], localizedStrings["strWarning"], MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        mWSEntity.MwsTable.Rows.Add(new MwsRowClass { Number = (lastRow?.Number ?? 0) + 1, Distance = mWSEntity.MwsRealTimeData.Distance, Volume = (lastRow?.Volume ?? 0) + TextBoxPortion });
+                    }
+                }
+                else {
+                    mWSEntity.MwsTable.Rows.Add(new MwsRowClass { Number = (lastRow?.Number ?? 0) + 1, Distance = mWSEntity.MwsRealTimeData.Distance, Volume = (lastRow?.Volume ?? 0) + TextBoxPortion });
+                }
             }
             catch (Exception ex) { 
             }

@@ -337,4 +337,31 @@
   <data name="Updated" xml:space="preserve">
     <value>Обновлен</value>
   </data>
+  <data name="strWarning" xml:space="preserve">
+    <value>Предупреждение!</value>
+  </data>
+  <data name="AddingRowInCalibrationTableWarningText" xml:space="preserve">
+    <value>Расстояние в строке, которую вы собираетесь добавить, больше предыдущего. Вы уверены, что хотите добавить строку?</value>
+  </data>
+  <data name="l" xml:space="preserve">
+    <value>л</value>
+  </data>
+  <data name="mm" xml:space="preserve">
+    <value>мм</value>
+  </data>
+  <data name="ConnectedToTheWrongPort" xml:space="preserve">
+    <value>Вероятнее всего вы подключились к неверному порту</value>
+  </data>
+  <data name="ErrorWhileWritingToPort" xml:space="preserve">
+    <value>Произошла ошибка записи в порт</value>
+  </data>
+  <data name="FactorySettingsHaveBeenRestored" xml:space="preserve">
+    <value>Заводские настройки установлены</value>
+  </data>
+  <data name="CheckInternetConnection" xml:space="preserve">
+    <value>Проверьте подключение к интернету!</value>
+  </data>
+  <data name="InvalidLoginOrPassword" xml:space="preserve">
+    <value>Неверный логин или пароль!</value>
+  </data>
 </root>

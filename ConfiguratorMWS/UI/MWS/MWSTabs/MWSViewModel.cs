@@ -10,6 +10,8 @@ using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware;
 using ConfiguratorMWS.Resources;
 using System.Collections.ObjectModel;
+using ConfiguratorMWS.UI.MWS.MWSModals;
+using System.Windows;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs
 {
@@ -22,15 +24,17 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
          
         // Команда для переключения вкладок
         public RelayCommand SwitchTabCommand { get; }
+        public RelayCommand ChangeLanguageCommand { get; } 
+        public RelayCommand LogOutCommand { get; }
         public RelayCommand OpenUpdateFirmwareWindowCommand { get; }
-        public RelayCommand ChangeLanguageCommand { get; }
-        public MWSWindow ParentWindow { get; set; }
+        public RelayCommand OpenAuthorizationModalCommand { get; }
+        public RelayCommand ShowAuthorizationModalCommand { get; } 
 
         //entity
         public MWSEntity mWSEntity { get; set; }
 
         public ObservableCollection<string> Languages { get; }
-        public string SelectedLanguage { get; set; }  
+        public string SelectedLanguage { get; set; }   
 
         public MWSViewModel(IServiceProvider serviceProvider, IMWSViewModelService mWSViewModelService)
         {
@@ -46,16 +50,38 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
 
             // Инициализация команд
             SwitchTabCommand = new RelayCommand(SwitchTab);
-            OpenUpdateFirmwareWindowCommand = new RelayCommand(OpenUpdateFirmwareWindow, (obj) => mWSEntity.isConnected); 
             ChangeLanguageCommand = new RelayCommand(ChangeLanguage);
+            LogOutCommand = new RelayCommand(LogOut); 
+            OpenUpdateFirmwareWindowCommand = new RelayCommand(OpenUpdateFirmwareWindow, (obj) => mWSEntity.isConnected);
+            OpenAuthorizationModalCommand = new RelayCommand(OpenAuthorizationModal);
 
             // Устанавливаем начальное содержимое
             CurrentView = new InformationView(_serviceProvider.GetRequiredService<IInformationViewModel>());
 
             mWSViewModelService.ChangeProgressBarValue(0);
         }
-           
-                  
+
+        //Залогинен или нет
+        public bool IsLoggedIn
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.Token) && !string.IsNullOrEmpty(Properties.Settings.Default.TokenAccountId))
+                { 
+                    DateTime tokenExpDate;
+
+                    if (DateTime.TryParse(Properties.Settings.Default.TokenExpDate, out tokenExpDate))
+                    {
+                        DateTime currentDate = DateTime.Now;
+
+                        return tokenExpDate > currentDate; 
+                    }
+                }
+                return false;
+            }
+        }
+
+
         // Текущее содержимое, которое отображается в нижней части окна
         public object CurrentView
         {
@@ -86,25 +112,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
                     break;
             }
         }
-
-
-        // Метод для открытия нового окна прошивки
-        private void OpenUpdateFirmwareWindow(object obj)
-        {
-            var updateFirmwareWindow = _serviceProvider.GetRequiredService<UpdateFirmwareWindow>();
-
-            updateFirmwareWindow.Owner = ParentWindow;   
-            updateFirmwareWindow.Closed += UpdateFirmwareWindow_Closed;
-
-            ParentWindow.Hide();  // Скрываем текущее окно
-            updateFirmwareWindow.Show();
-        }
-
-        // Метод для обработки закрытия окна UpdateFirmwareWindow
-        private void UpdateFirmwareWindow_Closed(object? sender, EventArgs e)
-        {
-            ParentWindow.Show();  // Возвращаем видимость окна MWSWindow после закрытия UpdateFirmwareWindow
-        }
+         
 
         private void ChangeLanguage(object language)
         {
@@ -119,6 +127,31 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
             }
         }
 
+        // Метод для открытия нового окна прошивки
+        private void OpenUpdateFirmwareWindow(object parametr)
+        {
+            if (parametr is Window parentWindow)
+            {
+                mWSViewModelService.ShowUpdateFirmwareWindow(parentWindow);
+            }
 
+        } 
+
+        private void OpenAuthorizationModal(object parametr)
+        {
+            if (parametr is Window parentWindow)
+            {
+                mWSViewModelService.ShowAuthorizationModal(parentWindow);
+                RaisePropertyChanged(nameof(IsLoggedIn));
+            } 
+        }
+
+        private void LogOut(object obj)
+        {
+            mWSViewModelService.ClearToken(); 
+            RaisePropertyChanged(nameof(IsLoggedIn));
+        }
+
+       
     }
 }

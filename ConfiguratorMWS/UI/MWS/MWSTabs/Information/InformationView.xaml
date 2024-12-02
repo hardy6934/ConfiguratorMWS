@@ -36,6 +36,13 @@
             <Setter Property="FontFamily"  Value="{StaticResource ManropeFont}"/>
             <Setter Property="FontWeight"  Value="SemiBold"/> 
         </Style>
+        <Style x:Key="CalibrationTableValues" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextTrimming" Value="None"/>
+            <Setter Property="FontFamily"  Value="{StaticResource ManropeFont}"/>
+            <Setter Property="FontWeight"  Value="SemiBold"/> 
+            <Setter Property="FontSize"  Value="10px"/> 
+        </Style>
     </UserControl.Resources> 
 
     <Grid>
@@ -134,11 +141,16 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Column="0" >
-                            <TextBlock  Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding TopDistanceTank}" Foreground="#0386CE" FontSize="10px" VerticalAlignment="Top" 
-                           FontWeight="Bold" HorizontalAlignment="Right"/>
-                            <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding BottomDistanceTank}" Foreground="#353535" FontSize="10px" VerticalAlignment="Bottom"
-                           FontWeight="Bold" HorizontalAlignment="Right"/>
+                        <Grid Grid.Column="0" HorizontalAlignment="Right">
+                            <DockPanel VerticalAlignment="Top">
+                                <TextBlock DockPanel.Dock="Left" Style="{DynamicResource CalibrationTableValues}" Text="{Binding TopDistanceTank}" Foreground="#0386CE" />
+                                <TextBlock DockPanel.Dock="Right" Style="{DynamicResource CalibrationTableValues}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[mm]}" Foreground="#0386CE"/>
+                            </DockPanel>
+                            
+                            <DockPanel VerticalAlignment="Bottom">
+                                <TextBlock DockPanel.Dock="Left" Style="{DynamicResource CalibrationTableValues}" Text="{Binding BottomDistanceTank}" Foreground="#353535"/>
+                                <TextBlock DockPanel.Dock="Right" Style="{DynamicResource CalibrationTableValues}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[mm]}" Foreground="#353535"/>
+                            </DockPanel> 
                         </Grid>
 
                         <Grid Grid.Column="1">
@@ -183,12 +195,16 @@
                             </Border>
                         </Grid>
                         <Grid Grid.Column="1" HorizontalAlignment="Left">
-                            <TextBlock  Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding TopVolumeTank}" Foreground="#0386CE" FontSize="10px" VerticalAlignment="Top" 
-                           FontWeight="Bold" HorizontalAlignment="Left"/>
-                            <TextBlock  Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding BottomVolumeTank}" Foreground="#353535" FontSize="10px" VerticalAlignment="Bottom" 
-                           FontWeight="Bold" HorizontalAlignment="Left"/>
-                        </Grid>
-
+                            <DockPanel VerticalAlignment="Top">
+                                <TextBlock DockPanel.Dock="Left" Style="{DynamicResource CalibrationTableValues}" Text="{Binding TopVolumeTank}" Foreground="#0386CE"/>
+                                <TextBlock DockPanel.Dock="Right" Style="{DynamicResource CalibrationTableValues}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[l]}" Foreground="#0386CE"/>
+                            </DockPanel> 
+                            
+                            <DockPanel VerticalAlignment="Bottom">
+                                <TextBlock DockPanel.Dock="Left" Style="{DynamicResource CalibrationTableValues}" Text="{Binding BottomVolumeTank}" Foreground="#353535"/>
+                                <TextBlock DockPanel.Dock="Right" Style="{DynamicResource CalibrationTableValues}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[l]}" Foreground="#353535"/>
+                            </DockPanel> 
+                        </Grid> 
                     </Grid>
                 </Grid>
 

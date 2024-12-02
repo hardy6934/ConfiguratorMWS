@@ -131,7 +131,8 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration
         public void SaveSettings(object obj)
         {
             settingsViewModelService.ChangeProgressBarValue(0);// progress bar
-             
+            Array.Copy(mWSEntity.MwsConfigurationVariables.bufferFlashDataForRead, 0x800, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x800, 0x40);
+
             var mwsSettingsForSendingStruct = new mwsSettingsForSending();
             mwsSettingsForSendingStruct.userSettings = settingsViewModelService.ConvertUserSettingsClassToStruct(mWSEntity.MwsUserSettings);
 

@@ -89,7 +89,7 @@ namespace ConfiguratorMWS.Buisness.Service
         public MwsRealTimeDataClass LoadRealTimeDataFromStruct(MwsRealTimeData structData) {
             return new MwsRealTimeDataClass
             {
-                Distance = structData.distance * 1000,
+                Distance = (float)Math.Round(structData.distance * 1000),
                 Level = structData.level,
                 Volume = structData.volume,
                 Temp = structData.temp,
@@ -129,12 +129,15 @@ namespace ConfiguratorMWS.Buisness.Service
             }
             return newArray;
         } 
-        public bool CalculateIsDistanceValueStable(float[] array) {
+        public int CalculateIsDistanceValueStable(float[] array) {
 
-            if (array.Contains(0) || array.Length == 0) return false;
+            // 0 - not stable
+            // 1 - stable
+
+            if (array.Contains(0) || array.Length == 0) return 0;
 
             float averageValue = 0; // Среднее значение в массиве
-            float threshold = 20.0f; // Порог отклонения
+            float threshold = 10.0f; // Порог отклонения
             
             foreach (float value in array) { 
                 averageValue += value;
@@ -146,11 +149,11 @@ namespace ConfiguratorMWS.Buisness.Service
             {
                 if (Math.Abs(value - averageValue) > threshold)
                 {
-                    return false;
+                    return 0;
                 }
             }
 
-            return true;
+            return 1;
         } 
 
 

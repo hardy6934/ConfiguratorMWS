@@ -40,6 +40,12 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
             //////////////////////////////////////////////////////////////////
             PortList = informmationViewModelService.GetAvailableComPortNames();
             //////////////////////////////////////////////////////////////////
+
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.COMPort))
+            {
+                SelectedPort = Properties.Settings.Default.COMPort;
+            }
         }
 
         //Fuel percentage int tank
@@ -152,10 +158,12 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                 var isConnected = informmationViewModelService.ConnectWithComPort(tab as string, 19200, ReadBytesFromComPortCallback);
                 if (isConnected)
                 {
-                    mWSEntity.IsConnected = true; 
-                } 
+                    mWSEntity.IsConnected = true;
+                    Properties.Settings.Default.COMPort = tab as string;
+                    Properties.Settings.Default.Save();
+                }
             }
-            else MessageBox.Show("Не удается выполнить подключение к данному порту");
+            else MessageBox.Show(localizedStrings["ConnectedToTheWrongPort"]);
 
         }
         public void CloseConnectionWithPort(object tab)
@@ -205,11 +213,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     catch (TimeoutException)
                     {
                         CloseConnectionWithPort(null);
-                        MessageBox.Show("Вероятнее всего вы подключились к неверному порту");
+                        MessageBox.Show(localizedStrings["ConnectedToTheWrongPort"]);
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show("Произошла ошибка записи в порт");
+                        MessageBox.Show(localizedStrings["ErrorWhileWritingToPort"]);
                     }
                 break;
 
@@ -406,7 +414,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     informmationViewModelService.ChangeTimerWorkInterval(50);
                       
                     informmationViewModelService.ChangeUpdatingProgressBarValue(6144);
-                    informmationViewModelService.UpdateWindowProgresBarStatus("Заводские настройки установлены");
+                    informmationViewModelService.UpdateWindowProgresBarStatus(localizedStrings["FactorySettingsHaveBeenRestored"]);
                     break;
 
                 default:
@@ -582,7 +590,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     MwsProdSettings prodSettingsStruct = informmationViewModelService.ReadStruct<MwsProdSettings>(prodSettingsData);
                     MwsProdSettingsClass mwsProdSettingsData = informmationViewModelService.LoadProdSettingsFromStruct(prodSettingsStruct);
                     mWSEntity.MwsProdSettingsClass = mwsProdSettingsData.Copy();
-                    ///Mashaling urser settings  
+                    ///Mashaling prod settings  
 #endif
 
 
@@ -609,10 +617,10 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     //Insert information tank FormData
                     if (mWSEntity.MwsTable.Rows?.LastOrDefault() != null && mWSEntity.MwsTable.Rows?.FirstOrDefault() != null)
                     {
-                        TopVolumeTank = mWSEntity.MwsTable.Rows.LastOrDefault().volume.ToString() + " l";
-                        TopDistanceTank = mWSEntity.MwsTable.Rows.LastOrDefault().distance.ToString() + " mm";
-                        BottomVolumeTank = mWSEntity.MwsTable.Rows.FirstOrDefault().volume.ToString() + " l";
-                        BottomDistanceTank = mWSEntity.MwsTable.Rows.FirstOrDefault().distance.ToString() + " mm";
+                        TopVolumeTank = mWSEntity.MwsTable.Rows.LastOrDefault().volume.ToString();
+                        TopDistanceTank = mWSEntity.MwsTable.Rows.LastOrDefault().distance.ToString();
+                        BottomVolumeTank = mWSEntity.MwsTable.Rows.FirstOrDefault().volume.ToString();
+                        BottomDistanceTank = mWSEntity.MwsTable.Rows.FirstOrDefault().distance.ToString();
                     }
 
                     informmationViewModelService.ChangeProgressBarValue(6144);// progress bar

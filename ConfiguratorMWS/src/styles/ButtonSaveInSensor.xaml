@@ -30,7 +30,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="10px 4px"/>
         <Setter Property="FontSize" Value="12"/>      <!--FontSize-->
-        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontWeight" Value="SemiBold"/> 
         <Setter Property="Cursor" Value="Hand"/>      
         <Setter Property="Template">
             <Setter.Value>

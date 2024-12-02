@@ -338,4 +338,31 @@ Red colour of the detector indicates unstable level(volume) - it is not recommen
   <data name="Updated" xml:space="preserve">
     <value>Updated</value>
   </data>
+  <data name="strWarning" xml:space="preserve">
+    <value>Warning!</value>
+  </data>
+  <data name="AddingRowInCalibrationTableWarningText" xml:space="preserve">
+    <value>The distance in the row you are about to add is greater than the previous one. Are you sure you want to add the row?</value>
+  </data>
+  <data name="l" xml:space="preserve">
+    <value>l</value>
+  </data>
+  <data name="mm" xml:space="preserve">
+    <value>mm</value>
+  </data>
+  <data name="ConnectedToTheWrongPort" xml:space="preserve">
+    <value>Most likely, you have connected to the wrong port</value>
+  </data>
+  <data name="ErrorWhileWritingToPort" xml:space="preserve">
+    <value>An error occurred while writing to the port</value>
+  </data>
+  <data name="FactorySettingsHaveBeenRestored" xml:space="preserve">
+    <value>Factory settings have been restored</value>
+  </data>
+  <data name="CheckInternetConnection" xml:space="preserve">
+    <value>Check the internet connection!</value>
+  </data>
+  <data name="InvalidLoginOrPassword" xml:space="preserve">
+    <value>Invalid login or password!</value>
+  </data>
 </root>

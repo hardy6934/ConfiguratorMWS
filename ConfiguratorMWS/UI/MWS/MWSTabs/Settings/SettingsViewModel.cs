@@ -9,7 +9,11 @@ using ConfiguratorMWS.Entity.MWSSubModels;
 using Microsoft.Win32;
 using NPOI.Util;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Text.Json;
+using System.Text;
+using System.Collections;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
 {
@@ -30,7 +34,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
 
             mWSEntity = settingsViewModelService.GetEntity();
 
-            saveSettings = new RelayCommand(SaveSettings, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
+            saveSettings = new RelayCommand(SaveSettingsAsync, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
             saveSettingsToFileCommand = new RelayCommand(SaveBytesToTextFile, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
             readSettingsFromFileCommand = new RelayCommand(ReadBytesFromTextFile, null);
 
@@ -74,63 +78,110 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
         }
 
 
-        
-
-
-
-        public void SaveSettings(object obj)
+        public async void SaveSettingsAsync(object obj)
         {
-            settingsViewModelService.ChangeProgressBarValue(500);// progress bar
+            try {
+                settingsViewModelService.ChangeProgressBarValue(500);// progress bar
 
-            var mwsSettingsForSendingStruct = new mwsSettingsForSending();
-            mwsSettingsForSendingStruct.userSettings = settingsViewModelService.ConvertUserSettingsClassToStruct(mWSEntity.MwsUserSettings);
-            mwsSettingsForSendingStruct.table = settingsViewModelService.ConvertMwsTableClassToStruct(mWSEntity.MwsTable);
-            mwsSettingsForSendingStruct.prodSettings = settingsViewModelService.ConvertMwsProdSettingsClassToStruct(mWSEntity.MwsProdSettingsClass);
+                Array.Copy(mWSEntity.MwsConfigurationVariables.bufferFlashDataForRead, 0x800, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x800, 0x40);
 
-            mwsSettingsForSendingStruct.userSettings.flashUserSetDay = (byte)DateTime.Now.Day;
-            mwsSettingsForSendingStruct.userSettings.flashUserSetMonth = (byte)DateTime.Now.Month;
-            mwsSettingsForSendingStruct.userSettings.flashUserSetYear = (byte)DateTime.Now.Year;
-            mwsSettingsForSendingStruct.userSettings.flashUserpassword = 0xAC09;
+                var mwsSettingsForSendingStruct = new mwsSettingsForSending();
+                mwsSettingsForSendingStruct.userSettings = settingsViewModelService.ConvertUserSettingsClassToStruct(mWSEntity.MwsUserSettings);
+                mwsSettingsForSendingStruct.table = settingsViewModelService.ConvertMwsTableClassToStruct(mWSEntity.MwsTable);
+                mwsSettingsForSendingStruct.prodSettings = settingsViewModelService.ConvertMwsProdSettingsClassToStruct(mWSEntity.MwsProdSettingsClass);
 
-#if PROD
+                mwsSettingsForSendingStruct.userSettings.flashUserSetDay = (byte)DateTime.Now.Day;
+                mwsSettingsForSendingStruct.userSettings.flashUserSetMonth = (byte)DateTime.Now.Month;
+                mwsSettingsForSendingStruct.userSettings.flashUserSetYear = (byte)DateTime.Now.Year;
+                mwsSettingsForSendingStruct.userSettings.flashUserpassword = 0xAC09;
 
-            mwsSettingsForSendingStruct.prodSettings.prodDay = (byte)DateTime.Now.Day;
-            mwsSettingsForSendingStruct.prodSettings.prodMonth = (byte)DateTime.Now.Month;
-            mwsSettingsForSendingStruct.prodSettings.prodYear = (byte)DateTime.Now.Year;
-            mwsSettingsForSendingStruct.prodSettings.password = 0x1223;
+    #if PROD
+                Array.Copy(mWSEntity.MwsConfigurationVariables.bufferFlashDataForRead, 0x000, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x000, 0x20);
+
+                mwsSettingsForSendingStruct.prodSettings.prodDay = (byte)DateTime.Now.Day;
+                mwsSettingsForSendingStruct.prodSettings.prodMonth = (byte)DateTime.Now.Month;
+                mwsSettingsForSendingStruct.prodSettings.prodYear = (byte)DateTime.Now.Year;
+                mwsSettingsForSendingStruct.prodSettings.password = 0x1223;
              
-            mwsSettingsForSendingStruct.prodSettings.serialNumber = mWSEntity.MwsProdSettingsClass.SerialNumber;
-            mwsSettingsForSendingStruct.userSettings.flashUserSerialNumber = mWSEntity.MwsProdSettingsClass.SerialNumber;
+                mwsSettingsForSendingStruct.prodSettings.serialNumber = mWSEntity.MwsProdSettingsClass.SerialNumber;
+                mwsSettingsForSendingStruct.userSettings.flashUserSerialNumber = mWSEntity.MwsProdSettingsClass.SerialNumber;
              
-            if (ProdType == "MWS RS 2")
-                mwsSettingsForSendingStruct.prodSettings.deviceType = 0xAA;
-            else if (ProdType == "MWS 2")
-                mwsSettingsForSendingStruct.prodSettings.deviceType = 0xAB;
+                if (ProdType == "MWS RS 2")
+                    mwsSettingsForSendingStruct.prodSettings.deviceType = 0xAA;
+                else if (ProdType == "MWS 2")
+                    mwsSettingsForSendingStruct.prodSettings.deviceType = 0xAB;
               
-            byte[] arrayProdSettings = settingsViewModelService.RawSerialize(mwsSettingsForSendingStruct.prodSettings);
-            Array.Copy(arrayProdSettings, 0, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0, arrayProdSettings.Length); 
-#endif
+                byte[] arrayProdSettings = settingsViewModelService.RawSerialize(mwsSettingsForSendingStruct.prodSettings);
+                Array.Copy(arrayProdSettings, 0, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0, arrayProdSettings.Length); 
+    #endif
 
-            byte[] arrayTable = settingsViewModelService.RawSerialize(mwsSettingsForSendingStruct.table);
-            Array.Copy(arrayTable, 0, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x1000, (mWSEntity.MwsTable.Rows.Count() + 1) * 8);
-
-
-            byte[] arrayUserSettings = settingsViewModelService.RawSerialize(mwsSettingsForSendingStruct.userSettings);
-            Array.Copy(arrayUserSettings, 0, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x800, arrayUserSettings.Length);
+                byte[] arrayTable = settingsViewModelService.RawSerialize(mwsSettingsForSendingStruct.table);
+                Array.Copy(arrayTable, 0, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x1000, (mWSEntity.MwsTable.Rows.Count() + 1) * 8);
 
 
-
-            settingsViewModelService.ChangeTimerWorkInterval(100); 
-#if PROD
-            mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x000;
-#else
-            mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x800; 
-#endif 
-            mWSEntity.MwsConfigurationVariables.ConfirmAddress = 10000;
+                byte[] arrayUserSettings = settingsViewModelService.RawSerialize(mwsSettingsForSendingStruct.userSettings);
+                Array.Copy(arrayUserSettings, 0, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x800, arrayUserSettings.Length);
 
 
-            mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceFlashClear; 
 
+                settingsViewModelService.ChangeTimerWorkInterval(100); 
+    #if PROD
+                mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x000;
+    #else
+                mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x800;
+    #endif 
+                mWSEntity.MwsConfigurationVariables.ConfirmAddress = 10000;
+
+
+                //отправка настроек на сервер
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.Token) && !string.IsNullOrEmpty(Properties.Settings.Default.TokenAccountId))
+                {
+                    DateTime tokenExpDate;
+
+                    if (DateTime.TryParse(Properties.Settings.Default.TokenExpDate, out tokenExpDate))
+                    { 
+                        if (tokenExpDate > DateTime.Now)
+                        {
+
+                            var url = Properties.Settings.Default.ApiUrl;
+                            var tokenAccountId = Properties.Settings.Default.TokenAccountId;
+                            var token = Properties.Settings.Default.Token;
+
+                            string byteArrayAsString = string.Join(" ", mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr.Select(b => b.ToString()));
+
+                            var requestBody = new MultipartFormDataContent
+                            {
+                                { new StringContent(tokenAccountId, Encoding.UTF8), "accountId" },
+                                { new StringContent(mWSEntity.MwsCommonData.SerialNumberFullFormat.ToString()), "serialNumber" },
+                                { new StringContent(""), "MAC" },
+                                { new StringContent(ProdType), "sensorName" },
+                                { new StringContent(byteArrayAsString, Encoding.UTF8), "file", $"{ProdType}_{mWSEntity.MwsCommonData.SerialNumberFullFormat}_{DateTime.Now:yyyyMMddHHmmss}.txt" }
+                            }; 
+
+                            using (HttpClient client = new HttpClient())
+                            {
+                                var response = await client.GetAsync(url + "/Ping");
+                                if (response.IsSuccessStatusCode)
+                                { 
+                                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                                    response = await client.PostAsync(url + "/api/APISettings", requestBody);
+                                    if (response.IsSuccessStatusCode)
+                                    { 
+
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+                //отправка настроек на сервер
+
+
+                mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceFlashClear;
+
+            }
+            catch { }
         }
 
 

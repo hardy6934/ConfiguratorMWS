@@ -18,7 +18,12 @@
   <ItemGroup>
     <None Remove="src\fonts\Anton-Regular.ttf" />
     <None Remove="src\fonts\Manrope-VariableFont_wght.ttf" />
+    <None Remove="src\images\email.png" />
+    <None Remove="src\images\Mechatronics.ico" />
     <None Remove="src\images\Mechatronics.png" />
+    <None Remove="src\images\pass.png" />
+    <None Remove="src\images\SignIn.png" />
+    <None Remove="src\images\SignOut.png" />
     <None Remove="UI\MWS\MWSModals\БАК.png" />
     <None Remove="UI\MWS\MWSTabs\CalculatedCalibration\EditSquare.png" />
     <None Remove="UI\MWS\MWSTabs\CalculatedCalibration\lamp.png" />
@@ -26,6 +31,9 @@
     <None Remove="UI\MWS\MWSTabs\Calibration\Tick.png" />
     <None Remove="UI\MWS\MWSTabs\Notification.png" />
     <None Remove="UI\MWS\MWSWindowUpdateFirmmware\Untitled 1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\images\Mechatronics.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
@@ -38,7 +46,11 @@
   <ItemGroup>
     <Resource Include="src\fonts\Anton-Regular.ttf" />
     <Resource Include="src\fonts\Manrope-VariableFont_wght.ttf" />
+    <Resource Include="src\images\email.png" />
     <Resource Include="src\images\Mechatronics.png" />
+    <Resource Include="src\images\pass.png" />
+    <Resource Include="src\images\SignIn.png" />
+    <Resource Include="src\images\SignOut.png" />
     <Resource Include="UI\MWS\MWSModals\MWSModalsImages\БАК.png" />
     <Resource Include="UI\MWS\MWSTabs\CalculatedCalibration\CalculatedCalibrationImages\lamp.png" />
     <Resource Include="UI\MWS\MWSTabs\CalculatedCalibration\CalculatedCalibrationImages\EditSquare.png" />
@@ -87,6 +99,7 @@
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
+    <ApplicationIcon>src\images\Mechatronics.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' == ''" />

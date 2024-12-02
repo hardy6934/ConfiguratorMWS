@@ -87,7 +87,7 @@ namespace ConfiguratorMWS.Entity
         //Green or red Distance
 
         private float[] distanceArrayForEstabilishing = new float[20];  
-        private bool isStable = false;  
+        private int isStable = 0;  
         public float[] DistanceArrayForEstabilishing
         {
             get { 
@@ -98,8 +98,8 @@ namespace ConfiguratorMWS.Entity
                 distanceArrayForEstabilishing = value; 
             }
         }
-
-        public bool IsStable
+        /////0 - not table /////1 - stable /////
+        public int IsStable
         {
             get { return isStable; }
             set

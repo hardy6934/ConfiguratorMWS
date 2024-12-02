@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 using System.Resources;
 

@@ -4,6 +4,7 @@ using ConfiguratorMWS.Data.Abstract;
 using ConfiguratorMWS.Data.Repository;
 using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.Resources;
+using ConfiguratorMWS.UI.MWS.MWSModals;
 using ConfiguratorMWS.UI.MWS.MWSTabs;
 using ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration;
 using ConfiguratorMWS.UI.MWS.MWSTabs.Calibration;
@@ -29,7 +30,8 @@ namespace ConfiguratorMWS
             AppHost = Host.CreateDefaultBuilder().ConfigureServices((hostContext, services) =>
             {
                 services.AddTransient<MWSWindow>();
-                services.AddTransient<UpdateFirmwareWindow>();
+                services.AddTransient<UpdateFirmwareWindow>(); 
+                services.AddTransient<AuthorizationModalWindow>();
 
                 //Repositories
                 services.AddSingleton<IMWSRepository, MWSRepository>();
@@ -41,8 +43,7 @@ namespace ConfiguratorMWS
                 services.AddSingleton<ISettingsViewModelService, SettingsViewModelService>();  
                 services.AddSingleton<IMWSViewModelService, MWSViewModelService>();  
                 services.AddSingleton<IUpdateFirmwareViewModelService, UpdateFirmwareViewModelService>();  
-                 
-
+                  
                 //ViewModels
                 services.AddSingleton<IMWSViewModel, MWSViewModel>(); 
                 services.AddSingleton<IInformationViewModel, InformationViewModel>(); 
@@ -50,6 +51,8 @@ namespace ConfiguratorMWS
                 services.AddSingleton<ICalibrationViewModel, CalibrationViewModel>(); 
                 services.AddSingleton<ICalculatedCalibrationViewModel, CalculatedCalibrationViewModel>(); 
                 services.AddSingleton<IUpdateFirmwareViewModel, UpdateFirmwareViewModel>(); 
+
+
 
             }).Build();
 

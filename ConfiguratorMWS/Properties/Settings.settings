@@ -9,9 +9,21 @@
       <Value Profile="(Default)">./firmware/</Value>
     </Setting>
     <Setting Name="Lang" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">РУС</Value>
     </Setting>
     <Setting Name="COMPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Token" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TokenExpDate" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TokenAccountId" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TokenRole" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

@@ -48,7 +48,7 @@
 
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=[WriteToTheSensor]}" Margin="10px 0px 10px 0px" Style="{DynamicResource ButtonSaveInSensor}" 
-                            Background="#00C638" BorderBrush="#02ad32" Command="{Binding saveSettingsCommand}"/>
+                            Background="#00C638" BorderBrush="#02ad32" Command="{Binding saveSettingsCommand}" FontFamily="{StaticResource ManropeFont}"/>
                 </StackPanel>
             </Grid>
 

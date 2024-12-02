@@ -17,7 +17,7 @@ namespace ConfiguratorMWS.Buisness.Abstract
         public MwsRealTimeDataClass LoadRealTimeDataFromStruct(MwsRealTimeData structData);
         public MwsCommonDataClass LoadCommonDataFromStruct(MwsCommonData structData);
         public float[] AddDistanceToArray(float[] array, float newValue); 
-        public bool CalculateIsDistanceValueStable(float[] array);
+        public int CalculateIsDistanceValueStable(float[] array);
 
 
         // Read byte from callback

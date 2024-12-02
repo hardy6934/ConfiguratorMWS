@@ -1,8 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Controls; 
-using ConfiguratorMWS.Resources; 
+using ConfiguratorMWS.Resources;
+using ConfiguratorMWS.UI.MWS.MWSModals;
 using ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware;
 using Microsoft.Extensions.DependencyInjection;
+using NPOI.SS.Formula.Functions;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs
 {
@@ -17,18 +19,8 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
         {
             InitializeComponent();
             DataContext = mWSViewModel; 
-
-
-            if (mWSViewModel is MWSViewModel viewModel)
-            {
-                viewModel.ParentWindow = this;
-            }
+             
               
-        }
-         
-        private void SecondWindow_Closed(object? sender, EventArgs e)
-        { 
-            this.Show();
         }
 
         private void LanguageComboBox_Selected(object sender, RoutedEventArgs e)
@@ -38,7 +30,9 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
                 var viewModel = (MWSViewModel)DataContext;
                 viewModel.ChangeLanguageCommand.Execute(selectedLanguage);
             }
-        }
+        }  
+
+      
     } 
      
 }
