@@ -9,11 +9,7 @@ using ConfiguratorMWS.Entity.MWSSubModels;
 using Microsoft.Win32;
 using NPOI.Util;
 using System.IO;
-using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Text.Json;
-using System.Text;
-using System.Collections;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
 {
@@ -60,14 +56,6 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
         {
             get
             {
-                if (mWSEntity.MwsProdSettingsClass.DeviceType == 0xAA && string.IsNullOrEmpty(prodType))
-                {
-                    prodType = "MWS RS 2"; 
-                }
-                else if (mWSEntity.MwsProdSettingsClass.DeviceType == 0xAB && string.IsNullOrEmpty(prodType))
-                {
-                    prodType = "MWS 2";
-                } 
                 return prodType;
             }
             set
@@ -95,7 +83,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
                 mwsSettingsForSendingStruct.userSettings.flashUserSetYear = (byte)DateTime.Now.Year;
                 mwsSettingsForSendingStruct.userSettings.flashUserpassword = 0xAC09;
 
-    #if PROD
+#if PROD
                 Array.Copy(mWSEntity.MwsConfigurationVariables.bufferFlashDataForRead, 0x000, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x000, 0x20);
 
                 mwsSettingsForSendingStruct.prodSettings.prodDay = (byte)DateTime.Now.Day;
@@ -105,15 +93,20 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
              
                 mwsSettingsForSendingStruct.prodSettings.serialNumber = mWSEntity.MwsProdSettingsClass.SerialNumber;
                 mwsSettingsForSendingStruct.userSettings.flashUserSerialNumber = mWSEntity.MwsProdSettingsClass.SerialNumber;
-             
-                if (ProdType == "MWS RS 2")
+
+                if (string.IsNullOrEmpty(ProdType)) {
+                    //no changes
+                }
+                else if (ProdType == "MWS RS 2") {
                     mwsSettingsForSendingStruct.prodSettings.deviceType = 0xAA;
-                else if (ProdType == "MWS 2")
-                    mwsSettingsForSendingStruct.prodSettings.deviceType = 0xAB;
+                }
+                else if (ProdType == "MWS 2") {  
+                    mwsSettingsForSendingStruct.prodSettings.deviceType = 0xAB; 
+                }
               
                 byte[] arrayProdSettings = settingsViewModelService.RawSerialize(mwsSettingsForSendingStruct.prodSettings);
                 Array.Copy(arrayProdSettings, 0, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0, arrayProdSettings.Length); 
-    #endif
+#endif
 
                 byte[] arrayTable = settingsViewModelService.RawSerialize(mwsSettingsForSendingStruct.table);
                 Array.Copy(arrayTable, 0, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x1000, (mWSEntity.MwsTable.Rows.Count() + 1) * 8);
@@ -125,58 +118,18 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
 
 
                 settingsViewModelService.ChangeTimerWorkInterval(100); 
-    #if PROD
+#if PROD
                 mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x000;
-    #else
+#else
                 mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x800;
-    #endif 
+#endif 
                 mWSEntity.MwsConfigurationVariables.ConfirmAddress = 10000;
 
-
-                //отправка настроек на сервер
-                if (!string.IsNullOrEmpty(Properties.Settings.Default.Token) && !string.IsNullOrEmpty(Properties.Settings.Default.TokenAccountId))
-                {
-                    DateTime tokenExpDate;
-
-                    if (DateTime.TryParse(Properties.Settings.Default.TokenExpDate, out tokenExpDate))
-                    { 
-                        if (tokenExpDate > DateTime.Now)
-                        {
-
-                            var url = Properties.Settings.Default.ApiUrl;
-                            var tokenAccountId = Properties.Settings.Default.TokenAccountId;
-                            var token = Properties.Settings.Default.Token;
-
-                            string byteArrayAsString = string.Join(" ", mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr.Select(b => b.ToString()));
-
-                            var requestBody = new MultipartFormDataContent
-                            {
-                                { new StringContent(tokenAccountId, Encoding.UTF8), "accountId" },
-                                { new StringContent(mWSEntity.MwsCommonData.SerialNumberFullFormat.ToString()), "serialNumber" },
-                                { new StringContent(""), "MAC" },
-                                { new StringContent(ProdType), "sensorName" },
-                                { new StringContent(byteArrayAsString, Encoding.UTF8), "file", $"{ProdType}_{mWSEntity.MwsCommonData.SerialNumberFullFormat}_{DateTime.Now:yyyyMMddHHmmss}.txt" }
-                            }; 
-
-                            using (HttpClient client = new HttpClient())
-                            {
-                                var response = await client.GetAsync(url + "/Ping");
-                                if (response.IsSuccessStatusCode)
-                                { 
-                                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                                    response = await client.PostAsync(url + "/api/APISettings", requestBody);
-                                    if (response.IsSuccessStatusCode)
-                                    { 
-
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
-                //отправка настроек на сервер
-
+#if PROD
+                await settingsViewModelService.SendSettingsOnServerAsync(mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, mWSEntity.MwsCommonData.SerialNumberFullFormat, ProdType);
+#else
+                await settingsViewModelService.SendSettingsOnServerAsync(mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, mWSEntity.MwsCommonData.SerialNumberFullFormat, mWSEntity.MwsCommonData.SensorTypeForDisplaing);
+#endif  
 
                 mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceFlashClear;
 
@@ -184,7 +137,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
             catch { }
         }
 
-
+         
 
         public void SaveBytesToTextFile(object obj)
         {

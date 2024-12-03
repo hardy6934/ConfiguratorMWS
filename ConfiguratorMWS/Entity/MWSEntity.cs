@@ -98,7 +98,7 @@ namespace ConfiguratorMWS.Entity
                 distanceArrayForEstabilishing = value; 
             }
         }
-        /////0 - not table /////1 - stable /////
+        /////0 - not table /////1 - stable /////2 - (шум)/препятствие /////3 - мертвая зона
         public int IsStable
         {
             get { return isStable; }
@@ -113,8 +113,7 @@ namespace ConfiguratorMWS.Entity
         }
         //Green or red Distance
 
-         
-
+  
         //конфигурационне данные 90 команда производственные
         private MwsProdSettingsClass mwsProdSettingsClass;
         public MwsProdSettingsClass MwsProdSettingsClass

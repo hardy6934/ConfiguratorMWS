@@ -48,60 +48,34 @@ namespace ConfiguratorMWS.UI.MWS.MWSModals
 
         private async void LogInButton_ClickAsync(object sender, RoutedEventArgs e)
         {
+            // Отключить кнопку, чтобы предотвратить повторные нажатия
+            LogInButton.IsEnabled = false;
+
             try
             {
-                var url = Properties.Settings.Default.ApiUrl;
+                // Запуск асинхронной операции
+                bool success = await LogInAsync();
 
-                var requestBody = new
+                if (success)
                 {
-                    login = EmailField.Text,
-                    password = PasswordField.Text,
-                    loginKeyAccessId = ""
-                };
-                var jsonContent = JsonSerializer.Serialize(requestBody);
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-                using (HttpClient client = new HttpClient())
+                    this.DialogResult = true; // Закрытие окна с успешным результатом
+                }
+                else
                 {
-                    var response = await client.GetAsync(url + "/Ping");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        response = await client.PostAsync(url + "/api/APIAccount", content);
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var responseBody = await response.Content.ReadAsStringAsync();
-                            var responseObject = JsonSerializer.Deserialize<MyResponseModel>(responseBody);
-
-                            if (!string.IsNullOrEmpty(responseObject.accesToken) && !string.IsNullOrEmpty(responseObject.tokenExp.ToString()) && !string.IsNullOrEmpty(responseObject.accountId.ToString()) && !string.IsNullOrEmpty(responseObject.role))
-                            {
-                                Properties.Settings.Default.Token = responseObject.accesToken;
-                                Properties.Settings.Default.TokenAccountId = responseObject.accountId.ToString();
-                                Properties.Settings.Default.TokenExpDate = responseObject.tokenExp.ToString();
-                                Properties.Settings.Default.TokenRole = responseObject.role;
-                                Properties.Settings.Default.Save();
-
-
-                                var qwe = responseObject.accesToken;
-                                this.DialogResult = true;
-                            } 
-                        }
-                        else {
-                            ErrorMessage.Text = localizedStrings["InvalidLoginOrPassword"];
-                        } 
-                    }
-                    else {
-                        MessageBox.Show(localizedStrings["CheckInternetConnection"], localizedStrings["strError"], MessageBoxButton.OK, MessageBoxImage.Error); 
-                    }
+                    ErrorMessage.Text = localizedStrings["InvalidLoginOrPassword"]; 
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(localizedStrings["CheckInternetConnection"], localizedStrings["strError"]);
             }
-        }
-
-          
-      
+            finally
+            {
+                // Включить кнопку после завершения операции
+                LogInButton.IsEnabled = true;
+            }
+        }  
+         
 
         private void EmailField_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -118,6 +92,63 @@ namespace ConfiguratorMWS.UI.MWS.MWSModals
                 ErrorMessage.Text = "";
             }
         }
+
+
+
+        private async Task<bool> LogInAsync()
+        {
+            try
+            {
+                var url = Properties.Settings.Default.ApiUrl;
+
+                var requestBody = new
+                {
+                    login = EmailField.Text,
+                    password = PasswordField.Text,
+                    loginKeyAccessId = ""
+                };
+                var jsonContent = JsonSerializer.Serialize(requestBody);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                using (HttpClient client = new HttpClient())
+                {
+                    // Проверка доступности сервера
+                    var response = await client.GetAsync(url + "/Ping");
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new Exception("Cannot reach server. Check your internet connection.");
+                    }
+
+                    // Отправка запроса на авторизацию
+                    response = await client.PostAsync(url + "/api/APIAccount", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseBody = await response.Content.ReadAsStringAsync();
+                        var responseObject = JsonSerializer.Deserialize<MyResponseModel>(responseBody);
+
+                        // Проверка ответа
+                        if (!string.IsNullOrEmpty(responseObject.accesToken))
+                        {
+                            // Сохранение токена
+                            Properties.Settings.Default.Token = responseObject.accesToken;
+                            Properties.Settings.Default.TokenAccountId = responseObject.accountId.ToString();
+                            Properties.Settings.Default.TokenExpDate = responseObject.tokenExp.ToString();
+                            Properties.Settings.Default.TokenRole = responseObject.role;
+                            Properties.Settings.Default.Save();
+
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 
 

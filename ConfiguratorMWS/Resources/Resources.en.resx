@@ -365,4 +365,16 @@ Red colour of the detector indicates unstable level(volume) - it is not recommen
   <data name="InvalidLoginOrPassword" xml:space="preserve">
     <value>Invalid login or password!</value>
   </data>
+  <data name="Unstable" xml:space="preserve">
+    <value>Unstable</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Stable</value>
+  </data>
+  <data name="Interference" xml:space="preserve">
+    <value>Interference</value>
+  </data>
+  <data name="BlindSpot" xml:space="preserve">
+    <value>Blind spot</value>
+  </data>
 </root>

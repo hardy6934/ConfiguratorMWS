@@ -12,6 +12,9 @@ namespace ConfiguratorMWS.Entity.MWSSubModels
         private byte deviceType;
         private ushort password;
 
+
+      
+
         public ushort ProdYear
         {
             get => prodYear;

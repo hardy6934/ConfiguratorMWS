@@ -364,4 +364,16 @@
   <data name="InvalidLoginOrPassword" xml:space="preserve">
     <value>Неверный логин или пароль!</value>
   </data>
+  <data name="Unstable" xml:space="preserve">
+    <value>Нестабилен</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Стабилен</value>
+  </data>
+  <data name="Interference" xml:space="preserve">
+    <value>Помехи</value>
+  </data>
+  <data name="BlindSpot" xml:space="preserve">
+    <value>Мертвая зона</value>
+  </data>
 </root>

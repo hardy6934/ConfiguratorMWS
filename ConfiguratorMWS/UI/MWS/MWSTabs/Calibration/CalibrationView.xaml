@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <UserControl.Resources>
         <Style x:Key="LabelStyles" TargetType="{x:Type Label}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Foreground" Value="#2f2f2f"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -34,6 +34,7 @@
             <Setter Property="TextWrapping" Value="NoWrap"/>
             <Setter Property="TextTrimming" Value="None"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#2f2f2f"/>
             <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/> 
         </Style>
     </UserControl.Resources>
@@ -203,21 +204,57 @@ Style="{DynamicResource ButtonUpdateFirmware}" FontFamily="{StaticResource Manro
                                 <Button Content="i" Height="12px" Width="12px" BorderBrush="#0386ce" Background="Transparent"  
 Foreground="#0386ce" Style="{DynamicResource TogglesButtonBall}"  Padding="0 -2 0 1" ToolTipService.InitialShowDelay="200" ToolTip="{Binding Source={StaticResource LocalizedStrings}, Path=[CurrentDetectorText]}"/>
                             </StackPanel>
-                            <Label Content="{Binding mWSEntity.MwsRealTimeData.Distance}" FontSize="23">
-                                <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Foreground" Value="Black" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="0">
-                                                <Setter Property="Foreground" Value="Red" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="1">
-                                                <Setter Property="Foreground" Value="Green" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Label.Style>
-                            </Label>
+                             
+                            <StackPanel Orientation="Horizontal"> 
+                                <Label Content="{Binding mWSEntity.MwsRealTimeData.Distance}" FontSize="23">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="0">
+                                                    <Setter Property="Foreground" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="1">
+                                                    <Setter Property="Foreground" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="2">
+                                                    <!--(шум/препятствие на пуити)-->
+                                                    <Setter Property="Foreground" Value="Orange" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="3">
+                                                    <!--(препятствие в мертвой зоне)-->
+                                                    <Setter Property="Foreground" Value="#f2c80a" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+
+                                <Label FontSize="23">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="0">
+                                                    <Setter Property="Content" Value="{Binding Source={StaticResource LocalizedStrings}, Path=[Unstable]}" />
+                                                    <Setter Property="Foreground" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="1">
+                                                    <Setter Property="Content" Value="{Binding Source={StaticResource LocalizedStrings}, Path=[Stable]}" />
+                                                    <Setter Property="Foreground" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="2">
+                                                    <Setter Property="Content" Value="{Binding Source={StaticResource LocalizedStrings}, Path=[Interference]}" />
+                                                    <Setter Property="Foreground" Value="Orange" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding mWSEntity.IsStable}" Value="3">
+                                                    <Setter Property="Content" Value="{Binding Source={StaticResource LocalizedStrings}, Path=[BlindSpot]}" />
+                                                    <Setter Property="Foreground" Value="#f2c80a" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label> 
+                            </StackPanel>
+                            
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical">

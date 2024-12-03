@@ -224,9 +224,10 @@ Background="#00C638" BorderBrush="#02ad32" Command="{Binding saveSettings}" Font
                             <StackPanel Orientation="Vertical" Grid.Column="1"  Margin="10 0">
                                 <Label Style="{DynamicResource LabelSettingsStyle}" Content="{Binding Source={StaticResource LocalizedStrings}, Path=[SensorType]}" Foreground="#353535"/>
                                 <ComboBox Style="{DynamicResource ComboBoxRaunded}" HorizontalAlignment="Stretch" Padding="10px 5px" Foreground="#757575"
-BorderThickness="1" Text="{Binding ProdType}"  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"> 
-                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">MWS RS 2</ComboBoxItem>
-                                    <ComboBoxItem  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">MWS 2</ComboBoxItem>
+                                    BorderThickness="1" Text="{Binding ProdType}"  FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold" Padding="10"></ComboBoxItem>
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">MWS RS 2</ComboBoxItem>
+                                    <ComboBoxItem FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold">MWS 2</ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
                         </Grid>

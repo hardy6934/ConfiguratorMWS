@@ -15,6 +15,7 @@ namespace ConfiguratorMWS.Data.Abstract
         public void ChangeUpdatingProgressBarValue(int value);
         public void UpdateWindowProgresBarStatus(string val);
         public void GeneralWindowProgressBarStatus(string val);
+        public uint GetMwsFlag(); 
 
     }
 }

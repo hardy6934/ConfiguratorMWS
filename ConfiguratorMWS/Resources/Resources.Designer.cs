@@ -106,6 +106,15 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string BlindSpot {
+            get {
+                return ResourceManager.GetString("BlindSpot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Рассчитать.
         /// </summary>
         internal static string Calculate {
@@ -301,6 +310,15 @@ namespace ConfiguratorMWS.Resources {
         internal static string Information {
             get {
                 return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помехи.
+        /// </summary>
+        internal static string Interference {
+            get {
+                return ResourceManager.GetString("Interference", resourceCulture);
             }
         }
         
@@ -530,6 +548,15 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Стабилен.
+        /// </summary>
+        internal static string Stable {
+            get {
+                return ResourceManager.GetString("Stable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ошибка!.
         /// </summary>
         internal static string strError {
@@ -657,6 +684,15 @@ namespace ConfiguratorMWS.Resources {
         internal static string TuckText {
             get {
                 return ResourceManager.GetString("TuckText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нестабилен.
+        /// </summary>
+        internal static string Unstable {
+            get {
+                return ResourceManager.GetString("Unstable", resourceCulture);
             }
         }
         

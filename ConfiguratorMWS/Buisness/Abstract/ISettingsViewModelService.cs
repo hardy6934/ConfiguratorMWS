@@ -17,6 +17,7 @@ namespace ConfiguratorMWS.Buisness.Abstract
         public void ChangeTimerWorkInterval(int interval);
         public MWSEntity GetEntity();
         public void ChangeProgressBarValue(int value);
+        public Task SendSettingsOnServerAsync(byte[] bufferFlashDataForWr, uint SerialNumberFullFormat, string prodType);
 
     }
 }

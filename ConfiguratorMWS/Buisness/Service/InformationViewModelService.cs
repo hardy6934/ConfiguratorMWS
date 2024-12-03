@@ -131,29 +131,50 @@ namespace ConfiguratorMWS.Buisness.Service
         } 
         public int CalculateIsDistanceValueStable(float[] array) {
 
-            // 0 - not stable
-            // 1 - stable
+            /// 0 - not stable /// 1 - stable /// 2 - (шум/препятствие на пуити) /// 3 - (препятствие в мертвой зоне)
 
             if (array.Contains(0) || array.Length == 0) return 0;
 
-            float averageValue = 0; // Среднее значение в массиве
-            float threshold = 10.0f; // Порог отклонения
-            
-            foreach (float value in array) { 
-                averageValue += value;
-            }
-            averageValue = averageValue / array.Length;
+            var flag = mWSRepository.GetMwsFlag();
 
-
-            foreach (float value in array)
+            if ((flag & (1 << 8)) != 0)
             {
-                if (Math.Abs(value - averageValue) > threshold)
-                {
-                    return 0;
-                }
-            }
+                // Первый кейс
+                float averageValue = 0; // Среднее значение в массиве
+                float threshold = 20.0f; // Порог отклонения
 
-            return 1;
+                foreach (float value in array)
+                {
+                    averageValue += value;
+                }
+                averageValue = averageValue / array.Length;
+
+                foreach (float value in array)
+                {
+                    if (Math.Abs(value - averageValue) > threshold)
+                    {
+                        return 0;
+                    }
+                }
+                return 1;
+            }
+            else if ((flag & (1 << 9)) != 0)
+            {
+                // (шум/препятствие на пуити) 
+                return 2;
+            } 
+            else if ((flag & (1 << 10)) != 0)
+            {
+                // (препятствие в мертвой зоне)
+                return 3;
+            }
+            else
+            {
+                
+                return 0;
+            }
+             
+
         } 
 
 

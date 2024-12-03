@@ -11,7 +11,7 @@ namespace ConfiguratorMWS.Entity.MWSSubModels
         public byte sensorType;
         public string hardVersion;
         public string softVersion;
-        
+       
 
         public uint SerialNumber
         {
@@ -27,8 +27,7 @@ namespace ConfiguratorMWS.Entity.MWSSubModels
         public uint SerialNumberFullFormat
         {
             get => serialNumber == 0 ? 0 : serialNumber + 106000000;
-            set { 
-            }
+            set { }
         }
 
         public byte SensorType
@@ -73,7 +72,6 @@ namespace ConfiguratorMWS.Entity.MWSSubModels
                 RaisePropertyChanged(nameof(SoftVersion));
             }
         }
-
 
 
         public MwsCommonDataClass Clone()

@@ -38,7 +38,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration
             SaveCalculatedTareToFileCommand = new RelayCommand(SaveCalculatedTareToFile, (obj) => CalculatedTable.Rows.Count > 0);
             CalculateTableCommand = new RelayCommand(CalculateCalibrationTable, null);
             UploadXlsFileCommand = new RelayCommand(UploadeXlsFile, null);
-            saveSettingsCommand = new RelayCommand(SaveSettings, (obj) => (mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged) && (CalculatedTable.Rows.Count > 0));
+            saveSettingsCommand = new RelayCommand(SaveSettingsAsync, (obj) => (mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged) && (CalculatedTable.Rows.Count > 0));
             
             // Подписываемся на изменения свойства CommandStatus
             mWSEntity.PropertyChanged += (sender, e) =>
@@ -128,7 +128,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration
          
 
 
-        public void SaveSettings(object obj)
+        public async Task SaveSettingsAsync(object obj)
         {
             settingsViewModelService.ChangeProgressBarValue(0);// progress bar
             Array.Copy(mWSEntity.MwsConfigurationVariables.bufferFlashDataForRead, 0x800, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x800, 0x40);
@@ -158,11 +158,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration
 
 
             settingsViewModelService.ChangeTimerWorkInterval(100);
-            if (mWSEntity.MwsCommonData.SensorType == 0xAA)
-            {
-                mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x800;
-            }
+            
+            mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x800;
             mWSEntity.MwsConfigurationVariables.ConfirmAddress = 10000;
+
+            await settingsViewModelService.SendSettingsOnServerAsync(mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, mWSEntity.MwsCommonData.SerialNumberFullFormat, mWSEntity.MwsCommonData.SensorTypeForDisplaing);
 
             mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceFlashClear;
 

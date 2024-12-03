@@ -56,7 +56,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
             localizedStrings = (LocalizedStrings)Application.Current.Resources["LocalizedStrings"];
             mWSEntity = mWSRepository.GetEntity();
 
-            saveSettings = new RelayCommand(SaveSettings, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
+            saveSettings = new RelayCommand(SaveSettingsAsync, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
             addRowInTable = new RelayCommand(AddRowInTable, null);
             removeRowFromTable = new RelayCommand(RemoveRowFromTable, (obj) => SelectedRow != null);
             saveSettingsToFileCommand = new RelayCommand(SaveBytesToTextFile, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
@@ -75,7 +75,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
 
 
 
-        public void SaveSettings(object obj)
+        public async Task SaveSettingsAsync(object obj)
         {
             settingsViewModelService.ChangeProgressBarValue(500);// progress bar
             Array.Copy(mWSEntity.MwsConfigurationVariables.bufferFlashDataForRead, 0x800, mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, 0x800, 0x40);
@@ -102,6 +102,8 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Calibration
 
             mWSEntity.MwsConfigurationVariables.CurrentAddress = 0x800;
             mWSEntity.MwsConfigurationVariables.ConfirmAddress = 10000;
+
+            await settingsViewModelService.SendSettingsOnServerAsync(mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, mWSEntity.MwsCommonData.SerialNumberFullFormat, mWSEntity.MwsCommonData.SensorTypeForDisplaing);
 
             mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceFlashClear;
 

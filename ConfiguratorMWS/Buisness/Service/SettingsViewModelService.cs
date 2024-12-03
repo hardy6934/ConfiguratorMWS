@@ -4,7 +4,9 @@ using ConfiguratorMWS.Data.Repository;
 using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.Entity.MWSStructs;
 using ConfiguratorMWS.Entity.MWSSubModels;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace ConfiguratorMWS.Buisness.Service
 {
@@ -71,7 +73,7 @@ namespace ConfiguratorMWS.Buisness.Service
                 password = settings.Password,  
             };
 
-    }
+        }
 
         public byte[] RawSerialize(object anything)
         {
@@ -95,6 +97,53 @@ namespace ConfiguratorMWS.Buisness.Service
         public void ChangeProgressBarValue(int value)
         {
             mWSRepository.ChangeProgressBarValue(value);
+        }
+
+        public async Task SendSettingsOnServerAsync(byte[] bufferFlashDataForWr, uint SerialNumberFullFormat, string prodType)
+        {
+            //отправка настроек на сервер
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.Token) && !string.IsNullOrEmpty(Properties.Settings.Default.TokenAccountId))
+            {
+                DateTime tokenExpDate;
+
+                if (DateTime.TryParse(Properties.Settings.Default.TokenExpDate, out tokenExpDate))
+                {
+                    if (tokenExpDate > DateTime.Now)
+                    {
+
+                        var url = Properties.Settings.Default.ApiUrl;
+                        var tokenAccountId = Properties.Settings.Default.TokenAccountId;
+                        var token = Properties.Settings.Default.Token;
+
+                        string byteArrayAsString = string.Join(" ", bufferFlashDataForWr.Select(b => b.ToString()));
+
+                        var requestBody = new MultipartFormDataContent
+                        {
+                            { new StringContent(tokenAccountId, Encoding.UTF8), "accountId" },
+                            { new StringContent(SerialNumberFullFormat.ToString()), "serialNumber" },
+                            { new StringContent(""), "MAC" },
+                            { new StringContent(prodType), "sensorName" },
+                            { new StringContent(byteArrayAsString, Encoding.UTF8), "file", $"{prodType}_{SerialNumberFullFormat}_{DateTime.Now:yyyyMMddHHmmss}.txt" }
+                        };
+
+                        using (HttpClient client = new HttpClient())
+                        {
+                            var response = await client.GetAsync(url + "/Ping");
+                            if (response.IsSuccessStatusCode)
+                            {
+                                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                                response = await client.PostAsync(url + "/api/APISettings", requestBody);
+                                if (response.IsSuccessStatusCode)
+                                {
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            //отправка настроек на сервер 
         }
 
 

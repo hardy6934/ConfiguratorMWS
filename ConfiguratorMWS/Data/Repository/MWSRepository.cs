@@ -39,6 +39,10 @@ namespace ConfiguratorMWS.Data.Repository
         { 
             mWSEntity.GeneralWindowProgressBarStatus = val;
         }
+        public uint GetMwsFlag() {
+            return mWSEntity.MwsRealTimeData.Flags;
+        }
+ 
 
     }
 }
