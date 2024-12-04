@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs"  
         xmlns:behaviors="clr-namespace:ConfiguratorMWS.src.Behaviors"  
         mc:Ignorable="d" 
-        Title="MWSWindow" Height="600" Width="1000" Background="White">
+        Title="MWSWindow" Height="600" Width="900" MinWidth="850" Background="White">
 
     <Window.Resources>
         <behaviors:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -64,8 +64,8 @@
   
             <!-- Кнопки для переключения содержимого -->
             <Grid.ColumnDefinitions> 
-                <ColumnDefinition Width="7*"/>
-                <ColumnDefinition Width="3*"/>   
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>   
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal">
@@ -102,7 +102,7 @@
 
                 <StackPanel VerticalAlignment="Center">
                     <ComboBox x:Name="LanguageComboBox" Style="{DynamicResource ComboBoxRaunded}" SelectedIndex="0" BorderThickness="0" SelectionChanged="LanguageComboBox_Selected"
-                    Padding="10px 5px" Margin="5px 0px 5px 0px"  Cursor="Hand" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"
+                    Padding="10px 5px" Margin="5px 0px 10px 0px"  Cursor="Hand" FontFamily="{StaticResource ManropeFont}" FontWeight="SemiBold"
                         ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}" />
                 </StackPanel> 
                 

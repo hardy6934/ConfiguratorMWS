@@ -16,7 +16,20 @@ namespace ConfiguratorMWS.Entity
         }
          
 
-        public bool isConnected;
+        public bool isConnected; 
+        public bool IsConnected
+        {
+            get
+            {
+                return isConnected;
+            }
+            set
+            {
+                isConnected = value;
+                RaisePropertyChanged("IsConnected");
+            }
+        }
+
         private int commandStatus = 0;
         public int CommandStatus { //Switch case statuses
             get {
@@ -196,21 +209,8 @@ namespace ConfiguratorMWS.Entity
          
         public MwsConfigurationVariablesClass MwsConfigurationVariables { get; set; }
 
-          
-        public bool IsConnected
-        {
-            get
-            {
-                return isConnected;
-            }
-            set
-            {
-                isConnected = value;
-                RaisePropertyChanged("IsConnected");
-            }
-        }
-
-
+         
+         
 
 
         public MWSEntity Clone()

@@ -217,12 +217,12 @@
     <value>Upload file</value>
   </data>
   <data name="TuckText" xml:space="preserve">
-    <value>It is used to set a stable logical state "1" during periods of no data exchange.
-Physical bus "A" is pulled to the interface power supply, bus "B" is pulled to the common wire.</value>
+    <value>It is used to set a stable logical state “1” during periods of no communication.
+Physical bus “A” is pulled up to the interface power supply, bus “B” is pulled up to the common wire.</value>
   </data>
   <data name="TerminatorText" xml:space="preserve">
-    <value>Enable the RS485 data bus impedance matching mode.
-When this option is set, a 120 om termination resistor is added to the data bus on the device side. 
+    <value>Enables the RS485 data bus impedance matching mode.
+When this option is set, a 120 ohm terminal impedance is included in the data bus on the device side. 
 It is only activated for two end devices of the entire RS485 bus.</value>
   </data>
   <data name="SensorAddressText" xml:space="preserve">
@@ -376,5 +376,8 @@ Red colour of the detector indicates unstable level(volume) - it is not recommen
   </data>
   <data name="BlindSpot" xml:space="preserve">
     <value>Blind spot</value>
+  </data>
+  <data name="N" xml:space="preserve">
+    <value>N value</value>
   </data>
 </root>

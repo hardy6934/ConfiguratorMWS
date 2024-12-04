@@ -7,10 +7,8 @@ using ConfiguratorMWS.UI.MWS.MWSTabs.CalculatedCalibration;
 using Microsoft.Extensions.DependencyInjection;
 using ConfiguratorMWS.Buisness.Abstract;
 using ConfiguratorMWS.Entity;
-using ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware;
 using ConfiguratorMWS.Resources;
 using System.Collections.ObjectModel;
-using ConfiguratorMWS.UI.MWS.MWSModals;
 using System.Windows;
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs

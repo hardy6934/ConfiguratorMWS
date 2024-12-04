@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs.Information"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="800" Background="White">
+             d:DesignHeight="400" d:DesignWidth="900" Background="White">
     <UserControl.Resources>
         <Style x:Key="LabelGeneralStyles" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -211,9 +211,11 @@
 
                 <Grid Grid.Row="1" Margin="20px 10px" MaxHeight="55px" MinHeight="30px" VerticalAlignment="Bottom">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="20*"/> 
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="20*"/> 
                     </Grid.ColumnDefinitions>
@@ -226,34 +228,24 @@
 
                     <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="1" >
                     </Border>
-
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2" >
-                        <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Distance]}" Foreground="#9496A2"/>
-                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Distance}" FontSize="26px" Foreground="#676767"/>
-                    </StackPanel> 
-
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2">
+                        <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[ValN]}" Foreground="#9496A2"/>
+                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.N}" FontSize="26px" Foreground="#676767"/>
+                    </StackPanel>
+                      
                     <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="3">
-                    </Border>
-
+                    </Border> 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
                         <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Volume]}" Foreground="#9496A2"/>
-                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Volume}" FontSize="26px" Foreground="Black"/>
+                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Volume}" FontSize="26px" Foreground="#676767"/>
                     </StackPanel>
 
-
-                    <!--<Border BorderBrush="Black" BorderThickness="1 0" Height="Auto" Width="Auto">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Значение N:" />
-                            <TextBlock Text="{Binding mWSEntity.NOmni}" />
-                        </StackPanel>
-                    </Border>-->
-
-                    <!--<Border BorderBrush="Black" BorderThickness="1 0" Height="Auto" Width="Auto">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Флаги:" />
-                            <TextBlock Text="{Binding mWSEntity.Flags}" />
-                        </StackPanel>
-                    </Border>-->
+                    <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="5">
+                    </Border>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="6" >
+                        <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Distance]}" Foreground="#9496A2"/>
+                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Distance}" FontSize="26px" Foreground="#676767"/>
+                    </StackPanel>
 
                 </Grid>
 

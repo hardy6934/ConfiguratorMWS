@@ -126,7 +126,12 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Settings
                 mWSEntity.MwsConfigurationVariables.ConfirmAddress = 10000;
 
 #if PROD
-                await settingsViewModelService.SendSettingsOnServerAsync(mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, mWSEntity.MwsCommonData.SerialNumberFullFormat, ProdType);
+                if (!string.IsNullOrEmpty(ProdType)) {
+                    await settingsViewModelService.SendSettingsOnServerAsync(mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, mWSEntity.MwsCommonData.SerialNumberFullFormat, ProdType);
+                }
+                else {
+                    await settingsViewModelService.SendSettingsOnServerAsync(mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, mWSEntity.MwsCommonData.SerialNumberFullFormat, mWSEntity.MwsCommonData.SensorTypeForDisplaing);
+                }
 #else
                 await settingsViewModelService.SendSettingsOnServerAsync(mWSEntity.MwsConfigurationVariables.bufferFlashDataForWr, mWSEntity.MwsCommonData.SerialNumberFullFormat, mWSEntity.MwsCommonData.SensorTypeForDisplaing);
 #endif  
