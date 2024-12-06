@@ -4,18 +4,20 @@ using ConfiguratorMWS.Data.Repository;
 using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.Entity.MWSStructs;
 using ConfiguratorMWS.Entity.MWSSubModels;
+using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 
 namespace ConfiguratorMWS.Buisness.Service
 {
     public class SettingsViewModelService : ISettingsViewModelService
     {
-        private readonly IMWSRepository mWSRepository; 
+        private readonly IMWSRepository mWSRepository;
         private readonly ITimerRepository timerRepository;
 
-        public SettingsViewModelService(IMWSRepository mWSRepository, ITimerRepository timerRepository) { 
+        public SettingsViewModelService(IMWSRepository mWSRepository, ITimerRepository timerRepository) {
             this.timerRepository = timerRepository;
             this.mWSRepository = mWSRepository;
         }
@@ -70,7 +72,7 @@ namespace ConfiguratorMWS.Buisness.Service
                 prodDay = settings.ProdDay,
                 serialNumber = settings.SerialNumber,
                 deviceType = settings.DeviceType,
-                password = settings.Password,  
+                password = settings.Password,
             };
 
         }
@@ -126,24 +128,58 @@ namespace ConfiguratorMWS.Buisness.Service
                             { new StringContent(byteArrayAsString, Encoding.UTF8), "file", $"{prodType}_{SerialNumberFullFormat}_{DateTime.Now:yyyyMMddHHmmss}.txt" }
                         };
 
-                        using (HttpClient client = new HttpClient())
+                        try
                         {
-                            var response = await client.GetAsync(url + "/Ping");
-                            if (response.IsSuccessStatusCode)
+                            using (HttpClient client = new HttpClient())
                             {
-                                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                                response = await client.PostAsync(url + "/api/APISettings", requestBody);
+                                var response = await client.GetAsync(url + "/Ping");
                                 if (response.IsSuccessStatusCode)
                                 {
-
+                                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                                    response = await client.PostAsync(url + "/api/APISettings", requestBody);
+                                }
+                                else
+                                {
+                                    SaveSettingsRequestForLater(bufferFlashDataForWr, SerialNumberFullFormat, prodType);
                                 }
                             }
+                        }
+                        catch (Exception ex) {
+                            SaveSettingsRequestForLater(bufferFlashDataForWr, SerialNumberFullFormat, prodType);
                         }
 
                     }
                 }
+            } 
+        }
+
+        public void SaveSettingsRequestForLater(byte[] bufferFlashDataForWr, uint SerialNumberFullFormat, string prodType)
+        {
+            try
+            {
+                string PendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder; 
+                if (!Directory.Exists(PendingRequestsFolder))
+                    Directory.CreateDirectory(PendingRequestsFolder);
+
+                string byteArrayAsString = string.Join(" ", bufferFlashDataForWr.Select(b => b.ToString()));
+                var data = new
+                {
+                    AccountId = Properties.Settings.Default.TokenAccountId,
+                    SerialNumber = SerialNumberFullFormat.ToString(),
+                    MAC = "",
+                    SensorName = prodType,
+                    FileName = $"{prodType}_{SerialNumberFullFormat.ToString()}_{DateTime.Now:yyyyMMddHHmmss}.txt",
+                    FileContent = byteArrayAsString
+                };
+
+                // Сохранение данных в файл
+                string filePath = Path.Combine(PendingRequestsFolder, $"requestSettings_{DateTime.Now:yyyyMMddHHmmss}.json");
+                File.WriteAllText(filePath, JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
             }
-            //отправка настроек на сервер 
+            catch (Exception ex)
+            { 
+            }
+
         }
 
 

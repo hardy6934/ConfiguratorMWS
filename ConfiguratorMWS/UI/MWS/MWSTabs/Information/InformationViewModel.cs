@@ -8,6 +8,7 @@ using ConfiguratorMWS.Entity.MWSStructs;
 using ConfiguratorMWS.Entity.MWSSubModels;
 using ConfiguratorMWS.Resources;
 using NPOI.Util;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -46,7 +47,17 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
             {
                 SelectedPort = Properties.Settings.Default.COMPort;
             }
+
+            // Подписываемся на изменения свойства CommandStatus
+            mWSEntity.PropertyChanged += async (sender, e) =>
+            {
+                if (e.PropertyName == nameof(mWSEntity.CommandStatus) && mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90Accepted)
+                {
+                    await informmationViewModelService.SendConnectionHistoryOnServerAsync(mWSEntity.MwsCommonData.SerialNumberFullFormat, mWSEntity.MwsCommonData.SensorTypeForDisplaing);
+                }
+            };
         }
+
 
         //Fuel percentage int tank
         public string topDistanceTank;
@@ -207,8 +218,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                         bufferTxData[2] = 0x80;
                         bufferTxData[3] = informmationViewModelService.CalcCRC(bufferTxData, 3);
 
-                        informmationViewModelService.WriteData(bufferTxData, 4); 
+                        informmationViewModelService.WriteData(bufferTxData, 4);
 
+                        ////
+                            Debug.WriteLine("____________________Отпрвлена команда 80____________________");
+                        //// 
                     }
                     catch (TimeoutException)
                     {
@@ -237,8 +251,12 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
 
                     bufferTxData[10] = informmationViewModelService.CalcCRC(bufferTxData, bufferTxData[1] + 2);
 
-                    informmationViewModelService.WriteData(bufferTxData, 11); 
-                    break;
+                    informmationViewModelService.WriteData(bufferTxData, 11);
+
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда 85____________________");
+                    //// 
+                break;
 
                 case (int)MwsStatusesEnum.Command85Accepted:
                       
@@ -252,11 +270,14 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     bufferTxData[6] = informmationViewModelService.CalcCRC(bufferTxData, bufferTxData[1] + 2);
 
                     informmationViewModelService.WriteData(bufferTxData, 7);
+
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда 90____________________");
+                    //// 
                     break;
 
                 case (int)MwsStatusesEnum.Command90Accepted:
-
-                    informmationViewModelService.ChangeTimerWorkInterval(250);
+                    informmationViewModelService.ChangeTimerWorkInterval(250); 
                     mWSEntity.CommandStatus = (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged;
                 break;
 
@@ -277,9 +298,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     else {
                         mWSEntity.CommandStatus = 0;
                     }
-                     
 
-                    break;
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда 71____________________");
+                    //// 
+                break;
 
                 case (int)MwsStatusesEnum.DeviceFlashClear:
 
@@ -293,7 +316,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     bufferTxData[4] = (byte)(mWSEntity.MwsConfigurationVariables.CurrentAddress >> 8);
                     bufferTxData[5] = informmationViewModelService.CalcCRC(bufferTxData, bufferTxData[1] + 2);
 
-                    informmationViewModelService.WriteData(bufferTxData, 6); 
+                    informmationViewModelService.WriteData(bufferTxData, 6);
+
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда 91____________________(Flash Clear)");
+                    //// 
                 break;
 
                 case (int)MwsStatusesEnum.DeviceFlashWrite:
@@ -319,7 +346,10 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     bufferTxData[num + 6] = informmationViewModelService.CalcCRC(bufferTxData, bufferTxData[1] + 2);
 
                     informmationViewModelService.WriteData(bufferTxData, (int)(7 + num));
-                     
+
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда 92____________________(Flash Write)");
+                    //// 
                 break;
 
                 case (int)MwsStatusesEnum.DeviceReset:
@@ -336,6 +366,9 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     mWSEntity.CommandStatus = 0;
                     informmationViewModelService.ChangeTimerWorkInterval(1000);
 
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда FF____________________(Device Reset)");
+                    //// 
                 break;
 
 
@@ -353,6 +386,10 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                      
                     mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceUpdateRequestBootInfo;
                     informmationViewModelService.ChangeTimerWorkInterval(150);
+                     
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда FF____________________(Device Reset For Update)");
+                    ////  
                 break;
 
                 case (int)MwsStatusesEnum.DeviceUpdateRequestBootInfo: 
@@ -371,19 +408,30 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     informmationViewModelService.WriteData(bufferTxData, 2);
                       
                     informmationViewModelService.ChangeTimerWorkInterval(300); 
+
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда 0x5A____________________(Update Request)");
+                    ////
                 break;
 
                 case (int)MwsStatusesEnum.DviceUpdateRequestEraseFlash:
 
                     mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceUpdateRequestBootInfo;
-                    informmationViewModelService.ChangeTimerWorkInterval(10);
+                    informmationViewModelService.ChangeTimerWorkInterval(10); 
 
+                    ////
+                        Debug.WriteLine("____________________Ошибка обновления, начать заново____________________");
+                    ////
                 break;
 
                 case (int)MwsStatusesEnum.DeviceUpdateResponsData:
 
                     mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceUpdateRequestBootInfo;
                     informmationViewModelService.ChangeTimerWorkInterval(10); 
+
+                    ////
+                        Debug.WriteLine("____________________Ошибка обновления, начать заново____________________");
+                    ////
                 break;
 
                 case (int)MwsStatusesEnum.DeviceSetDefaultSettings: 
@@ -399,7 +447,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
 
                     informmationViewModelService.ChangeTimerWorkInterval(250);
                     mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceResetAfterSettingDefaultSettings;
-                    break;
+
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда 0x70____________________(Set Default Settings)");
+                    ////
+                break;
                     
                 case (int)MwsStatusesEnum.DeviceResetAfterSettingDefaultSettings:  
                     bufferTxData = new byte[4];
@@ -415,7 +467,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                       
                     informmationViewModelService.ChangeUpdatingProgressBarValue(6144);
                     informmationViewModelService.UpdateWindowProgresBarStatus(localizedStrings["FactorySettingsHaveBeenRestored"]);
-                    break;
+
+                    ////
+                        Debug.WriteLine("____________________Отпрвлена команда 0xFF____________________(Device Reset After Setting Default Settings)");
+                    ////
+                break;
 
                 default:
 
@@ -490,7 +546,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
         }
 
 
-        public void DecodeIntResponse(byte[] bufferRxDataInt)
+        public async void DecodeIntResponse(byte[] bufferRxDataInt)
         { 
 
             //разбор сообщений сообщений от MWS
@@ -510,9 +566,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     //updateInformation FormData
                     RaisePropertyChanged(nameof(HeightOfFuelInTheTank)); 
                     //updateInformation FormData   
+                       
 
-                ///Mashaling realTimeData   
-
+                    ////
+                        Debug.WriteLine("____________________Command 71 Answered____________________");
+                    ////
             }
             else if (bufferRxDataInt[2] == 0x80)
             {
@@ -527,8 +585,12 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                 //Установка типа датчика и апаратной версии 
                 mWSEntity.MwsConfigurationVariables.updateTypeDevice = 0x35;
                 mWSEntity.MwsConfigurationVariables.updateHardDevice = commonDataStruct.hardVersion;
-
+                 
                 mWSEntity.CommandStatus = (int)MwsStatusesEnum.Command80Accepted;
+
+                ////
+                    Debug.WriteLine("____________________Command 80 Answered And Status Changed____________________");
+                ////
             }
             else if (bufferRxDataInt[2] == 0x85)
             {
@@ -545,7 +607,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                     mWSEntity.MwsConfigurationVariables.ConfirmAddress = -1;
                     mWSEntity.MwsConfigurationVariables.CountFF = 0;
 
-                    mWSEntity.CommandStatus = (int)MwsStatusesEnum.Command85Accepted; 
+                    mWSEntity.CommandStatus = (int)MwsStatusesEnum.Command85Accepted;
+
+                    ////
+                        Debug.WriteLine("____________________Command 85 Answered And Status Changed____________________");
+                    ////
                 }
 
             }
@@ -625,10 +691,15 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
 
                     informmationViewModelService.ChangeProgressBarValue(6144);// progress bar
                     //Insert information tank FormData
-                     
+                      
 
-                    // делаю не мертвый режим потому что датчик точно подключен
-                    mWSEntity.MwsConfigurationVariables.deadMode = false;   
+                    // делаю не мертвый режим потому что датчик точно подключен и отправляю информацию о ConneectionnHistory 
+                    mWSEntity.MwsConfigurationVariables.deadMode = false;
+                    mWSEntity.MwsConfigurationVariables.CountNotUnansweredCommands71 = 0;
+                     
+                    ////
+                        Debug.WriteLine("____________________Command 90 Answered And Status Changed____________________");
+                    ////                    
                 }
 
             }
@@ -651,10 +722,13 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
 #endif
 
                     mWSEntity.MwsConfigurationVariables.ConfirmAddress = 10000;
-
-
+                     
                     mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceFlashWrite;
-                }  
+
+                    ////
+                        Debug.WriteLine("____________________Command 91 Answered And Status Changed____________________");
+                    ////
+                }
             }
             else if (bufferRxDataInt[2] == 0x92)
             {
@@ -679,7 +753,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                 {
                     mWSEntity.CommandStatus = (int)MwsStatusesEnum.DeviceReset;
                     informmationViewModelService.ChangeProgressBarValue(4000);// progress bar
-                } 
+                     
+                    ////
+                        Debug.WriteLine("____________________Command 92 Answered And Status Changed____________________");
+                    ////
+                }
             } 
 
 
@@ -729,7 +807,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
                         informmationViewModelService.ChangeTimerWorkInterval(5000);
                     }
 
-                    break;
+                break;
 
                 case (int)MwsStatusesEnum.DviceUpdateRequestEraseFlash:
 
@@ -742,7 +820,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
 
                     informmationViewModelService.DiscardInBuffer();
                     informmationViewModelService.DiscardOutBuffer();
-
+                    
                     bufferTxData = new byte[mWSEntity.MwsConfigurationVariables.updateBufferFileCOD[mWSEntity.MwsConfigurationVariables.updateIndexTRX] + 5];
                     Array.Copy(mWSEntity.MwsConfigurationVariables.updateBufferFileCOD, mWSEntity.MwsConfigurationVariables.updateIndexTRX, bufferTxData, 0, mWSEntity.MwsConfigurationVariables.updateBufferFileCOD[mWSEntity.MwsConfigurationVariables.updateIndexTRX] + 5);
                     informmationViewModelService.WriteData(bufferTxData, bufferTxData.Length);
@@ -754,7 +832,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs.Information
 
                     informmationViewModelService.ChangeTimerWorkInterval(500);
 
-                    break;
+                break;
 
                 case (int)MwsStatusesEnum.DeviceUpdateResponsData:
 

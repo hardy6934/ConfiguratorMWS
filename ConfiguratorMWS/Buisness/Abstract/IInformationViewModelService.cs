@@ -1,6 +1,4 @@
-﻿
-using ConfiguratorMWS.Data.Repository;
-using ConfiguratorMWS.Entity;
+﻿using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.Entity.MWSStructs;
 using ConfiguratorMWS.Entity.MWSSubModels;
 using System.IO.Ports;
@@ -49,5 +47,11 @@ namespace ConfiguratorMWS.Buisness.Abstract
         public void TimerWork(EventHandler timerCallback);
         public void ChangeTimerWorkInterval(int interval);
 
+
+
+        //WEB
+        public Task SendConnectionHistoryOnServerAsync(uint SerialNumberFullFormat, string prodType);
+
     }
 }
+ 

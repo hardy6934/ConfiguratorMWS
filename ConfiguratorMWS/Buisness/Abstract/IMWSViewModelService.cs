@@ -1,4 +1,8 @@
 ﻿using ConfiguratorMWS.Entity;
+using System.IO;
+using System.Net.Http;
+using System.Text.Json;
+using System.Text;
 using System.Windows;
 namespace ConfiguratorMWS.Buisness.Abstract
 {
@@ -10,6 +14,10 @@ namespace ConfiguratorMWS.Buisness.Abstract
 
         public void ShowUpdateFirmwareWindow(Window parentWindow);
         public void ShowAuthorizationModal(Window parentWindow);
+
+
+        public void EnsurePendingRequestsFolderExists();
+        public Task RetryPendingRequestsAsync();
 
     }
 }

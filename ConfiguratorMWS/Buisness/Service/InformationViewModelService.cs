@@ -4,8 +4,13 @@ using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.Entity.MWSStructs;
 using ConfiguratorMWS.Entity.MWSSubModels;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.IO.Ports;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.Json;
 
 
 namespace ConfiguratorMWS.Buisness.Service
@@ -276,9 +281,91 @@ namespace ConfiguratorMWS.Buisness.Service
             timerRepository.TimerWork(timerCallback);
         }
         public void ChangeTimerWorkInterval(int interval) {
-            timerRepository.ChangeTimerWorkInterval(interval);
-
+            timerRepository.ChangeTimerWorkInterval(interval); 
         }
+
+
+
+        
+        //WEB
+        public async Task SendConnectionHistoryOnServerAsync(uint SerialNumberFullFormat, string sensorType) {
+
+            //отправка истории о подключении на сервер
+            var url = Properties.Settings.Default.ApiUrl;
+            int tokenAccountId;
+            var token = Properties.Settings.Default.Token;
+            
+            if (!string.IsNullOrEmpty(token) && int.TryParse(Properties.Settings.Default.TokenAccountId, out tokenAccountId))
+            {
+                DateTime tokenExpDate;
+
+                if (DateTime.TryParse(Properties.Settings.Default.TokenExpDate, out tokenExpDate))
+                {
+                    if (tokenExpDate > DateTime.Now)
+                    {
+
+                        var requestBody = new
+                        {
+                            sensorName = sensorType,
+                            mac = "",
+                            serialNumber = SerialNumberFullFormat.ToString(),
+                            dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), 
+                            accountId = tokenAccountId 
+                        };
+
+                        var jsonContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+
+                        try
+                        {
+                            using (HttpClient client = new HttpClient())
+                            {
+                                var response = await client.GetAsync(url + "/Ping");
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                                    response = await client.PostAsync(url + "/api/APIConnectionsHistory", jsonContent);
+                                }
+                                else
+                                {
+                                    SaveRequestForLater(requestBody);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            SaveRequestForLater(requestBody);
+                        }
+
+                    }
+                }
+            }
+            
+        }
+        private void SaveRequestForLater(object requestBody)
+        {
+            try
+            {
+                string PendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder;
+                 
+                // Ensure the folder exists
+                if (!Directory.Exists(PendingRequestsFolder))
+                {
+                    Directory.CreateDirectory(PendingRequestsFolder);
+                }
+
+                string fileName = Path.Combine(PendingRequestsFolder, $"requestConHistory_{DateTime.Now:yyyyMMdd_HHmmss}.json");
+                var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions { WriteIndented = true });
+
+                File.WriteAllText(fileName, json);
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        
+         
+        
 
     }
 }

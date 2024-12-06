@@ -35,10 +35,10 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
         public string SelectedLanguage { get; set; }   
 
         public MWSViewModel(IServiceProvider serviceProvider, IMWSViewModelService mWSViewModelService)
-        {
+        {  
             _serviceProvider = serviceProvider;
             this.mWSViewModelService = mWSViewModelService;
-            this.mWSEntity = mWSViewModelService.GetEntity();
+            this.mWSEntity = mWSViewModelService.GetEntity(); 
 
             //изменение и сохранение языков
             Languages = new ObservableCollection<string> { "РУС", "ENG"};
@@ -57,6 +57,7 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
             CurrentView = new InformationView(_serviceProvider.GetRequiredService<IInformationViewModel>());
 
             mWSViewModelService.ChangeProgressBarValue(0);
+
         }
 
         //Залогинен или нет
@@ -149,6 +150,8 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
             mWSViewModelService.ClearToken(); 
             RaisePropertyChanged(nameof(IsLoggedIn));
         }
+
+         
 
        
     }

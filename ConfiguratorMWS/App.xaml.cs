@@ -13,6 +13,7 @@ using ConfiguratorMWS.UI.MWS.MWSTabs.Settings;
 using ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 using System.Windows;
 
 namespace ConfiguratorMWS
@@ -72,8 +73,12 @@ namespace ConfiguratorMWS
             {
                 // Уведомляем интерфейс о смене всех текстовых ресурсов
                 (Resources["LocalizedStrings"] as LocalizedStrings)?.OnPropertyChanged(null);
-            }; 
+            };
 
+
+            var mwsViewModelService = AppHost.Services.GetRequiredService<IMWSViewModelService>();
+            mwsViewModelService.EnsurePendingRequestsFolderExists();
+            await mwsViewModelService.RetryPendingRequestsAsync();
         }
         protected override async void OnExit(ExitEventArgs e) {  
             await AppHost!.StopAsync();

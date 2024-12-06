@@ -26,5 +26,8 @@
     <Setting Name="TokenRole" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="PendingRequestsFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PendingRequests</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

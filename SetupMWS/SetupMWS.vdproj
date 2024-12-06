@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_3EB0DF766EBD431B8BA7A7E0A01DBDFC"
+        "MsmKey" = "8:_DA00700910504872A376A959462E4A8A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E3D415754C6945BFA1022D99877F9BB7"
+        "MsmKey" = "8:_E25687B4340F4546BB42A74AE612CFB7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -50,6 +50,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -74,6 +82,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -106,7 +122,7 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3EB0DF766EBD431B8BA7A7E0A01DBDFC"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DA00700910504872A376A959462E4A8A"
             {
             "SourcePath" = "8:C:\\Users\\smame\\Desktop\\Mechatronics.ico"
             "TargetName" = "8:Mechatronics.ico"
@@ -182,8 +198,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SetupMWS"
-        "ProductCode" = "8:{096CEA5B-15A2-429F-A951-29EEC18F9FCD}"
-        "PackageCode" = "8:{34278822-DA6A-4A2F-8539-156827497042}"
+        "ProductCode" = "8:{0D8AE315-7A6B-4FE4-97B9-29B8D4A5E571}"
+        "PackageCode" = "8:{22F8232D-A4E0-40BE-8D5A-1B45E1E24B93}"
         "UpgradeCode" = "8:{F79246B5-7A86-41B2-B13C-1224642F470B}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -191,12 +207,12 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:Mechatronics"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:SetupMWS"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:Mechatronics"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
@@ -303,18 +319,18 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_02D0696065634044A0A834A9E9C10336"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_194A6BE826DB4C6EAD1788E7D34D1D22"
             {
-            "Name" = "8:MWSApp"
+            "Name" = "8:ConfiguratorMWS"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_E3D415754C6945BFA1022D99877F9BB7"
+            "Target" = "8:_E25687B4340F4546BB42A74AE612CFB7"
             "Folder" = "8:_EE244F0AFEB042A08EDBB6ED777CF7B3"
             "WorkingFolder" = "8:_5759466AFAB74EF9B2CFA7CBFB9AB014"
-            "Icon" = "8:_3EB0DF766EBD431B8BA7A7E0A01DBDFC"
+            "Icon" = "8:_DA00700910504872A376A959462E4A8A"
             "Feature" = "8:"
             }
         }
@@ -716,7 +732,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E3D415754C6945BFA1022D99877F9BB7"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E25687B4340F4546BB42A74AE612CFB7"
             {
             "SourcePath" = "8:..\\ConfiguratorMWS\\obj\\Release\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
@@ -736,7 +752,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|Any CPU"
+            "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{A2D969A6-0C0A-46A8-97B7-996E546CDFAD}"
             "ShowKeyOutput" = "11:TRUE"

@@ -112,5 +112,17 @@ namespace ConfiguratorMWS.Properties {
                 this["TokenRole"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("PendingRequests")]
+        public string PendingRequestsFolder {
+            get {
+                return ((string)(this["PendingRequestsFolder"]));
+            }
+            set {
+                this["PendingRequestsFolder"] = value;
+            }
+        }
     }
 }
