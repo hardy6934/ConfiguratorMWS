@@ -2,12 +2,11 @@
 using ConfiguratorMWS.Data.Abstract;
 using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.Entity.MWSStructs;
-using ConfiguratorMWS.Entity.MWSSubModels;
+using ConfiguratorMWS.Entity.MWSSubModels; 
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Ports;
-using System.Net.Http;
-using System.Net.Http.Json;
+using System.Net.Http; 
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
@@ -345,18 +344,22 @@ namespace ConfiguratorMWS.Buisness.Service
         {
             try
             {
-                string PendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder;
-                 
-                // Ensure the folder exists
-                if (!Directory.Exists(PendingRequestsFolder))
+                string pendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder;
+                string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string folderPath = Path.Combine(appData, pendingRequestsFolder);
+
+                if (!Directory.Exists(folderPath) && !string.IsNullOrEmpty(appData))
                 {
-                    Directory.CreateDirectory(PendingRequestsFolder);
+                    Directory.CreateDirectory(folderPath);
                 }
 
-                string fileName = Path.Combine(PendingRequestsFolder, $"requestConHistory_{DateTime.Now:yyyyMMdd_HHmmss}.json");
-                var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions { WriteIndented = true });
+                if (Directory.Exists(folderPath))
+                {
+                    string fileName = Path.Combine(folderPath, $"requestConHistory_{DateTime.Now:yyyyMMdd_HHmmss}.json");
+                    var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions { WriteIndented = true });
 
-                File.WriteAllText(fileName, json);
+                    File.WriteAllText(fileName, json);
+                } 
 
             }
             catch (Exception ex)

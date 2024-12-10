@@ -190,10 +190,10 @@
     <value>Номер</value>
   </data>
   <data name="Value" xml:space="preserve">
-    <value>Значение мм</value>
+    <value>Значение, мм</value>
   </data>
   <data name="VolumeL" xml:space="preserve">
-    <value>Объем л</value>
+    <value>Объем, л</value>
   </data>
   <data name="AddARecord" xml:space="preserve">
     <value>Добавить запись</value>
@@ -257,13 +257,13 @@
     <value>CХЕМА ИЗМЕРЕНИЙ В ММ</value>
   </data>
   <data name="DiameterOfTheCistron" xml:space="preserve">
-    <value> - Диаметр цистрерны, мм.</value>
+    <value> - Диаметр цистерны, мм.</value>
   </data>
   <data name="LengthOfTheCylindricalPartOfTheTank" xml:space="preserve">
     <value> - Длина цилиндрической части цистерны, мм.</value>
   </data>
   <data name="LengthOfEllipticalSidewall" xml:space="preserve">
-    <value> - Длинна эллиптической боковины, мм.</value>
+    <value> - Длина эллиптической боковины, мм.</value>
   </data>
   <data name="SoftwareUpdate" xml:space="preserve">
     <value>Обновление ПО</value>
@@ -376,7 +376,19 @@
   <data name="BlindSpot" xml:space="preserve">
     <value>Мертвая зона</value>
   </data>
+  <data name="ValN" xml:space="preserve">
+    <value>Значение N</value>
+  </data>
   <data name="N" xml:space="preserve">
     <value>Значение N</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновление</value>
+  </data>
+  <data name="NewVersionAvailable" xml:space="preserve">
+    <value>Доступна новая версия</value>
+  </data>
+  <data name="InstallTheUpdate" xml:space="preserve">
+    <value>Установить обновление?</value>
   </data>
 </root>

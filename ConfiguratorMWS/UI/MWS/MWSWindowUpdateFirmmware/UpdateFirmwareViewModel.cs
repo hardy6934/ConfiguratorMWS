@@ -25,8 +25,8 @@ namespace ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware
             this.mWSEntity = this.updateFirmwareViewModelService.GetEntity();
 
             UpdateFirmwareCommand = new RelayCommand(UpdateFirmware, (obj) => mWSEntity.isConnected); 
-            UpdateFirmwareFromRemoteServerCommand = new RelayCommand(UpdateFirmwareFromRemoteServerAsync, (obj) => mWSEntity.isConnected);
-            SetDefaultSettingsCommand = new RelayCommand(SetDefaultSettings, (obj) => mWSEntity.isConnected);
+            UpdateFirmwareFromRemoteServerCommand = new RelayCommand(UpdateFirmwareFromRemoteServerAsync, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
+            SetDefaultSettingsCommand = new RelayCommand(SetDefaultSettings, (obj) => mWSEntity.CommandStatus == (int)MwsStatusesEnum.Command90AcceptedAndTimerIntervalChanged);
 
         }
 

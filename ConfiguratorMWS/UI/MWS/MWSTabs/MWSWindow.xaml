@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ConfiguratorMWS.UI.MWS.MWSTabs"  
         xmlns:behaviors="clr-namespace:ConfiguratorMWS.src.Behaviors"  
         mc:Ignorable="d" 
-        Title="MWSWindow" Height="600" Width="900" MinWidth="850" MinHeight="500" Background="White">
+        Title="{Binding CurrentVersion}" Height="600" Width="900" MinWidth="850" MinHeight="500" Background="White">
 
     <Window.Resources>
         <behaviors:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

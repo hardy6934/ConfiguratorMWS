@@ -124,5 +124,41 @@ namespace ConfiguratorMWS.Properties {
                 this["PendingRequestsFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://files.eurosenstelematics.com/files/versionmwsconfig")]
+        public string SetuperUrl {
+            get {
+                return ((string)(this["SetuperUrl"]));
+            }
+            set {
+                this["SetuperUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.0.1")]
+        public string AppVersion {
+            get {
+                return ((string)(this["AppVersion"]));
+            }
+            set {
+                this["AppVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://eurosens.ru/portfolio/eurosens-mws/")]
+        public string SetupZipUrl {
+            get {
+                return ((string)(this["SetupZipUrl"]));
+            }
+            set {
+                this["SetupZipUrl"] = value;
+            }
+        }
     }
 }

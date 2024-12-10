@@ -190,10 +190,10 @@
     <value>Number</value>
   </data>
   <data name="Value" xml:space="preserve">
-    <value>Value</value>
+    <value>Value, mm</value>
   </data>
   <data name="VolumeL" xml:space="preserve">
-    <value>Volume l</value>
+    <value>Volume, l</value>
   </data>
   <data name="AddARecord" xml:space="preserve">
     <value>Add a record</value>
@@ -377,7 +377,19 @@ Red colour of the detector indicates unstable level(volume) - it is not recommen
   <data name="BlindSpot" xml:space="preserve">
     <value>Blind spot</value>
   </data>
+  <data name="ValN" xml:space="preserve">
+    <value>Value N</value>
+  </data>
   <data name="N" xml:space="preserve">
     <value>N value</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="NewVersionAvailable" xml:space="preserve">
+    <value>A new version is available</value>
+  </data>
+  <data name="InstallTheUpdate" xml:space="preserve">
+    <value>Install the update?</value>
   </data>
 </root>

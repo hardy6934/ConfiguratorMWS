@@ -157,24 +157,33 @@ namespace ConfiguratorMWS.Buisness.Service
         {
             try
             {
-                string PendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder; 
-                if (!Directory.Exists(PendingRequestsFolder))
-                    Directory.CreateDirectory(PendingRequestsFolder);
+                string pendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder;
+                string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string folderPath = Path.Combine(appData, pendingRequestsFolder);
 
-                string byteArrayAsString = string.Join(" ", bufferFlashDataForWr.Select(b => b.ToString()));
-                var data = new
+                if (!Directory.Exists(folderPath) && !string.IsNullOrEmpty(appData))
                 {
-                    AccountId = Properties.Settings.Default.TokenAccountId,
-                    SerialNumber = SerialNumberFullFormat.ToString(),
-                    MAC = "",
-                    SensorName = prodType,
-                    FileName = $"{prodType}_{SerialNumberFullFormat.ToString()}_{DateTime.Now:yyyyMMddHHmmss}.txt",
-                    FileContent = byteArrayAsString
-                };
+                    Directory.CreateDirectory(folderPath);
+                }
+                    
+                if (Directory.Exists(folderPath))
+                {
+                    string byteArrayAsString = string.Join(" ", bufferFlashDataForWr.Select(b => b.ToString()));
+                    var data = new
+                    {
+                        AccountId = Properties.Settings.Default.TokenAccountId,
+                        SerialNumber = SerialNumberFullFormat.ToString(),
+                        MAC = "",
+                        SensorName = prodType,
+                        FileName = $"{prodType}_{SerialNumberFullFormat.ToString()}_{DateTime.Now:yyyyMMddHHmmss}.txt",
+                        FileContent = byteArrayAsString
+                    };
 
-                // Сохранение данных в файл
-                string filePath = Path.Combine(PendingRequestsFolder, $"requestSettings_{DateTime.Now:yyyyMMddHHmmss}.json");
-                File.WriteAllText(filePath, JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+                    // Сохранение данных в файл
+                    string filePath = Path.Combine(folderPath, $"requestSettings_{DateTime.Now:yyyyMMddHHmmss}.json");
+                    File.WriteAllText(filePath, JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+                }
+                
             }
             catch (Exception ex)
             { 

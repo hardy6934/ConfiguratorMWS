@@ -106,7 +106,7 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Мертвая зона.
         /// </summary>
         internal static string BlindSpot {
             get {
@@ -197,7 +197,7 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  - Диаметр цистрерны, мм..
+        ///   Looks up a localized string similar to  - Диаметр цистерны, мм..
         /// </summary>
         internal static string DiameterOfTheCistron {
             get {
@@ -314,6 +314,15 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Установить обновление?.
+        /// </summary>
+        internal static string InstallTheUpdate {
+            get {
+                return ResourceManager.GetString("InstallTheUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Помехи.
         /// </summary>
         internal static string Interference {
@@ -341,7 +350,7 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  - Длинна эллиптической боковины, мм..
+        ///   Looks up a localized string similar to  - Длина эллиптической боковины, мм..
         /// </summary>
         internal static string LengthOfEllipticalSidewall {
             get {
@@ -373,6 +382,24 @@ namespace ConfiguratorMWS.Resources {
         internal static string mm {
             get {
                 return ResourceManager.GetString("mm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значение N.
+        /// </summary>
+        internal static string N {
+            get {
+                return ResourceManager.GetString("N", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Доступна новая версия.
+        /// </summary>
+        internal static string NewVersionAvailable {
+            get {
+                return ResourceManager.GetString("NewVersionAvailable", resourceCulture);
             }
         }
         
@@ -639,7 +666,7 @@ namespace ConfiguratorMWS.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Включение режима согласования волновых сопротивлений шины данных RS485.
-        ///При установке этой опции в шину передачи данных со стороны прибора включается согласующее сопротивление терминатором 120 Ом. 
+        ///При установке этой опции в шину передачи данных со стороны прибора включается согласующее сопротивление терминалом 120 Ом. 
         ///Активируется только для двух конечных устройств всей шины RS485..
         /// </summary>
         internal static string TerminatorText {
@@ -678,8 +705,8 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Служит для задания устойчивого логического состояния &quot;1&quot; в периоды отсутствия обмена данными.
-        ///Физическая шина &quot;A&quot; одтягивается к питанию интерфейса, шина &quot;B&quot; подтягивается к общему проводу..
+        ///   Looks up a localized string similar to Служит для установки устойчивого логического состояния &quot;1&quot; в периоды отсутствия обмена данными.
+        ///Физическая шина &quot;A&quot; подтягивается к питанию интерфейса, шина &quot;B&quot; подтягивается к общему проводу..
         /// </summary>
         internal static string TuckText {
             get {
@@ -693,6 +720,15 @@ namespace ConfiguratorMWS.Resources {
         internal static string Unstable {
             get {
                 return ResourceManager.GetString("Unstable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Обновление.
+        /// </summary>
+        internal static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
             }
         }
         
@@ -751,7 +787,16 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Значение мм.
+        ///   Looks up a localized string similar to Значение N.
+        /// </summary>
+        internal static string ValN {
+            get {
+                return ResourceManager.GetString("ValN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значение, мм.
         /// </summary>
         internal static string Value {
             get {
@@ -788,7 +833,7 @@ namespace ConfiguratorMWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Объем л.
+        ///   Looks up a localized string similar to Объем, л.
         /// </summary>
         internal static string VolumeL {
             get {

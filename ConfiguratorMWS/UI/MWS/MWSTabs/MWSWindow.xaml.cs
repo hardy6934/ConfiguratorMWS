@@ -18,9 +18,9 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
         public MWSWindow(IMWSViewModel mWSViewModel)
         {
             InitializeComponent();
-            DataContext = mWSViewModel; 
-             
-              
+            this.mWSViewModel = mWSViewModel;
+            DataContext = mWSViewModel;
+            mWSViewModel.UpdateProgramStuperFromRemoteServerCommand.Execute(this);
         }
 
         private void LanguageComboBox_Selected(object sender, RoutedEventArgs e)

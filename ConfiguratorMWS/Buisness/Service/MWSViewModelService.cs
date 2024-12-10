@@ -1,13 +1,19 @@
 ﻿using ConfiguratorMWS.Buisness.Abstract;
 using ConfiguratorMWS.Data.Abstract;
 using ConfiguratorMWS.Entity;
+using ConfiguratorMWS.Resources;
 using ConfiguratorMWS.UI.MWS.MWSModals;
 using ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using NPOI.HPSF;
+using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace ConfiguratorMWS.Buisness.Service
@@ -16,11 +22,14 @@ namespace ConfiguratorMWS.Buisness.Service
     {
         private readonly IMWSRepository mwsRepository;
         private readonly IServiceProvider serviceProvider;
+        public LocalizedStrings localizedStrings { get; set; }
 
         public MWSViewModelService(IMWSRepository mwsRepository, IServiceProvider serviceProvider)
         {
             this.mwsRepository = mwsRepository;
             this.serviceProvider = serviceProvider;
+
+            localizedStrings = (LocalizedStrings) Application.Current.Resources["LocalizedStrings"];
         }
 
         public void ChangeProgressBarValue(int value)
@@ -68,22 +77,32 @@ namespace ConfiguratorMWS.Buisness.Service
          
         public void EnsurePendingRequestsFolderExists()
         {
-            string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Properties.Settings.Default.PendingRequestsFolder);
-
-            if (!Directory.Exists(folderPath))
+            string pendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder;
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string folderPath = Path.Combine(appData, pendingRequestsFolder);
+               
+            try 
             {
-                Directory.CreateDirectory(folderPath);
+                if (!Directory.Exists(folderPath) && !string.IsNullOrEmpty(appData))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
             }
+            catch {
+            }
+            
         }
 
         public async Task RetryPendingRequestsAsync()
-        { 
-            string PendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder;
-            var url = Properties.Settings.Default.ApiUrl;
-            int tokenAccountId;
-            var token = Properties.Settings.Default.Token;
+        {
+            string pendingRequestsFolder = Properties.Settings.Default.PendingRequestsFolder;
+            string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), pendingRequestsFolder);
 
-            if (!string.IsNullOrEmpty(token) && int.TryParse(Properties.Settings.Default.TokenAccountId, out tokenAccountId) && Directory.Exists(PendingRequestsFolder))
+            var url = Properties.Settings.Default.ApiUrl; 
+            var token = Properties.Settings.Default.Token;
+            int tokenAccountId;
+
+            if (!string.IsNullOrEmpty(token) && int.TryParse(Properties.Settings.Default.TokenAccountId, out tokenAccountId) && Directory.Exists(folderPath))
             {
                 DateTime tokenExpDate;
 
@@ -93,7 +112,7 @@ namespace ConfiguratorMWS.Buisness.Service
                     {
                         try
                         {
-                            foreach (var file in Directory.GetFiles(PendingRequestsFolder, "*.json"))
+                            foreach (var file in Directory.GetFiles(folderPath, "*.json"))
                             {
                                 if (file.Contains("requestConHistory"))
                                 {
@@ -186,6 +205,85 @@ namespace ConfiguratorMWS.Buisness.Service
         }
 
 
+
+
+
+        private string ExtractVersion(string fileName)
+        { 
+            // Регулярное выражение для поиска версии в формате x.y.z 
+            var regex = new Regex(@"\d+\.\d+\.\d+");
+            var match = regex.Match(fileName);
+            return match.Success ? match.Value : string.Empty; // Возвращаем версию или пустую строку 
+        }  
+        public async Task DownloadInstallerFolderAsync()
+        {  
+            var setuperUrl = Properties.Settings.Default.SetuperUrl; 
+            string currentConfigVersion = Properties.Settings.Default.AppVersion;
+
+            try
+            { 
+                using (HttpClient client = new HttpClient())
+                {
+                    // Отправляем запрос с методом HEAD
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Head, setuperUrl);
+                    HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Ищем заголовок Content-Disposition
+                        if (response.Content.Headers.ContentDisposition != null)
+                        {
+                            var fileName = response.Content.Headers.ContentDisposition.FileName?.Trim('"');
+
+                            // Сравниваем версии
+                            if (!string.IsNullOrEmpty(fileName))
+                            {
+                                string configuratorVersion = ExtractVersion(fileName);
+
+                                if (!string.IsNullOrEmpty(configuratorVersion) && configuratorVersion != currentConfigVersion)
+                                {
+                                    var result = MessageBox.Show(localizedStrings["NewVersionAvailable"] + $"{configuratorVersion}." + localizedStrings["InstallTheUpdate"],
+                                   localizedStrings["Update"],
+                                   MessageBoxButton.YesNo,
+                                   MessageBoxImage.Question);
+
+                                    if (result == MessageBoxResult.Yes)
+                                    {
+                                        OpenUpdateLinkInBrowser();
+                                    }
+                                }    
+                            }
+                        }
+                    }
+                }
+ 
+            }
+            catch (Exception ex)
+            {
+            } 
+        }
+
+        public void OpenUpdateLinkInBrowser()
+        {
+            try
+            {
+                string folderArchiveUrl = Properties.Settings.Default.SetupZipUrl;
+
+                // Открываем ссылку в браузере
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = folderArchiveUrl,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            { 
+            }
+
+        }
+
+
+      
 
 
     }

@@ -9,7 +9,9 @@ using ConfiguratorMWS.Buisness.Abstract;
 using ConfiguratorMWS.Entity;
 using ConfiguratorMWS.Resources;
 using System.Collections.ObjectModel;
-using System.Windows;
+using System.Windows; 
+using System.Reflection;
+
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs
 {
@@ -27,12 +29,14 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
         public RelayCommand OpenUpdateFirmwareWindowCommand { get; }
         public RelayCommand OpenAuthorizationModalCommand { get; }
         public RelayCommand ShowAuthorizationModalCommand { get; } 
+        public RelayCommand UpdateProgramStuperFromRemoteServerCommand { get; } 
 
         //entity
         public MWSEntity mWSEntity { get; set; }
 
         public ObservableCollection<string> Languages { get; }
-        public string SelectedLanguage { get; set; }   
+        public string SelectedLanguage { get; set; }
+        public string currentVersion;
 
         public MWSViewModel(IServiceProvider serviceProvider, IMWSViewModelService mWSViewModelService)
         {  
@@ -52,13 +56,14 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
             LogOutCommand = new RelayCommand(LogOut); 
             OpenUpdateFirmwareWindowCommand = new RelayCommand(OpenUpdateFirmwareWindow, (obj) => mWSEntity.isConnected);
             OpenAuthorizationModalCommand = new RelayCommand(OpenAuthorizationModal);
-
+            UpdateProgramStuperFromRemoteServerCommand = new RelayCommand(UpdateProgramStuperFromRemoteServerAsync);
             // Устанавливаем начальное содержимое
             CurrentView = new InformationView(_serviceProvider.GetRequiredService<IInformationViewModel>());
 
             mWSViewModelService.ChangeProgressBarValue(0);
 
         }
+       
 
         //Залогинен или нет
         public bool IsLoggedIn
@@ -79,7 +84,18 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
                 return false;
             }
         }
-
+         
+        public string CurrentVersion
+        {
+            get {
+                return Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Версия неизвестна";
+            } 
+            set
+            {
+                currentVersion = value;
+                RaisePropertyChanged("CurrentVersion");
+            }
+        }
 
         // Текущее содержимое, которое отображается в нижней части окна
         public object CurrentView
@@ -151,8 +167,11 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
             RaisePropertyChanged(nameof(IsLoggedIn));
         }
 
+        public async Task UpdateProgramStuperFromRemoteServerAsync(object obj) {
+
+            await mWSViewModelService.DownloadInstallerFolderAsync();
+        }
          
 
-       
     }
 }

@@ -2,7 +2,7 @@
 using ConfiguratorMWS.Buisness.Service;
 using ConfiguratorMWS.Data.Abstract;
 using ConfiguratorMWS.Data.Repository;
-using ConfiguratorMWS.Entity;
+using ConfiguratorMWS.Properties;
 using ConfiguratorMWS.Resources;
 using ConfiguratorMWS.UI.MWS.MWSModals;
 using ConfiguratorMWS.UI.MWS.MWSTabs;
@@ -12,8 +12,7 @@ using ConfiguratorMWS.UI.MWS.MWSTabs.Information;
 using ConfiguratorMWS.UI.MWS.MWSTabs.Settings;
 using ConfiguratorMWS.UI.MWS.MWSWindowUpdateFirmmware;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.IO;
+using Microsoft.Extensions.Hosting; 
 using System.Windows;
 
 namespace ConfiguratorMWS
@@ -54,7 +53,6 @@ namespace ConfiguratorMWS
                 services.AddSingleton<IUpdateFirmwareViewModel, UpdateFirmwareViewModel>(); 
 
 
-
             }).Build();
 
         }
@@ -74,8 +72,7 @@ namespace ConfiguratorMWS
                 // Уведомляем интерфейс о смене всех текстовых ресурсов
                 (Resources["LocalizedStrings"] as LocalizedStrings)?.OnPropertyChanged(null);
             };
-
-
+            
             var mwsViewModelService = AppHost.Services.GetRequiredService<IMWSViewModelService>();
             mwsViewModelService.EnsurePendingRequestsFolderExists();
             await mwsViewModelService.RetryPendingRequestsAsync();

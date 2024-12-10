@@ -208,43 +208,50 @@
                     </Grid>
                 </Grid>
 
-
-                <Grid Grid.Row="1" Margin="20px 10px" MaxHeight="55px" MinHeight="30px" VerticalAlignment="Bottom">
+                <Grid Grid.Row="1" Margin="20 10" MaxHeight="55px" MinHeight="30px" VerticalAlignment="Bottom">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="20*"/> 
+                        <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="20*"/> 
+                        <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
-
 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="0">
                         <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[SensorTemperature]}" Foreground="#9496A2"/>
-                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Temp}" FontSize="26px" Foreground="#0386CE"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Temp}" FontSize="24px" Foreground="#0386CE"/>
+                            <TextBlock Text="°C" FontSize="24px" Foreground="#0386CE" Margin="5 0 0 0"/>
+                        </StackPanel>
                     </StackPanel>
 
                     <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="1" >
                     </Border>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2">
                         <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[ValN]}" Foreground="#9496A2"/>
-                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.N}" FontSize="26px" Foreground="#676767"/>
+                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.N}" FontSize="24px" Foreground="#676767"/>
                     </StackPanel>
                       
                     <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="3">
-                    </Border> 
+                    </Border>  
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
                         <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Volume]}" Foreground="#9496A2"/>
-                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Volume}" FontSize="26px" Foreground="#676767"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Volume}" FontSize="24px" Foreground="#676767"/>
+                            <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[l]}" FontSize="24px" Foreground="#676767" Margin="5 0 0 0"/>
+                        </StackPanel>
                     </StackPanel>
 
                     <Border BorderBrush="LightGray" BorderThickness="1" Width="1px" Grid.Column="5">
                     </Border>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="6" >
                         <TextBlock Style="{DynamicResource TextBlockValuesStyle}" Text="{Binding Source={StaticResource LocalizedStrings}, Path=[Distance]}" Foreground="#9496A2"/>
-                        <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Distance}" FontSize="26px" Foreground="#676767"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding mWSEntity.MwsRealTimeData.Distance}" FontSize="24px" Foreground="#676767"/>
+                            <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, Path=[mm]}" FontSize="24px" Foreground="#676767" Margin="5 0 0 0"/>
+                        </StackPanel>
                     </StackPanel>
 
                 </Grid>

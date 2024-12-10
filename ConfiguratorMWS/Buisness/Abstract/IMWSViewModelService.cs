@@ -1,8 +1,4 @@
-﻿using ConfiguratorMWS.Entity;
-using System.IO;
-using System.Net.Http;
-using System.Text.Json;
-using System.Text;
+﻿using ConfiguratorMWS.Entity; 
 using System.Windows;
 namespace ConfiguratorMWS.Buisness.Abstract
 {
@@ -18,6 +14,9 @@ namespace ConfiguratorMWS.Buisness.Abstract
 
         public void EnsurePendingRequestsFolderExists();
         public Task RetryPendingRequestsAsync();
+
+        public Task DownloadInstallerFolderAsync(); 
+
 
     }
 }

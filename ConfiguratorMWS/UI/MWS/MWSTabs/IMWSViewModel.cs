@@ -1,8 +1,6 @@
 ﻿using ConfiguratorMWS.Commands;
 using ConfiguratorMWS.Entity;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
+using System.Collections.ObjectModel; 
 
 namespace ConfiguratorMWS.UI.MWS.MWSTabs
 {
@@ -15,12 +13,14 @@ namespace ConfiguratorMWS.UI.MWS.MWSTabs
         RelayCommand OpenUpdateFirmwareWindowCommand { get; }
         RelayCommand OpenAuthorizationModalCommand { get; }
         RelayCommand ShowAuthorizationModalCommand { get; }
+        RelayCommand UpdateProgramStuperFromRemoteServerCommand { get; }
 
         object CurrentView { get; set; }
         void SwitchTab(object tab);
 
         ObservableCollection<string> Languages { get; }
         string SelectedLanguage { get; set; }
-        bool IsLoggedIn { get; } 
+        bool IsLoggedIn { get; }
+        public string CurrentVersion { get; set; }
     }
 }
